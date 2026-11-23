@@ -1,4 +1,4 @@
-const CACHE_NAME = 'eokul-vbs-v1';
+﻿const CACHE_NAME = 'eokul-vbs-v3';
 const STATIC_ASSETS = [
   './',
   './index.html',
@@ -8,6 +8,7 @@ const STATIC_ASSETS = [
   './icon-maskable-512.png'
 ];
 
+
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -15,6 +16,7 @@ self.addEventListener('install', (event) => {
       .then(() => self.skipWaiting())
   );
 });
+
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
@@ -24,16 +26,30 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
 
+
   const url = new URL(req.url);
 
-  // Network-first for HTML & remote data so updates show up immediately
+
+  // Never intercept cross-origin requests (api.github.com, raw.githubusercontent.com)
+  if (url.origin !== self.location.origin) return;
+
+
+  // Never cache live data.json or panel.html
+  if (url.pathname.endsWith('data.json') || url.pathname.endsWith('panel.html')) {
+    event.respondWith(fetch(req, { cache: 'no-store' }).catch(() => caches.match(req)));
+    return;
+  }
+
+
+  // Network-first for HTML/manifest so OTA updates apply immediately
   if (req.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname.endsWith('.json')) {
     event.respondWith(
-      fetch(req)
+      fetch(req, { cache: 'no-store' })
         .then((res) => {
           if (res && res.ok) {
             const copy = res.clone();
@@ -46,12 +62,13 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Cache-first for static assets (icons, scripts), falling back to network
+
+  // Cache-first for static assets (icons)
   event.respondWith(
     caches.match(req).then((cached) => {
       if (cached) return cached;
       return fetch(req).then((res) => {
-        if (res && res.ok && url.origin === self.location.origin) {
+        if (res && res.ok) {
           const copy = res.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
         }
