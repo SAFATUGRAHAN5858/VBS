@@ -1,0 +1,4345 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#102a83">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="e-Okul VBS">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="./icon-192.png">
+  <title>e-Okul VBS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --meb-navy-top: #102a83;
+      --meb-navy-bottom: #1939a0;
+      --meb-navy-wave: #0d2270;
+      --meb-turquoise: #7be2e8;
+      --meb-bg: #f2f4f7;
+      --meb-score-navy: #162e7a;
+      --meb-green: #1aa57a;
+      --meb-red: #f44336;
+      --ease-fluid: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-snappy: cubic-bezier(0.2, 0.9, 0.3, 1);
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    *:focus,
+    *:active {
+      outline: none;
+    }
+
+    /* Bulletproof Full-Viewport Root Shell */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #f2f4f7;
+      overflow: hidden;
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #1f2430;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    img, svg {
+      -webkit-user-drag: none;
+      user-drag: none;
+    }
+
+    @media (min-width: 481px) {
+      body {
+        background: #dce3ef;
+      }
+    }
+
+    /* Centered Mobile Viewport Frame (480px max on desktop, edge-to-edge on Android) */
+    #app {
+      width: 100%;
+      max-width: 480px;
+      height: 100vh;
+      height: 100dvh;
+      margin: 0 auto;
+      position: relative;
+      background: #f2f4f7;
+      overflow: hidden;
+    }
+
+    @media (min-width: 481px) {
+      #app {
+        box-shadow: 0 0 44px rgba(16, 42, 131, 0.16);
+      }
+    }
+
+    /* Dedicated Native Vertical Scroll Container for EVERY Screen */
+    .screen-scroll {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+      overscroll-behavior-y: contain;
+      padding-bottom: 48px;
+      box-sizing: border-box;
+      background: #f2f4f7;
+    }
+
+    /* Subtle sleek scrollbar for desktop browsers */
+    .screen-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+    .screen-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .screen-scroll::-webkit-scrollbar-thumb {
+      background: rgba(16, 42, 131, 0.16);
+      border-radius: 999px;
+    }
+
+    .screen-hidden {
+      display: none !important;
+      pointer-events: none !important;
+    }
+
+    /* Official Floating e-Okul White Card */
+    .eokul-card {
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(16, 42, 131, 0.07), 0 1px 2px rgba(16, 42, 131, 0.03);
+    }
+
+    /* ===================================================================== */
+    /* MATERIAL 3 RIPPLE & ELASTIC TAP FEEDBACK (NEVER BLOCKS SCROLL)        */
+    /* ===================================================================== */
+    .ripple-host {
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: transform 0.18s var(--ease-snappy), background-color 0.18s ease;
+    }
+
+    .ripple-host.is-pressed {
+      transform: scale(0.985);
+    }
+
+    .m3-ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(72, 198, 214, 0.24);
+      transform: translate(-50%, -50%) scale(0);
+      pointer-events: none;
+      z-index: 4;
+      will-change: transform, opacity;
+    }
+
+    .ripple-light .m3-ripple {
+      background: rgba(255, 255, 255, 0.26);
+    }
+
+    /* MEB Emblem Subtle Initial Settle & One-Time Light Glint */
+    .meb-emblem-shell {
+      position: relative;
+      overflow: hidden;
+      border-radius: 9999px;
+      animation: mebEmblemSettle 0.62s var(--ease-fluid) both;
+    }
+
+    .meb-glint-sweep {
+      position: absolute;
+      inset: -12%;
+      background: linear-gradient(
+        118deg,
+        transparent 34%,
+        rgba(255, 255, 255, 0.34) 49%,
+        rgba(123, 226, 232, 0.22) 53%,
+        transparent 66%
+      );
+      transform: translate3d(-145%, 0, 0);
+      pointer-events: none;
+      animation: mebGlintOnce 1.15s var(--ease-fluid) 0.38s 1 forwards;
+    }
+
+    @keyframes mebEmblemSettle {
+      from {
+        opacity: 0;
+        transform: scale(0.92) translate3d(0, 6px, 0);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translate3d(0, 0, 0);
+      }
+    }
+
+    @keyframes mebGlintOnce {
+      0% { transform: translate3d(-145%, 0, 0); opacity: 0; }
+      20% { opacity: 1; }
+      85% { opacity: 1; }
+      100% { transform: translate3d(145%, 0, 0); opacity: 0; }
+    }
+
+    /* ===================================================================== */
+    /* PULL-TO-REFRESH INDICATOR (SCOPED INSIDE #app, ZERO SCROLL BLOCK)     */
+    /* ===================================================================== */
+    .ptr-indicator {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      width: 40px;
+      height: 40px;
+      margin-left: -20px;
+      border-radius: 9999px;
+      background: #ffffff;
+      box-shadow: 0 4px 14px rgba(16, 42, 131, 0.22);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 48;
+      pointer-events: none;
+      opacity: 0;
+      transform: translate3d(0, -56px, 0) scale(0.7);
+      will-change: transform, opacity;
+    }
+
+    .ptr-indicator.is-refreshing svg {
+      animation: spin360 0.72s linear infinite;
+    }
+
+    .ptr-inner-content {
+      position: relative;
+      width: 100%;
+      min-height: 100%;
+    }
+
+    .ptr-refresh-pulse {
+      animation: ptrShimmerPulse 0.48s var(--ease-fluid);
+    }
+
+    @keyframes ptrShimmerPulse {
+      0% { opacity: 1; transform: scale(1); }
+      45% { opacity: 0.72; transform: scale(0.992); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    /* ===================================================================== */
+    /* PULL-DOWN-TO-GO-BACK FLOATING GLASS PILL & SHEET DISMISSAL PHYSICS    */
+    /* ===================================================================== */
+    .pull-back-pill {
+      position: absolute;
+      top: 66px;
+      left: 50%;
+      z-index: 49;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 15px 8px 12px;
+      border-radius: 9999px;
+      background: rgba(244, 251, 255, 0.96);
+      border: 1px solid rgba(123, 226, 232, 0.62);
+      box-shadow: 0 6px 18px rgba(16, 42, 131, 0.16);
+      color: #162e7a;
+      font-size: 12.6px;
+      font-weight: 700;
+      letter-spacing: 0.1px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transform: translate3d(-50%, -8px, 0) scale(0.7);
+      will-change: transform, opacity;
+      backface-visibility: hidden;
+      transition: background 0.2s ease, color 0.18s ease, border-color 0.2s ease;
+    }
+
+    .pull-back-pill.is-ready {
+      background: linear-gradient(135deg, #18a999 0%, #3ac4d6 100%);
+      border-color: rgba(255, 255, 255, 0.42);
+      color: #ffffff;
+      box-shadow: 0 8px 24px rgba(24, 169, 153, 0.34);
+    }
+
+    .pull-back-pill-icon-wrap {
+      position: relative;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .pull-back-icon-chevron,
+    .pull-back-icon-home {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s ease, transform 0.28s var(--ease-spring);
+    }
+
+    .pull-back-icon-chevron {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+
+    .pull-back-icon-home {
+      opacity: 0;
+      transform: scale(0.45) rotate(-24deg);
+    }
+
+    .pull-back-pill.is-ready .pull-back-icon-chevron {
+      opacity: 0;
+      transform: scale(0.45) rotate(180deg);
+    }
+
+    .pull-back-pill.is-ready .pull-back-icon-home {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+
+    #view-subpage-card {
+      transform-origin: center top;
+      will-change: transform, opacity;
+      backface-visibility: hidden;
+    }
+
+    /* ===================================================================== */
+    /* SCREEN 1: ÖĞRENCİ LİSTESİ & SWIPE-TO-DELETE                           */
+    /* ===================================================================== */
+    .list-wave-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 432px;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .swipe-row-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      background-color: #ffffff;
+      touch-action: pan-y;
+    }
+
+    /* Completely hidden at rest so ZERO red bleed or border ever appears on tap */
+    .swipe-delete-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, #ef5350 0%, #e53935 100%);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 16px;
+      border-radius: 10px;
+      z-index: 1;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate3d(100%, 0, 0);
+      transition: opacity 0.2s var(--ease-fluid), transform 0.24s var(--ease-fluid);
+    }
+
+    .swipe-delete-bg.is-revealed {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .swipe-delete-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      gap: 2px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .swipe-row-foreground {
+      position: relative;
+      z-index: 2;
+      background: #ffffff;
+      border-radius: 10px;
+      touch-action: pan-y;
+      will-change: transform;
+    }
+
+    /* Harmonious Sky-Turquoise Tap Feedback for Student Rows */
+    .student-row {
+      transition: transform 0.2s var(--ease-snappy), background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .student-row.is-pressed {
+      background-color: #edf9fb;
+      transform: scale(0.988);
+    }
+
+    .student-row .student-chevron {
+      transition: transform 0.24s var(--ease-spring), color 0.2s ease;
+    }
+
+    .student-row.is-pressed .student-chevron,
+    .student-row:hover .student-chevron {
+      transform: translate3d(4px, 0, 0);
+      color: #162e7a;
+    }
+
+    .student-row .student-shield {
+      transition: transform 0.28s var(--ease-spring);
+    }
+
+    .student-row.is-pressed .student-shield {
+      transform: scale(1.08);
+    }
+
+    /* ===================================================================== */
+    /* PERSISTENT MORPHING HERO HEADER (EXPANDED <-> COMPACT FLIP)           */
+    /* ===================================================================== */
+    .student-hero-header {
+      position: relative;
+      width: 100%;
+      z-index: 20;
+      user-select: none;
+      -webkit-user-select: none;
+      will-change: transform;
+      backface-visibility: hidden;
+    }
+
+    .student-hero-header.header-expanded {
+      height: 236px;
+    }
+
+    .student-hero-header.header-compact {
+      height: 86px;
+    }
+
+    .hero-wave-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: calc(100% + 164px);
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      will-change: transform;
+      backface-visibility: hidden;
+    }
+
+    .hero-navy-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: calc(100% - 110px);
+      background: linear-gradient(180deg, var(--meb-navy-top) 0%, var(--meb-navy-bottom) 100%);
+    }
+
+    .hero-wave-svg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 235px;
+      display: block;
+    }
+
+    /* SHARED-ELEMENT PHOTO: 98x114 (Expanded) <-> 52x52 (Compact) */
+    .hero-photo {
+      position: absolute;
+      z-index: 15;
+      overflow: hidden;
+      border-radius: 8px;
+      border: 1.5px solid rgba(123, 226, 232, 0.38);
+      background-color: #cfd2d1;
+      box-shadow: 0 4px 12px rgba(13, 34, 112, 0.32);
+      cursor: default;
+      transform-origin: top left;
+      will-change: transform;
+    }
+
+    .header-expanded .hero-photo {
+      top: 16px;
+      left: calc(50% - 49px);
+      width: 98px;
+      height: 114px;
+    }
+
+    .header-compact .hero-photo {
+      top: 14px;
+      left: 14px;
+      width: 52px;
+      height: 52px;
+      border-radius: 7px;
+    }
+
+    /* SHARED-ELEMENT NAME & CLASS */
+    .hero-name {
+      position: absolute;
+      z-index: 15;
+      color: #ffffff;
+      font-weight: 700;
+      letter-spacing: 0.15px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transform-origin: top left;
+      will-change: transform;
+    }
+
+    .header-expanded .hero-name {
+      top: 142px;
+      left: 50%;
+      transform: translate3d(-50%, 0, 0);
+      max-width: 90%;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .header-compact .hero-name {
+      top: 19px;
+      left: 78px;
+      transform: translate3d(0, 0, 0);
+      max-width: calc(100% - 174px);
+      font-size: 14.2px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      text-align: left;
+    }
+
+    .hero-class {
+      position: absolute;
+      z-index: 15;
+      color: #e4ecff;
+      font-weight: 400;
+      white-space: nowrap;
+      transform-origin: top left;
+      will-change: transform;
+    }
+
+    .header-expanded .hero-class {
+      top: 169px;
+      left: 50%;
+      transform: translate3d(-50%, 0, 0);
+      font-size: 14.2px;
+    }
+
+    .header-compact .hero-class {
+      top: 41px;
+      left: 78px;
+      transform: translate3d(0, 0, 0);
+      font-size: 13px;
+    }
+
+    /* Expanded Left Action: Bildirimler */
+    .hero-action-bell {
+      position: absolute;
+      z-index: 14;
+      top: 38px;
+      left: 4%;
+      width: 29%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 4px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: opacity 0.24s var(--ease-fluid), transform 0.34s var(--ease-fluid);
+    }
+
+    .header-expanded .hero-action-bell {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+      pointer-events: auto;
+    }
+
+    .header-compact .hero-action-bell {
+      opacity: 0;
+      transform: translate3d(-22px, 0, 0);
+      pointer-events: none;
+    }
+
+    /* SHARED-ELEMENT SWITCH-STUDENT ICON (Glides into compact right bar) */
+    .hero-switch-btn {
+      position: absolute;
+      z-index: 16;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 10px;
+      transform-origin: center center;
+      will-change: transform;
+    }
+
+    .header-expanded .hero-switch-btn {
+      top: 38px;
+      right: 3%;
+      width: 31%;
+      padding: 6px 4px;
+    }
+
+    .header-compact .hero-switch-btn {
+      top: 20px;
+      right: 54px;
+      width: 38px;
+      height: 38px;
+      padding: 0;
+    }
+
+    .hero-switch-label {
+      color: #d6e2f8;
+      font-size: 13.2px;
+      font-weight: 400;
+      margin-top: 6px;
+      white-space: nowrap;
+      transition: opacity 0.16s ease, transform 0.22s var(--ease-fluid);
+    }
+
+    .header-compact .hero-switch-label {
+      opacity: 0;
+      transform: translate3d(0, 6px, 0);
+      position: absolute;
+      pointer-events: none;
+    }
+
+    /* Compact Home Action */
+    .hero-home-btn {
+      position: absolute;
+      z-index: 16;
+      top: 20px;
+      right: 12px;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: opacity 0.26s ease 0.06s, transform 0.38s var(--ease-spring) 0.04s;
+    }
+
+    .header-expanded .hero-home-btn {
+      opacity: 0;
+      transform: translate3d(16px, 0, 0) scale(0.65);
+      pointer-events: none;
+    }
+
+    .header-compact .hero-home-btn {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+      pointer-events: auto;
+    }
+
+    /* Floating Content Stage overlapping turquoise wave */
+    .student-content-stage {
+      position: relative;
+      z-index: 25;
+      padding: 0 11px 24px 11px;
+      margin-top: -20px;
+    }
+
+    .header-compact + .student-content-stage {
+      margin-top: -6px;
+    }
+
+    /* ===================================================================== */
+    /* FLOATING FAB LAYER (POSITIONED INSIDE #app, ZERO SCROLL BLOCKING)     */
+    /* ===================================================================== */
+    #fab-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 35;
+      pointer-events: none;
+    }
+
+    .fab-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.24s var(--ease-fluid);
+    }
+
+    .fab-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .fab-trigger-btn {
+      position: absolute;
+      bottom: 20px;
+      right: 18px;
+      width: 56px;
+      height: 56px;
+      border-radius: 9999px;
+      background-color: var(--meb-navy-top);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 5px 16px rgba(16, 42, 131, 0.38);
+      pointer-events: auto;
+      z-index: 42;
+      cursor: pointer;
+    }
+
+    .fab-dial-anchor {
+      position: absolute;
+      bottom: 90px;
+      right: 18px;
+      z-index: 42;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 14px;
+      pointer-events: none;
+    }
+
+    .fab-dial-anchor.open {
+      pointer-events: auto;
+    }
+
+    .fab-dial-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      opacity: 0;
+      transform: translate3d(0, 24px, 0) scale(0.8);
+      transition: opacity 0.22s ease, transform 0.36s var(--ease-spring);
+      pointer-events: none;
+    }
+
+    .fab-dial-anchor.open .fab-dial-item {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+      pointer-events: auto;
+    }
+
+    .fab-dial-anchor.open .fab-dial-item:nth-child(3) { transition-delay: 0ms; }
+    .fab-dial-anchor.open .fab-dial-item:nth-child(2) { transition-delay: 45ms; }
+    .fab-dial-anchor.open .fab-dial-item:nth-child(1) { transition-delay: 90ms; }
+
+    .fab-dial-anchor:not(.open) .fab-dial-item {
+      transition-duration: 0.16s;
+      transition-timing-function: ease-in;
+    }
+
+    .fab-label-pill {
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 8px 14px;
+      box-shadow: 0 3px 12px rgba(16, 42, 131, 0.14);
+      color: #2c2f38;
+      font-size: 13.5px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .fab-action-btn {
+      width: 54px;
+      height: 54px;
+      border-radius: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+    }
+
+    /* Morphing 3-bar hamburger -> X */
+    .fab-bars {
+      width: 20px;
+      height: 16px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .fab-bar {
+      display: block;
+      width: 20px;
+      height: 2.3px;
+      background-color: #ffffff;
+      border-radius: 2px;
+      transform-origin: center;
+      transition: transform 0.34s var(--ease-spring), opacity 0.2s ease;
+    }
+
+    .fab-trigger-open .fab-bar-1 {
+      transform: translate3d(0, 6.85px, 0) rotate(45deg);
+    }
+    .fab-trigger-open .fab-bar-2 {
+      transform: scaleX(0);
+      opacity: 0;
+    }
+    .fab-trigger-open .fab-bar-3 {
+      transform: translate3d(0, -6.85px, 0) rotate(-45deg);
+    }
+
+    /* ===================================================================== */
+    /* DASHBOARD GRID, GLIDING TABS & TABLES                                 */
+    /* ===================================================================== */
+    .menu-grid-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 18px 6px 16px 6px;
+      cursor: pointer;
+    }
+
+    .menu-grid-cell svg {
+      transition: transform 0.28s var(--ease-spring);
+      will-change: transform;
+    }
+
+    .menu-grid-cell:hover svg {
+      transform: translate3d(0, -2.5px, 0) scale(1.04);
+    }
+
+    .menu-grid-cell.is-pressed svg {
+      transform: translate3d(0, -3px, 0) scale(1.07);
+    }
+
+    /* 2-Tab Sliding Pill Switcher (Not Bilgileri & Şube Yazılı Ortalamaları) */
+    .term-switcher {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .term-pill-glider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 44px;
+      border-radius: 10px;
+      background-color: #dfe2e8;
+      z-index: 1;
+      pointer-events: none;
+      transition: transform 0.34s var(--ease-fluid), width 0.34s var(--ease-fluid);
+    }
+
+    .term-pill-btn {
+      position: relative;
+      z-index: 2;
+      height: 44px;
+      border-radius: 10px;
+      background-color: #f4f6fa;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #7c808b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: color 0.24s ease, background-color 0.24s ease;
+    }
+
+    .term-pill-btn.active {
+      background-color: transparent;
+      color: #5b5f69;
+    }
+
+    /* 3-Tab Navy-Bordered Segment Control (Sınav Tarihleri) */
+    .exam-segment-bar {
+      position: relative;
+      display: flex;
+      align-items: center;
+      border: 1.7px solid #162e7a;
+      border-radius: 10px;
+      padding: 4px;
+      background-color: #ffffff;
+    }
+
+    .exam-segment-indicator {
+      position: absolute;
+      top: 4px;
+      bottom: 4px;
+      left: 0;
+      background-color: #162e7a;
+      border-radius: 7px;
+      z-index: 1;
+      pointer-events: none;
+      transition: transform 0.36s var(--ease-fluid), width 0.36s var(--ease-fluid);
+    }
+
+    .exam-segment-btn {
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      height: 36px;
+      border: none;
+      background: transparent;
+      font-size: 12.6px;
+      font-weight: 700;
+      color: #162e7a;
+      cursor: pointer;
+      white-space: nowrap;
+      padding: 0 5px;
+      transition: color 0.24s ease;
+    }
+
+    .exam-segment-btn.active {
+      color: #ffffff;
+    }
+
+    /* Official Light Gray Rounded Data Tables */
+    .eokul-table-wrap {
+      background-color: #f7f9fc;
+      border: 1px solid #eceef4;
+      border-radius: 9px;
+      overflow: hidden;
+    }
+
+    .eokul-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .eokul-table th,
+    .eokul-table td {
+      border: 1px solid #eef0f6;
+      padding: 7.5px 6px;
+      font-size: 13.8px;
+      line-height: 1.25;
+      vertical-align: middle;
+    }
+
+    .eokul-table tr:first-child th,
+    .eokul-table tr:first-child td { border-top: none; }
+    .eokul-table tr:last-child td { border-bottom: none; }
+    .eokul-table tr th:first-child,
+    .eokul-table tr td:first-child { border-left: none; }
+    .eokul-table tr th:last-child,
+    .eokul-table tr td:last-child { border-right: none; }
+
+    /* ===================================================================== */
+    /* STAGGERED ROW REVEALS & DIRECTIONAL TAB SLIDES                        */
+    /* ===================================================================== */
+    .stagger-item {
+      opacity: 0;
+      transform: translate3d(0, 14px, 0);
+      animation: staggerRise 0.34s var(--ease-fluid) forwards;
+    }
+
+    @keyframes staggerRise {
+      to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    /* Sequential Mini Bar-Chart Rise Animation in Not Bilgileri Footer */
+    .mini-chart-bar {
+      transform-box: fill-box;
+      transform-origin: center bottom;
+      transform: scaleY(0);
+      animation: chartBarRise 0.44s var(--ease-spring) forwards;
+    }
+
+    @keyframes chartBarRise {
+      to {
+        transform: scaleY(1);
+      }
+    }
+
+    .status-pop {
+      opacity: 0;
+      transform: scale(0.5);
+      animation: badgePop 0.36s var(--ease-spring) forwards;
+    }
+
+    @keyframes badgePop {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes paneSlideFromRight {
+      from { opacity: 0; transform: translate3d(24px, 0, 0); }
+      to { opacity: 1; transform: translate3d(0, 0, 0); }
+    }
+
+    @keyframes paneSlideFromLeft {
+      from { opacity: 0; transform: translate3d(-24px, 0, 0); }
+      to { opacity: 1; transform: translate3d(0, 0, 0); }
+    }
+
+    .pane-slide-right {
+      animation: paneSlideFromRight 0.28s var(--ease-fluid) both;
+    }
+
+    .pane-slide-left {
+      animation: paneSlideFromLeft 0.28s var(--ease-fluid) both;
+    }
+
+    /* ===================================================================== */
+    /* INTERACTIVE CALENDAR (DERS DEVAMSIZLIKLARI)                           */
+    /* ===================================================================== */
+    .cal-day-cell {
+      position: relative;
+      width: 38px;
+      height: 38px;
+      margin: 0 auto;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14.5px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.18s ease, color 0.18s ease, transform 0.2s var(--ease-spring);
+    }
+
+    .cal-day-selected {
+      background-color: #9fa8da;
+      color: #ffffff !important;
+      font-weight: 700;
+      box-shadow: 0 3px 8px rgba(159, 168, 218, 0.55);
+      animation: daySelectPop 0.3s var(--ease-spring);
+    }
+
+    @keyframes daySelectPop {
+      0% { transform: scale(0.76); }
+      60% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .cal-absence-dot {
+      position: absolute;
+      bottom: 4px;
+      width: 4.5px;
+      height: 4.5px;
+      border-radius: 9999px;
+      background-color: var(--meb-green);
+    }
+
+    .cal-day-selected .cal-absence-dot {
+      background-color: #ffffff;
+    }
+
+    /* Smooth Accordion Reveal for Selected Calendar Day Detail */
+    .cal-detail-accordion {
+      display: grid;
+      grid-template-rows: 0fr;
+      opacity: 0;
+      transition: grid-template-rows 0.3s var(--ease-fluid), opacity 0.24s ease;
+    }
+
+    .cal-detail-accordion.is-open {
+      grid-template-rows: 1fr;
+      opacity: 1;
+    }
+
+    .cal-detail-accordion-inner {
+      overflow: hidden;
+    }
+
+    /* ===================================================================== */
+    /* MODALS, SPINNER & BOTTOM RED SNACKBAR (SCOPED TO #app)                */
+    /* ===================================================================== */
+    .modal-overlay {
+      position: absolute;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.48);
+      backdrop-filter: blur(2.5px);
+      -webkit-backdrop-filter: blur(2.5px);
+      z-index: 60;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.24s var(--ease-fluid);
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-dialog-box {
+      background: #f5f3f9;
+      border-radius: 18px;
+      width: 100%;
+      max-width: 340px;
+      max-height: 85dvh;
+      overflow-y: auto;
+      padding: 26px 22px 22px 22px;
+      box-shadow: 0 14px 38px rgba(0, 0, 0, 0.26);
+      transform: translate3d(0, 14px, 0) scale(0.9);
+      opacity: 0;
+      transition: transform 0.34s var(--ease-spring), opacity 0.22s ease;
+    }
+
+    .modal-overlay.open .modal-dialog-box {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 1;
+    }
+
+    .eokul-spinner {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2.7px solid transparent;
+      border-top-color: #162e7a;
+      border-right-color: #162e7a;
+      border-bottom-color: #162e7a;
+      animation: spin360 0.8s linear infinite;
+    }
+
+    @keyframes spin360 {
+      to { transform: rotate(360deg); }
+    }
+
+    .red-snackbar-wrap {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 55;
+      transform: translate3d(0, 115%, 0);
+      transition: transform 0.34s var(--ease-spring);
+      pointer-events: none;
+    }
+
+    .red-snackbar-wrap.visible {
+      transform: translate3d(0, 0, 0);
+      pointer-events: auto;
+    }
+
+    .red-snackbar {
+      background-color: var(--meb-red);
+      color: #ffffff;
+      width: 100%;
+      box-shadow: 0 -3px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .notice-toast {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translate3d(-50%, 10px, 0);
+      background: rgba(30, 35, 48, 0.92);
+      color: #ffffff;
+      font-size: 12.5px;
+      font-weight: 500;
+      padding: 10px 18px;
+      border-radius: 9999px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+      z-index: 70;
+      pointer-events: none;
+      opacity: 0;
+      white-space: nowrap;
+      transition: opacity 0.22s ease, transform 0.24s var(--ease-fluid);
+    }
+
+    .notice-toast.visible {
+      opacity: 1;
+      transform: translate3d(-50%, 0, 0);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app">
+
+    <!-- FLOATING PULL-TO-REFRESH SPINNER (NEVER BLOCKS TOUCH) -->
+    <div id="ptr-indicator" class="ptr-indicator" aria-hidden="true">
+      <svg id="ptr-spinner-svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none">
+        <path d="M12 3a9 9 0 1 1-6.36 2.64" stroke="#162e7a" stroke-width="2.6" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- FLOATING PULL-DOWN-TO-GO-BACK GLASS PILL (INNER PAGES ONLY) -->
+    <div id="pull-back-pill" class="pull-back-pill" aria-hidden="true">
+      <span class="pull-back-pill-icon-wrap">
+        <span class="pull-back-icon-chevron">
+          <svg class="w-[17px] h-[17px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/>
+          </svg>
+        </span>
+        <span class="pull-back-icon-home">
+          <svg class="w-[16px] h-[16px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.5 11.5L12 4.5l8.5 7"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 10v9.5h12V10"/>
+          </svg>
+        </span>
+      </span>
+      <span id="pull-back-pill-text">Geri dönmek için çekin</span>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- SCREEN 1: ÖĞRENCİ LİSTESİ (DEDICATED NATIVE VERTICAL SCROLL)        -->
+    <!-- =================================================================== -->
+    <section id="screen-student-list" class="screen-scroll" style="padding-bottom: 96px;">
+      <!-- Layered Navy & Turquoise Wave Background -->
+      <div class="list-wave-bg">
+        <svg viewBox="0 0 390 432" preserveAspectRatio="none" class="w-full h-full">
+          <defs>
+            <linearGradient id="listNavyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#102a83"/>
+              <stop offset="100%" stop-color="#1939a0"/>
+            </linearGradient>
+          </defs>
+          <rect width="390" height="316" fill="url(#listNavyGrad)"/>
+          <path d="M 0,0 L 390,0 L 390,78 C 288,148 142,212 0,194 Z" fill="#0d2270"/>
+          <path d="M 0,218 C 22,234 28,256 32,302 L 32,427 L 0,402 Z" fill="#7be2e8"/>
+          <path d="M 182,300 C 245,252 315,216 390,198 L 390,427 L 364,402 L 182,300 Z" fill="#7be2e8"/>
+          <rect x="11" y="295" width="368" height="137" fill="#f2f4f7"/>
+        </svg>
+      </div>
+
+      <div class="relative z-10">
+        <!-- Official 16-Star White MEB Crest & Ministry Header -->
+        <div class="pt-4 pb-5 px-4 flex flex-col items-center text-center">
+          <div class="meb-emblem-shell w-[122px] h-[122px] mb-2.5 flex items-center justify-center">
+            <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="w-full h-full">
+              <defs>
+                <!-- Official Outer Braided Rope Segment -->
+                <path id="meb-braid-link" d="M -4.8,-97.8 C -1.8,-99.9 1.6,-102.7 4.7,-104.9 C 6.0,-105.5 6.8,-103.8 5.5,-102.6 C 2.5,-100.3 -1.0,-97.6 -3.8,-96.0 C -5.2,-95.4 -6.0,-96.9 -4.8,-97.8 Z" fill="#ffffff"/>
+                <!-- Official Sharp 5-Pointed Ring Star -->
+                <polygon id="meb-ring-star" points="0,-89.6 1.95,-83.6 8.2,-83.6 3.15,-79.9 5.05,-73.9 0,-77.6 -5.05,-73.9 -3.15,-79.9 -8.2,-83.6 -1.95,-83.6" fill="#ffffff"/>
+              </defs>
+
+              <!-- 1. Braided Rope Outer Wreath (60 Interlocking Diagonal Segments) -->
+              <g transform="translate(110,110)">
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(0)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(6)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(12)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(18)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(24)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(30)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(36)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(42)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(48)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(54)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(60)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(66)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(72)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(78)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(84)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(90)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(96)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(102)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(108)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(114)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(120)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(126)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(132)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(138)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(144)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(150)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(156)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(162)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(168)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(174)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(180)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(186)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(192)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(198)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(204)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(210)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(216)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(222)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(228)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(234)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(240)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(246)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(252)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(258)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(264)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(270)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(276)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(282)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(288)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(294)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(300)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(306)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(312)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(318)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(324)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(330)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(336)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(342)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(348)"/>
+                <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(354)"/>
+              </g>
+
+              <!-- Crisp Inner Border of Outer Rope Frame -->
+              <circle cx="110" cy="110" r="95" fill="none" stroke="#ffffff" stroke-width="1.35"/>
+
+              <!-- 2. 16 Stars Ring (Symmetrically Flanked at 11.25° + n*22.5°) -->
+              <g transform="translate(110,110)">
+                <use href="#meb-ring-star" xlink:href="#meb-ring-star" transform="rotate(11.25)"/>
+                <use href="#meb-ring-star" xlink:href="#meb-ring-star" transform="rotate(33.75)"/>
+                <use href="#meb-ring-star" xlink:href="#meb-ring-star" transform="rotate(56.25)"/>
+                <use href="#meb-ring-star" xlink:href="#meb-ring-star" transform="rotate(78.75)"/>
+                <use href="#meb-ring-star" xlink:href="#meb-ring-star" transform="rotate(101.25)"/>
+                <use href="#meb-ring-star" xlink:href="#meb-ring-star" transform="rotate(123.75)"/>
+                <use href="#meb-ring-star" xlink:href="#meb-ring-star" transform="rotate(146.25)"/>
+                <use href="#meb-ring-star" xlink:href="#meb-ring-star" transform="rotate(168.75)"/>
+                <use href="#meb-ring-star" xlink:href="#meb-ring-star" transform="rotate(191.25)"/>
+                <use href="#meb-ring-star" xlink:href="#meb-ring-star" transform="rotate(213.75)"/>
+                <use href="#meb-ring-star" xlink:href="#meb-ring-star" transform="rotate(236.25)"/>
+                <use href="#meb-ring-star" xlink:href="#meb-ring-star" transform="rotate(258.75)"/>
+                <use href="#meb-ring-star" xlink:href="#meb-ring-star" transform="rotate(281.25)"/>
+                <use href="#meb-ring-star" xlink:href="#meb-ring-star" transform="rotate(303.75)"/>
+                <use href="#meb-ring-star" xlink:href="#meb-ring-star" transform="rotate(326.25)"/>
+                <use href="#meb-ring-star" xlink:href="#meb-ring-star" transform="rotate(348.75)"/>
+              </g>
+
+              <!-- 3. Inner Medallion Ring -->
+              <circle cx="110" cy="110" r="67.5" fill="none" stroke="#ffffff" stroke-width="2.1"/>
+
+              <!-- 4. Sculpted MEB Torch Flame (Alev) -->
+              <path d="M 101.5,89.5 C 96.2,84.0 95.8,75.0 101.0,67.5 C 103.6,63.7 107.0,59.5 107.2,54.0 C 107.3,51.2 108.4,48.6 110.6,47.2 C 110.2,51.4 113.0,54.6 116.4,58.6 C 122.4,65.6 124.4,74.2 121.4,82.6 C 120.2,85.8 118.4,88.2 116.6,89.5 Z" fill="#ffffff"/>
+              <!-- Flame Internal Sculpted Cutouts -->
+              <path d="M 105.0,88.5 C 101.4,83.5 101.8,76.4 106.4,70.2 C 108.5,67.4 110.4,64.2 110.6,60.2 C 111.8,63.8 114.6,66.6 116.8,70.8 C 119.0,75.2 118.4,82.6 114.2,88.5 C 115.6,82.4 114.8,77.2 111.5,73.2 C 109.6,76.2 107.6,79.8 108.6,85.0 C 106.4,83.6 105.2,86.0 105.0,88.5 Z" fill="#102a83"/>
+              <path d="M 109.8,88.8 C 108.0,84.4 108.8,79.5 111.6,75.6 C 113.4,79.0 113.8,84.2 111.4,88.8 Z" fill="#ffffff"/>
+
+              <!-- 5. Torch Chalice Rim & Fluted Cup (Meşale Çanağı) -->
+              <path d="M 94.5,91.8 C 94.5,90.4 95.8,89.8 97.5,89.8 L 122.5,89.8 C 124.2,89.8 125.5,90.4 125.5,91.8 C 125.5,93.1 124.2,93.8 122.5,93.8 L 97.5,93.8 C 95.8,93.8 94.5,93.1 94.5,91.8 Z" fill="#ffffff"/>
+              <path d="M 97.5,95.4 L 122.5,95.4 C 121.2,102.2 117.8,106.8 115.2,109.2 L 104.8,109.2 C 102.2,106.8 98.8,102.2 97.5,95.4 Z" fill="#ffffff"/>
+              <line x1="103.5" y1="96.6" x2="106.2" y2="107.8" stroke="#102a83" stroke-width="1.35" stroke-linecap="round"/>
+              <line x1="110.0" y1="96.6" x2="110.0" y2="108.2" stroke="#102a83" stroke-width="1.35" stroke-linecap="round"/>
+              <line x1="116.5" y1="96.6" x2="113.8" y2="107.8" stroke="#102a83" stroke-width="1.35" stroke-linecap="round"/>
+
+              <!-- 6. Lower Torch Handle Extending Beneath Book -->
+              <path d="M 105.0,147.0 L 115.0,147.0 L 112.4,164.8 C 111.9,167.2 108.1,167.2 107.6,164.8 Z" fill="#ffffff"/>
+              <rect x="104.0" y="148.2" width="12.0" height="2.4" rx="1.2" fill="#102a83"/>
+              <line x1="110.0" y1="152.2" x2="110.0" y2="163.5" stroke="#102a83" stroke-width="1.3" stroke-linecap="round"/>
+
+              <!-- 7. Open Book with Layered Curved Pages (Açık Kitap) -->
+              <!-- Outer Hardcover -->
+              <path d="M 55.5,115.5 L 59.8,115.5 L 59.8,139.8 C 75.5,137.4 94.5,141.4 110.0,149.8 C 125.5,141.4 144.5,137.4 160.2,139.8 L 160.2,115.5 L 164.5,115.5 L 164.5,144.2 C 146.5,141.6 126.5,145.8 110.0,154.6 C 93.5,145.8 73.5,141.6 55.5,144.2 Z" fill="#ffffff"/>
+              <!-- Main Book Page Spread -->
+              <path d="M 62.5,112.0 C 77.5,108.2 95.8,110.8 110.0,120.2 C 124.2,110.8 142.5,108.2 157.5,112.0 L 157.5,137.2 C 142.5,134.2 124.5,137.6 110.0,146.2 C 95.5,137.6 77.5,134.2 62.5,137.2 Z" fill="none" stroke="#ffffff" stroke-width="2.0" stroke-linejoin="round"/>
+              <!-- Layered Stacked Page Curves (Left & Right) -->
+              <path d="M 62.8,117.5 C 77.5,114.2 94.5,116.8 108.0,124.8" fill="none" stroke="#ffffff" stroke-width="1.25" stroke-linecap="round"/>
+              <path d="M 62.8,123.0 C 77.5,119.8 94.5,122.4 108.0,129.8" fill="none" stroke="#ffffff" stroke-width="1.25" stroke-linecap="round"/>
+              <path d="M 62.8,128.5 C 77.5,125.4 94.5,128.0 108.0,134.8" fill="none" stroke="#ffffff" stroke-width="1.25" stroke-linecap="round"/>
+              <path d="M 62.8,133.2 C 77.5,130.4 94.5,133.0 108.0,139.6" fill="none" stroke="#ffffff" stroke-width="1.25" stroke-linecap="round"/>
+              <path d="M 157.2,117.5 C 142.5,114.2 125.5,116.8 112.0,124.8" fill="none" stroke="#ffffff" stroke-width="1.25" stroke-linecap="round"/>
+              <path d="M 157.2,123.0 C 142.5,119.8 125.5,122.4 112.0,129.8" fill="none" stroke="#ffffff" stroke-width="1.25" stroke-linecap="round"/>
+              <path d="M 157.2,128.5 C 142.5,125.4 125.5,128.0 112.0,134.8" fill="none" stroke="#ffffff" stroke-width="1.25" stroke-linecap="round"/>
+              <path d="M 157.2,133.2 C 142.5,130.4 125.5,133.0 112.0,139.6" fill="none" stroke="#ffffff" stroke-width="1.25" stroke-linecap="round"/>
+
+              <!-- 8. Central Crescent & Star Medallion (Ay-Yıldız) -->
+              <circle cx="110" cy="127" r="16.2" fill="#102a83" stroke="#ffffff" stroke-width="2.2"/>
+              <circle cx="108.2" cy="127" r="8.8" fill="#ffffff"/>
+              <circle cx="110.8" cy="127" r="7.1" fill="#102a83"/>
+              <polygon points="116.4,122.8 117.4,125.7 120.4,125.7 118.0,127.5 118.9,130.4 116.4,128.6 113.9,130.4 114.8,127.5 112.4,125.7 115.4,125.7" fill="#ffffff" transform="rotate(-18 116.4 127)"/>
+            </svg>
+            <div class="meb-glint-sweep" aria-hidden="true"></div>
+          </div>
+          <h1 class="text-white font-bold text-[17px] tracking-[0.25px] leading-snug">
+            MİLLÎ EĞİTİM BAKANLIĞI
+          </h1>
+          <p class="text-white/95 font-normal text-[13.2px] tracking-[0.15px] mt-1.5">
+            e-OKUL VELİ BİLGİLENDİRME SİSTEMİ
+          </p>
+        </div>
+
+        <!-- WHITE CARD: ÖĞRENCİ LİSTESİ -->
+        <div id="student-list-card" class="mx-[11px] mt-2 eokul-card px-4 pt-5 pb-7">
+          <h2 class="text-center text-[#848a94] font-bold text-[16.5px] mb-3.5">
+            Öğrenci Listesi
+          </h2>
+
+          <div id="student-list-rows">
+            <!-- Row 1: Elifnaz Dalkürek -->
+            <div id="swipe-wrap-elifnaz" class="swipe-row-container stagger-item" style="animation-delay: 40ms;">
+              <div id="row-elifnaz"
+                   data-student="elifnaz"
+                   class="swipe-row-foreground student-row ripple-host flex items-center justify-between py-2.5 px-1 cursor-pointer">
+                <div class="flex items-center min-w-0 flex-1">
+                  <div id="list-avatar-box-elifnaz" class="w-[58px] h-[58px] rounded-full overflow-hidden flex-shrink-0 bg-[#d5d5d3] shadow-sm">
+                    <img id="list-avatar-elifnaz" src="" alt="Elifnaz Dalkürek" class="w-full h-full object-cover hidden">
+                    <svg id="svg-avatar-elifnaz" viewBox="0 0 120 120" class="w-full h-full">
+                      <rect width="120" height="120" fill="#d5d5d3"/>
+                      <path d="M26,56 C24,78 27,96 32,108 L88,108 C93,96 96,78 94,56 Z" fill="#433024"/>
+                      <path d="M18,120 C20,99 35,93 60,93 C85,93 100,99 102,120 Z" fill="#c8383b"/>
+                      <path d="M44,93 L53,114 L60,107 L67,114 L76,93 Z" fill="#f3f3f3"/>
+                      <rect x="49" y="80" width="22" height="18" rx="8" fill="#dfb193"/>
+                      <ellipse cx="31" cy="59" rx="5" ry="9" fill="#dfb193"/>
+                      <ellipse cx="89" cy="59" rx="5" ry="9" fill="#dfb193"/>
+                      <path d="M32,46 C32,26 88,26 88,46 C88,71 75,88 60,88 C45,88 32,71 32,46 Z" fill="#ecc3a8"/>
+                      <path d="M39,47 Q47,43 54,47" fill="none" stroke="#3c2a1e" stroke-width="2.6" stroke-linecap="round"/>
+                      <path d="M66,47 Q73,43 81,47" fill="none" stroke="#3c2a1e" stroke-width="2.6" stroke-linecap="round"/>
+                      <ellipse cx="47" cy="54" rx="5.5" ry="3.8" fill="#ffffff"/>
+                      <circle cx="47" cy="54" r="3.2" fill="#2d1e16"/>
+                      <circle cx="46" cy="53" r="0.9" fill="#ffffff"/>
+                      <ellipse cx="73" cy="54" rx="5.5" ry="3.8" fill="#ffffff"/>
+                      <circle cx="73" cy="54" r="3.2" fill="#2d1e16"/>
+                      <circle cx="72" cy="53" r="0.9" fill="#ffffff"/>
+                      <path d="M60,54 L58,66 Q60,68 63,66" fill="none" stroke="#c9987b" stroke-width="1.8" stroke-linecap="round"/>
+                      <path d="M51,74 Q60,79 69,74" fill="none" stroke="#b96d63" stroke-width="2.2" stroke-linecap="round"/>
+                      <path d="M30,52 C29,30 43,16 60,16 C77,16 91,30 90,52 C85,37 73,28 58,25 C46,29 35,38 30,52 Z" fill="#4e3829"/>
+                      <path d="M58,17 C45,25 34,39 31,58 C29,44 33,24 58,17 Z" fill="#5c4332"/>
+                    </svg>
+                  </div>
+                  <div class="ml-3.5 flex items-center justify-between flex-1 pr-3">
+                    <span id="list-name-elifnaz" class="text-[#7b808c] text-[15.2px] font-normal truncate">Elifnaz Dalkürek</span>
+                    <svg class="student-chevron w-4 h-4 text-[#8d939d] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 6l6 6-6 6"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="student-shield w-[42px] h-[48px] flex-shrink-0 flex items-center justify-center mr-1">
+                  <svg viewBox="0 0 44 50" class="w-full h-full">
+                    <path d="M22,2 L4,9.5 L4,23.5 C4,35.8 11.7,45.8 22,49 C32.3,45.8 40,35.8 40,23.5 L40,9.5 Z" fill="#4caf50"/>
+                    <path d="M13,25.5 L19.5,32 L32.5,19" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div id="divider-students" class="h-[1px] bg-[#d4d8df] my-1 mx-1"></div>
+
+            <!-- Row 2: Safa Tuğra Dalkürek -->
+            <div id="swipe-wrap-safa" class="swipe-row-container stagger-item" style="animation-delay: 95ms;">
+              <div id="row-safa"
+                   data-student="safa"
+                   class="swipe-row-foreground student-row ripple-host flex items-center justify-between py-2.5 px-1 cursor-pointer">
+                <div class="flex items-center min-w-0 flex-1">
+                  <div id="list-avatar-box-safa" class="w-[58px] h-[58px] rounded-full overflow-hidden flex-shrink-0 bg-[#cfd2d1] shadow-sm">
+                    <img id="list-avatar-safa" src="" alt="Safa Tuğra Dalkürek" class="w-full h-full object-cover hidden">
+                    <svg id="svg-avatar-safa" viewBox="0 0 120 120" class="w-full h-full">
+                      <rect width="120" height="120" fill="#cfd2d1"/>
+                      <path d="M14,120 C17,97 34,91 60,91 C86,91 103,97 106,120 Z" fill="#9ea2a8"/>
+                      <path d="M32,94 C36,106 48,116 60,116 C72,116 84,106 88,94 L77,91 L60,108 L43,91 Z" fill="#b8bcc2"/>
+                      <path d="M51,105 L60,115 L69,105 Z" fill="#d8b848"/>
+                      <rect x="47" y="79" width="26" height="18" rx="8" fill="#d4a383"/>
+                      <ellipse cx="29" cy="58" rx="5.5" ry="9.5" fill="#d4a383"/>
+                      <ellipse cx="91" cy="58" rx="5.5" ry="9.5" fill="#d4a383"/>
+                      <path d="M30,44 C30,23 90,23 90,44 C90,71 76,89 60,89 C44,89 30,71 30,44 Z" fill="#e1b394"/>
+                      <path d="M37,46 Q46,41 55,46" fill="none" stroke="#231c18" stroke-width="3.4" stroke-linecap="round"/>
+                      <path d="M65,46 Q74,41 83,46" fill="none" stroke="#231c18" stroke-width="3.4" stroke-linecap="round"/>
+                      <ellipse cx="46" cy="53" rx="5.5" ry="3.7" fill="#ffffff"/>
+                      <circle cx="46" cy="53" r="3.2" fill="#211712"/>
+                      <circle cx="45" cy="52" r="0.8" fill="#ffffff"/>
+                      <ellipse cx="74" cy="53" rx="5.5" ry="3.7" fill="#ffffff"/>
+                      <circle cx="74" cy="53" r="3.2" fill="#211712"/>
+                      <circle cx="73" cy="52" r="0.8" fill="#ffffff"/>
+                      <path d="M60,52 L58,65 Q60,68 64,65" fill="none" stroke="#b88467" stroke-width="2" stroke-linecap="round"/>
+                      <path d="M49,72 Q60,75 71,72" fill="none" stroke="#a67b63" stroke-width="2.5" stroke-linecap="round"/>
+                      <path d="M51,75 Q60,79 69,75" fill="none" stroke="#a85e56" stroke-width="2.2" stroke-linecap="round"/>
+                      <path d="M28,49 C26,24 41,11 60,11 C79,11 94,24 92,49 C88,34 77,26 60,26 C43,26 32,34 28,49 Z" fill="#27221e"/>
+                    </svg>
+                  </div>
+                  <div class="ml-3.5 flex items-center justify-between flex-1 pr-3">
+                    <span id="list-name-safa" class="text-[#7b808c] text-[15.2px] font-normal truncate">Safa Tuğra Dalkürek</span>
+                    <svg class="student-chevron w-4 h-4 text-[#8d939d] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 6l6 6-6 6"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="student-shield w-[42px] h-[48px] flex-shrink-0 flex items-center justify-center mr-1">
+                  <svg viewBox="0 0 44 50" class="w-full h-full">
+                    <path d="M22,2 L4,9.5 L4,23.5 C4,35.8 11.7,45.8 22,49 C32.3,45.8 40,35.8 40,23.5 L40,9.5 Z" fill="#4caf50"/>
+                    <path d="M13,25.5 L19.5,32 L32.5,19" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="text-[#848a94] text-[13.6px] font-normal mt-6 pl-3">
+            * Öğrenciyi silmek için sola kaydırınız.
+          </p>
+        </div>
+
+        <!-- Ministry Footer -->
+        <div class="mt-6 px-6 text-center text-[#848a94] text-[13.4px] leading-[1.55] font-normal">
+          T.C. MEB Bilgi İşlem Genel Müdürlüğü Tarafından<br>Geliştirilmiştir.
+        </div>
+      </div>
+    </section>
+
+    <!-- FLOATING FAB OVERLAY LAYER (ONLY SHOWN ON ÖĞRENCİ LİSTESİ) -->
+    <div id="fab-layer">
+      <div id="fab-backdrop" onclick="toggleFab(false)" class="fab-backdrop"></div>
+
+      <div id="fab-speed-dial" class="fab-dial-anchor">
+        <!-- Uygulamayı Öner -->
+        <div onclick="handleShareApp()" class="fab-dial-item">
+          <span class="fab-label-pill">Uygulamayı Öner</span>
+          <div class="fab-action-btn ripple-host ripple-light bg-[#1687f3] text-white">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Öğrenci Ekle (Uzaktan Kontrol) -->
+        <div onclick="handleRemoteManagedAction('add')" class="fab-dial-item">
+          <span class="fab-label-pill">Öğrenci Ekle</span>
+          <div class="fab-action-btn ripple-host ripple-light bg-[#4caf50] text-white">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Sıfırla -->
+        <div onclick="handleRemoteManagedAction('reset')" class="fab-dial-item">
+          <span class="fab-label-pill">Sıfırla</span>
+          <div class="fab-action-btn ripple-host ripple-light bg-[#f23b2f] text-white">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46A7.93 7.93 0 0020 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74A7.93 7.93 0 004 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <button id="fab-trigger"
+              type="button"
+              onclick="toggleFab()"
+              aria-label="Menü"
+              class="fab-trigger-btn ripple-host ripple-light">
+        <div class="fab-bars">
+          <span class="fab-bar fab-bar-1"></span>
+          <span class="fab-bar fab-bar-2"></span>
+          <span class="fab-bar fab-bar-3"></span>
+        </div>
+      </button>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- SCREEN 2: STUDENT WORKSPACE (DEDICATED NATIVE VERTICAL SCROLL)      -->
+    <!-- =================================================================== -->
+    <section id="screen-student-workspace" class="screen-scroll screen-hidden">
+      <div id="ptr-inner-content" class="ptr-inner-content">
+
+        <!-- SINGLE PERSISTENT MORPHING HERO HEADER -->
+        <header id="student-hero-header" class="student-hero-header header-expanded">
+          <!-- Layered Navy Gradient & Turquoise Wave SVG -->
+          <div id="hero-wave-layer" class="hero-wave-layer">
+            <div class="hero-navy-fill"></div>
+            <svg class="hero-wave-svg" viewBox="0 0 390 235" preserveAspectRatio="none">
+              <path d="M 0,0 L 390,0 L 390,20 C 300,70 185,115 0,100 Z" fill="#0d2270" opacity="0.62"/>
+              <path d="M 0,48 C 20,64 26,86 30,130 L 30,226 L 0,204 Z" fill="#7be2e8"/>
+              <path d="M 0,192 L 22,202 L 22,235 L 0,222 Z" fill="#1939a0"/>
+              <path d="M 185,126 C 248,78 318,46 390,30 L 390,222 L 366,235 L 366,118 L 185,126 Z" fill="#7be2e8"/>
+              <rect x="11" y="114" width="368" height="121" fill="#f2f4f7"/>
+            </svg>
+          </div>
+
+          <!-- Expanded Left Action: Bildirimler -->
+          <div onclick="openSubPage('placeholder', 'Bildirimler')"
+               class="hero-action-bell ripple-host ripple-light">
+            <svg class="w-[34px] h-[34px]" viewBox="0 0 36 36" fill="none">
+              <path d="M9.5,8.5 C7.5,10.5 6.5,13 6.5,15.5" stroke="#7be2e8" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M26.5,8.5 C28.5,10.5 29.5,13 29.5,15.5" stroke="#7be2e8" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M16.5,7.5 C16.5,6.5 19.5,6.5 19.5,7.5" stroke="#7be2e8" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M18,8 C13.5,8 10.5,11.2 10.5,16.5 L10.5,21.5 L7.5,24.5 L28.5,24.5 L25.5,21.5 L25.5,16.5 C25.5,11.2 22.5,8 18,8 Z" stroke="#7be2e8" stroke-width="1.7" stroke-linejoin="round"/>
+              <line x1="9" y1="22.2" x2="27" y2="22.2" stroke="#7be2e8" stroke-width="1.3"/>
+              <path d="M15.2,25 C15.5,27 20.5,27 20.8,25" stroke="#7be2e8" stroke-width="1.7" stroke-linecap="round"/>
+            </svg>
+            <span class="text-[#d6e2f8] text-[13.2px] font-normal mt-1.5">Bildirimler</span>
+          </div>
+
+          <!-- SHARED-ELEMENT STUDENT PHOTO (GPU FLIP Center <-> Top-Left) -->
+          <div id="hero-photo"
+               class="hero-photo">
+            <img id="hero-avatar-img" src="" alt="Öğrenci Fotoğrafı" class="w-full h-full object-cover hidden">
+            <div id="hero-avatar-svg-container" class="w-full h-full"></div>
+          </div>
+
+          <!-- SHARED-ELEMENT STUDENT NAME & CLASS -->
+          <div id="hero-student-name" class="hero-name">Safa Tuğra Dalkürek</div>
+          <div id="hero-student-class" class="hero-class">11.Sınıf - 299</div>
+
+          <!-- SHARED-ELEMENT SWITCH-STUDENT ICON -->
+          <div id="hero-switch-btn"
+               onclick="leaveStudentShell()"
+               aria-label="Öğrenci Değiştir"
+               class="hero-switch-btn ripple-host ripple-light">
+            <svg class="w-[31px] h-[31px]" viewBox="0 0 36 36" fill="none">
+              <circle cx="18" cy="12.5" r="5" stroke="#7be2e8" stroke-width="1.85"/>
+              <path d="M8.5,26.5 C8.5,21 12.8,18.5 18,18.5 C23.2,18.5 27.5,21 27.5,26.5" stroke="#7be2e8" stroke-width="1.85" stroke-linecap="round"/>
+              <path d="M12.5,25.5 C14,22.8 22,22.8 23.5,25.5" stroke="#7be2e8" stroke-width="1.45" stroke-linecap="round"/>
+            </svg>
+            <span class="hero-switch-label">Öğrenci Değiştir</span>
+          </div>
+
+          <!-- Compact Home Action -->
+          <button id="hero-home-btn"
+                  type="button"
+                  onclick="returnToStudentHome()"
+                  aria-label="Ana Menü"
+                  class="hero-home-btn ripple-host ripple-light">
+            <svg class="w-[29px] h-[29px]" viewBox="0 0 36 36" fill="none">
+              <path d="M6,17.5 L18,7.5 L30,17.5" stroke="#7be2e8" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9.5,15 L9.5,27.5 L26.5,27.5 L26.5,15" stroke="#7be2e8" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M15.5,27.5 L15.5,20.5 C15.5,19.4 16.4,18.5 17.5,18.5 L18.5,18.5 C19.6,18.5 20.5,19.4 20.5,20.5 L20.5,27.5" stroke="#7be2e8" stroke-width="1.7" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </header>
+
+        <!-- =============================================================== -->
+        <!-- DYNAMIC CONTENT STAGE (DASHBOARD OR INNER SUB-PAGE)             -->
+        <!-- =============================================================== -->
+        <main id="student-content-stage" class="student-content-stage">
+
+          <!-- DASHBOARD: ÖĞRENCİ ANA MENÜ -->
+          <div id="view-student-home">
+            <!-- 3x2 MAIN MENU GRID CARD -->
+            <div class="eokul-card p-2">
+              <div class="grid grid-cols-3">
+                <!-- 1. Not Bilgileri -->
+                <div onclick="openSubPage('not-bilgileri')"
+                     class="menu-grid-cell ripple-host border-r border-b border-[#eff1f6] rounded-tl-lg">
+                  <svg class="w-[52px] h-[52px]" viewBox="0 0 56 56" fill="none">
+                    <rect x="11" y="10" width="34" height="39" rx="3.5" stroke="#162e7a" stroke-width="1.7"/>
+                    <path d="M21,10 L21,8.5 C21,7.5 22,7 23,7 L25.5,7 C25.8,5.5 27,4.5 28,4.5 C29,4.5 30.2,5.5 30.5,7 L33,7 C34,7 35,7.5 35,8.5 L35,10 L21,10 Z" fill="#ffffff" stroke="#162e7a" stroke-width="1.6"/>
+                    <path d="M17,10.5 C19,13 23,14 28,14 C33,14 37,13 39,10.5" stroke="#162e7a" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M16.5,20.5 L18.5,22.5 L22.5,18" stroke="#162e7a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <line x1="27" y1="19" x2="39" y2="19" stroke="#162e7a" stroke-width="1.7" stroke-linecap="round"/>
+                    <line x1="27" y1="22.5" x2="35" y2="22.5" stroke="#7be2e8" stroke-width="1.7" stroke-linecap="round"/>
+                    <rect x="16.5" y="27.5" width="4.5" height="4.5" stroke="#162e7a" stroke-width="1.7"/>
+                    <line x1="27" y1="28" x2="39" y2="28" stroke="#7be2e8" stroke-width="1.7" stroke-linecap="round"/>
+                    <line x1="27" y1="31.5" x2="33" y2="31.5" stroke="#162e7a" stroke-width="1.7" stroke-linecap="round"/>
+                    <rect x="16.5" y="36.5" width="4.5" height="4.5" stroke="#162e7a" stroke-width="1.7"/>
+                    <line x1="27" y1="37" x2="39" y2="37" stroke="#7be2e8" stroke-width="1.7" stroke-linecap="round"/>
+                    <line x1="27" y1="40.5" x2="36" y2="40.5" stroke="#162e7a" stroke-width="1.7" stroke-linecap="round"/>
+                  </svg>
+                  <span class="text-[#7b808c] text-[12.2px] font-bold mt-2.5 text-center">Not Bilgileri</span>
+                </div>
+
+                <!-- 2. Devamsızlık Bilgileri -->
+                <div onclick="openSubPage('devamsizlik')"
+                     class="menu-grid-cell ripple-host border-r border-b border-[#eff1f6]">
+                  <svg class="w-[52px] h-[52px]" viewBox="0 0 56 56" fill="none">
+                    <path d="M18,7 L39,7 C40.5,7 41.5,8 41.5,9.5 L41.5,24 M41.5,38 L41.5,45.5 C41.5,47 40.5,48 39,48 L12.5,48 C11,48 10,47 10,45.5 L10,15 L18,7 Z" stroke="#162e7a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M18,7 L18,15 L10,15" stroke="#162e7a" stroke-width="1.7" stroke-linejoin="round"/>
+                    <line x1="16" y1="21" x2="24" y2="21" stroke="#162e7a" stroke-width="1.7" stroke-linecap="round"/>
+                    <line x1="16" y1="26" x2="22" y2="26" stroke="#162e7a" stroke-width="1.7" stroke-linecap="round"/>
+                    <line x1="16" y1="31" x2="22" y2="31" stroke="#162e7a" stroke-width="1.7" stroke-linecap="round"/>
+                    <line x1="16" y1="36" x2="26" y2="36" stroke="#162e7a" stroke-width="1.7" stroke-linecap="round"/>
+                    <line x1="16" y1="41" x2="33" y2="41" stroke="#7be2e8" stroke-width="1.7" stroke-linecap="round"/>
+                    <circle cx="33" cy="28" r="9.5" fill="#ffffff" stroke="#162e7a" stroke-width="1.7"/>
+                    <circle cx="33" cy="28" r="6.8" stroke="#162e7a" stroke-width="1.4"/>
+                    <circle cx="33" cy="26.2" r="2.2" stroke="#7be2e8" stroke-width="1.5"/>
+                    <path d="M29.2,32 C29.8,29.8 36.2,29.8 36.8,32" stroke="#7be2e8" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M39.5,35.5 L47,43 L44.5,45.5 L37,38" fill="#ffffff" stroke="#162e7a" stroke-width="1.7" stroke-linejoin="round"/>
+                  </svg>
+                  <span class="text-[#7b808c] text-[12.2px] font-bold mt-2.5 text-center">Devamsızlık Bilgileri</span>
+                </div>
+
+                <!-- 3. Ders Programı -->
+                <div onclick="openSubPage('placeholder', 'Ders Programı')"
+                     class="menu-grid-cell ripple-host border-b border-[#eff1f6] rounded-tr-lg">
+                  <svg class="w-[52px] h-[52px]" viewBox="0 0 56 56" fill="none">
+                    <path d="M10,12 C10,10.5 11,9.5 12.5,9.5 L43.5,9.5 C45,9.5 46,10.5 46,12 L46,38.5 L38.5,46 L12.5,46 C11,46 10,45 10,43.5 Z" stroke="#162e7a" stroke-width="1.7" stroke-linejoin="round"/>
+                    <path d="M46,38.5 L38.5,38.5 L38.5,46" stroke="#162e7a" stroke-width="1.7" stroke-linejoin="round"/>
+                    <line x1="10" y1="18" x2="46" y2="18" stroke="#162e7a" stroke-width="1.7"/>
+                    <line x1="16" y1="6.5" x2="16" y2="12.5" stroke="#162e7a" stroke-width="1.8" stroke-linecap="round"/>
+                    <line x1="22" y1="6.5" x2="22" y2="12.5" stroke="#162e7a" stroke-width="1.8" stroke-linecap="round"/>
+                    <line x1="28" y1="6.5" x2="28" y2="12.5" stroke="#162e7a" stroke-width="1.8" stroke-linecap="round"/>
+                    <line x1="34" y1="6.5" x2="34" y2="12.5" stroke="#162e7a" stroke-width="1.8" stroke-linecap="round"/>
+                    <line x1="40" y1="6.5" x2="40" y2="12.5" stroke="#162e7a" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M15.5,22.5 L19.5,26.5 M19.5,22.5 L15.5,26.5" stroke="#162e7a" stroke-width="1.6" stroke-linecap="round"/>
+                    <circle cx="24.5" cy="24.5" r="2.2" stroke="#7be2e8" stroke-width="1.6"/>
+                    <circle cx="31.5" cy="24.5" r="2.2" stroke="#162e7a" stroke-width="1.6"/>
+                    <circle cx="38.5" cy="24.5" r="2.2" stroke="#162e7a" stroke-width="1.6"/>
+                    <path d="M15.5,29.5 L19.5,33.5 M19.5,29.5 L15.5,33.5" stroke="#162e7a" stroke-width="1.6" stroke-linecap="round"/>
+                    <circle cx="24.5" cy="31.5" r="2.2" stroke="#162e7a" stroke-width="1.6"/>
+                    <circle cx="31.5" cy="31.5" r="2.2" stroke="#162e7a" stroke-width="1.6"/>
+                    <circle cx="38.5" cy="31.5" r="2.2" stroke="#7be2e8" stroke-width="1.6"/>
+                    <path d="M15.5,36.5 L19.5,40.5 M19.5,36.5 L15.5,40.5" stroke="#162e7a" stroke-width="1.6" stroke-linecap="round"/>
+                    <circle cx="24.5" cy="38.5" r="2.2" stroke="#162e7a" stroke-width="1.6"/>
+                    <circle cx="31.5" cy="38.5" r="2.2" stroke="#7be2e8" stroke-width="1.6"/>
+                  </svg>
+                  <span class="text-[#7b808c] text-[12.2px] font-bold mt-2.5 text-center">Ders Programı</span>
+                </div>
+
+                <!-- 4. Sınav Tarihleri -->
+                <div onclick="openSubPage('sinav-tarihleri')"
+                     class="menu-grid-cell ripple-host border-r border-[#eff1f6] rounded-bl-lg">
+                  <svg class="w-[52px] h-[52px]" viewBox="0 0 56 56" fill="none">
+                    <path d="M19,40 L15,40 C13.5,40 12.5,39 12.5,37.5 L12.5,11.5 C12.5,10 13.5,9 15,9 L41,9 C42.5,9 43.5,10 43.5,11.5 L43.5,37.5 C43.5,39 42.5,40 41,40 L37,40" stroke="#162e7a" stroke-width="1.7" stroke-linecap="round"/>
+                    <line x1="12.5" y1="16" x2="43.5" y2="16" stroke="#162e7a" stroke-width="1.7"/>
+                    <g fill="#162e7a">
+                      <rect x="17" y="20" width="2.2" height="2.2"/><rect x="21.5" y="20" width="2.2" height="2.2"/><rect x="26" y="20" width="2.2" height="2.2"/><rect x="30.5" y="20" width="2.2" height="2.2"/><rect x="35" y="20" width="2.2" height="2.2"/>
+                      <rect x="17" y="24" width="2.2" height="2.2"/><rect x="21.5" y="24" width="2.2" height="2.2"/><rect x="26" y="24" width="2.2" height="2.2"/><rect x="30.5" y="24" width="2.2" height="2.2"/><rect x="35" y="24" width="2.2" height="2.2"/>
+                      <rect x="17" y="28" width="2.2" height="2.2"/><rect x="21.5" y="28" width="2.2" height="2.2"/><rect x="26" y="28" width="2.2" height="2.2"/><rect x="30.5" y="28" width="2.2" height="2.2"/><rect x="35" y="28" width="2.2" height="2.2"/>
+                    </g>
+                    <circle cx="28" cy="39" r="8.5" fill="#ffffff" stroke="#7be2e8" stroke-width="1.7"/>
+                    <polyline points="28,34.5 28,39 31.5,41" stroke="#7be2e8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span class="text-[#7b808c] text-[12.2px] font-bold mt-2.5 text-center">Sınav Tarihleri</span>
+                </div>
+
+                <!-- 5. Yazılı Ortalamaları -->
+                <div onclick="openSubPage('yazili-ortalamalari')"
+                     class="menu-grid-cell ripple-host border-r border-[#eff1f6]">
+                  <svg class="w-[52px] h-[52px]" viewBox="0 0 56 56" fill="none">
+                    <rect x="9" y="28" width="5" height="19" stroke="#162e7a" stroke-width="1.6"/>
+                    <rect x="17.5" y="33" width="5" height="14" stroke="#162e7a" stroke-width="1.6"/>
+                    <rect x="26" y="24" width="5" height="23" stroke="#162e7a" stroke-width="1.6"/>
+                    <rect x="34.5" y="27" width="5" height="20" stroke="#162e7a" stroke-width="1.6"/>
+                    <rect x="43" y="20" width="5" height="27" stroke="#162e7a" stroke-width="1.6"/>
+                    <polyline points="11.5,19 20,23 28.5,15 37,17 45.5,10" stroke="#7be2e8" stroke-width="1.6"/>
+                    <circle cx="11.5" cy="19" r="2.6" fill="#ffffff" stroke="#7be2e8" stroke-width="1.6"/>
+                    <circle cx="20" cy="23" r="2.6" fill="#ffffff" stroke="#7be2e8" stroke-width="1.6"/>
+                    <circle cx="28.5" cy="15" r="2.6" fill="#ffffff" stroke="#7be2e8" stroke-width="1.6"/>
+                    <circle cx="37" cy="17" r="2.6" fill="#ffffff" stroke="#7be2e8" stroke-width="1.6"/>
+                    <circle cx="45.5" cy="10" r="2.6" fill="#ffffff" stroke="#7be2e8" stroke-width="1.6"/>
+                  </svg>
+                  <span class="text-[#7b808c] text-[12.2px] font-bold mt-2.5 text-center">Yazılı Ortalamaları</span>
+                </div>
+
+                <!-- 6. Yıl Sonu Notları -->
+                <div onclick="openSubPage('yil-sonu-notlari')"
+                     class="menu-grid-cell ripple-host rounded-br-lg">
+                  <svg class="w-[52px] h-[52px]" viewBox="0 0 56 56" fill="none">
+                    <path d="M42,35 L42,45.5 C42,46.6 41.1,47.5 40,47.5 L12,47.5 C10.9,47.5 10,46.6 10,45.5 L10,10.5 C10,9.4 10.9,8.5 12,8.5 L40,8.5 C41.1,8.5 42,9.4 42,10.5 L42,16" stroke="#162e7a" stroke-width="1.7" stroke-linecap="round"/>
+                    <path d="M38.5,14.5 L38.5,12 L13.5,12 L13.5,44 L38.5,44 L38.5,38" stroke="#7be2e8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <line x1="18" y1="21" x2="31" y2="21" stroke="#162e7a" stroke-width="1.7" stroke-linecap="round"/>
+                    <line x1="18" y1="25.5" x2="31" y2="25.5" stroke="#162e7a" stroke-width="1.7" stroke-linecap="round"/>
+                    <line x1="18" y1="30" x2="31" y2="30" stroke="#162e7a" stroke-width="1.7" stroke-linecap="round"/>
+                    <line x1="25" y1="34" x2="31" y2="34" stroke="#162e7a" stroke-width="1.7" stroke-linecap="round"/>
+                    <path d="M27,39.5 Q29,38 30,39.5 Q31,41 32.5,39" stroke="#162e7a" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M38.5,31 L38.5,40.5 L41.5,38 L44.5,40.5 L44.5,31" fill="#ffffff" stroke="#162e7a" stroke-width="1.7" stroke-linejoin="round"/>
+                    <circle cx="41.5" cy="24.5" r="7" fill="#ffffff" stroke="#162e7a" stroke-width="1.7" stroke-dasharray="3 1.2"/>
+                    <circle cx="41.5" cy="24.5" r="3.4" stroke="#7be2e8" stroke-width="1.6"/>
+                  </svg>
+                  <span class="text-[#7b808c] text-[12.2px] font-bold mt-2.5 text-center">Yıl Sonu Notları</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- STANDALONE CARD: DİLİM -->
+            <div onclick="openSubPage('placeholder', 'DİLİM')"
+                 class="mt-4 eokul-card ripple-host px-4 py-3.5 flex items-center justify-between cursor-pointer">
+              <div class="flex items-center space-x-4">
+                <div class="relative w-[52px] h-[46px] flex items-center justify-center">
+                  <div class="absolute left-0 bottom-0 w-10 h-10 rounded-full bg-[#f4f6fa]"></div>
+                  <svg class="w-11 h-11 relative z-10" viewBox="0 0 48 44" fill="none">
+                    <rect x="4" y="10" width="9" height="25" rx="1.2" stroke="#858c97" stroke-width="1.2"/>
+                    <line x1="6.5" y1="15" x2="10.5" y2="15" stroke="#858c97" stroke-width="1.2"/>
+                    <line x1="6.5" y1="19" x2="10.5" y2="19" stroke="#858c97" stroke-width="1.2"/>
+                    <line x1="6.5" y1="23" x2="10.5" y2="23" stroke="#858c97" stroke-width="1.2"/>
+                    <rect x="35" y="10" width="9" height="25" rx="1.2" stroke="#858c97" stroke-width="1.2"/>
+                    <line x1="37.5" y1="15" x2="41.5" y2="15" stroke="#858c97" stroke-width="1.2"/>
+                    <line x1="37.5" y1="19" x2="41.5" y2="19" stroke="#858c97" stroke-width="1.2"/>
+                    <line x1="37.5" y1="23" x2="41.5" y2="23" stroke="#858c97" stroke-width="1.2"/>
+                    <rect x="13" y="7" width="22" height="31" rx="2" fill="#ffffff" stroke="#858c97" stroke-width="1.3"/>
+                    <circle cx="24" cy="16" r="6.5" stroke="#858c97" stroke-width="1.2"/>
+                    <circle cx="24" cy="14" r="2.2" stroke="#858c97" stroke-width="1.2"/>
+                    <path d="M19.5,20 C20.5,17.5 27.5,17.5 28.5,20" stroke="#858c97" stroke-width="1.2"/>
+                    <line x1="17" y1="26.5" x2="31" y2="26.5" stroke="#858c97" stroke-width="1.2"/>
+                    <line x1="17" y1="30" x2="31" y2="30" stroke="#858c97" stroke-width="1.2"/>
+                    <line x1="17" y1="33.5" x2="25" y2="33.5" stroke="#858c97" stroke-width="1.2"/>
+                  </svg>
+                </div>
+                <span class="text-[#7b808c] text-[14.5px] font-normal">DİLİM</span>
+              </div>
+              <svg class="w-5 h-5 text-[#9ca2aa] mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 6l6 6-6 6"/>
+              </svg>
+            </div>
+
+            <!-- LOWER STACKED MENU LIST CARD (STUDENT-SPECIFIC) -->
+            <div id="secondary-menu-list" class="mt-4 eokul-card px-2.5 divide-y divide-[#d8dce4]"></div>
+          </div>
+
+          <!-- SHARED WHITE CARD FOR ALL INNER SUB-PAGES -->
+          <div id="view-subpage-card" class="eokul-card hidden">
+
+            <!-- Sub-Page Card Header Bar (Clean e-Okul Header — Pull Down to Go Back) -->
+            <div id="subpage-header-bar" class="px-5 pt-5 pb-3.5 flex items-center justify-between select-none">
+              <h2 id="subpage-title" class="text-[#1f2430] font-bold text-[17.5px] tracking-[-0.1px]">
+                Not Bilgileri
+              </h2>
+            </div>
+
+            <!-- SUB-PAGE: NOT BİLGİLERİ -->
+            <div id="sub-not-bilgileri" class="subpage-pane hidden">
+              <div class="px-5 pt-1 pb-4">
+                <div class="term-switcher">
+                  <div id="not-term-glider" class="term-pill-glider"></div>
+                  <button type="button" id="not-tab-1" onclick="setNotTerm(1)" class="term-pill-btn ripple-host active">1.Dönem</button>
+                  <button type="button" id="not-tab-2" onclick="setNotTerm(2)" class="term-pill-btn ripple-host">2.Dönem</button>
+                </div>
+              </div>
+              <div id="not-bilgileri-body" class="px-4 pb-6"></div>
+            </div>
+
+            <!-- SUB-PAGE: DEVAMSIZLIK BİLGİLERİ -->
+            <div id="sub-devamsizlik" class="subpage-pane hidden">
+              <div class="px-4 pt-1 pb-5">
+                <div class="border-[1.8px] border-[#162e7a] rounded-[9px] bg-[#f6f7fc] py-3.5 px-2 grid grid-cols-2 text-center">
+                  <div>
+                    <div class="text-[#7b808c] text-[13.5px] font-bold">Özürlü Devamsızlık</div>
+                    <div id="devam-ozurlu-val" class="text-[#162e7a] text-[16px] font-extrabold mt-1">3 Gün</div>
+                  </div>
+                  <div>
+                    <div class="text-[#7b808c] text-[13.5px] font-bold">Özürsüz Devamsızlık</div>
+                    <div id="devam-ozursuz-val" class="text-[#162e7a] text-[16px] font-extrabold mt-1">7 Gün</div>
+                  </div>
+                </div>
+              </div>
+              <div id="devamsizlik-list" class="border-t border-[#e6e8ef] divide-y divide-[#e6e8ef] pb-2"></div>
+            </div>
+
+            <!-- SUB-PAGE: SINAV TARİHLERİ -->
+            <div id="sub-sinav-tarihleri" class="subpage-pane hidden">
+              <div class="px-4 pt-1 pb-4">
+                <div id="exam-segment-bar" class="exam-segment-bar">
+                  <div id="exam-segment-indicator" class="exam-segment-indicator"></div>
+                  <button type="button" id="exam-tab-0" onclick="setExamTab(0)" class="exam-segment-btn ripple-host active">Derse Göre</button>
+                  <button type="button" id="exam-tab-1" onclick="setExamTab(1)" class="exam-segment-btn ripple-host">Tarihe Göre</button>
+                  <button type="button" id="exam-tab-2" onclick="setExamTab(2)" class="exam-segment-btn ripple-host">Geçmiş Sınavlar</button>
+                </div>
+              </div>
+              <div id="sinav-tarihleri-body" class="pb-6"></div>
+            </div>
+
+            <!-- SUB-PAGE: ŞUBE YAZILI ORTALAMALARI -->
+            <div id="sub-yazili-ortalamalari" class="subpage-pane hidden">
+              <div class="px-5 pt-1 pb-4">
+                <div class="term-switcher">
+                  <div id="sube-term-glider" class="term-pill-glider"></div>
+                  <button type="button" id="sube-tab-1" onclick="setSubeTerm(1)" class="term-pill-btn ripple-host active">1. Dönem</button>
+                  <button type="button" id="sube-tab-2" onclick="setSubeTerm(2)" class="term-pill-btn ripple-host">2. Dönem</button>
+                </div>
+              </div>
+              <div id="yazili-ortalamalari-body" class="px-4 pb-6"></div>
+            </div>
+
+            <!-- SUB-PAGE: YIL SONU NOTLARI -->
+            <div id="sub-yil-sonu-notlari" class="subpage-pane hidden">
+              <div id="yil-sonu-list" class="divide-y divide-[#e2e5ec] pb-3"></div>
+            </div>
+
+            <!-- SUB-PAGE: ALDIĞI BELGELER -->
+            <div id="sub-aldigi-belgeler" class="subpage-pane hidden">
+              <div id="aldigi-belgeler-list" class="divide-y divide-[#e2e5ec] pb-3"></div>
+            </div>
+
+            <!-- SUB-PAGE: SORUMLULUK BİLGİLERİ -->
+            <div id="sub-sorumluluk" class="subpage-pane hidden">
+              <div class="py-12 px-6 flex flex-col items-center justify-center text-center min-h-[270px]">
+                <div class="w-[58px] h-[58px] rounded-full border-[3.5px] border-[#3b5598] bg-[#f4f6fb] flex items-center justify-center mb-5 status-pop">
+                  <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none">
+                    <rect x="10.7" y="4.5" width="2.6" height="10" rx="1.3" fill="#8d93a1"/>
+                    <circle cx="12" cy="18.2" r="1.6" fill="#8d93a1"/>
+                  </svg>
+                </div>
+                <p class="text-[#5e626c] text-[15.2px] leading-[1.45] max-w-[290px]">
+                  Sorumluluk bilgileri yüklenirken bir hata oluştu. Lütfen tekrar deneyin.
+                </p>
+              </div>
+            </div>
+
+            <!-- SUB-PAGE: NAKİL BİLGİSİ -->
+            <div id="sub-nakil" class="subpage-pane hidden">
+              <div id="nakil-state-body" class="py-12 px-6 flex flex-col items-center justify-center text-center min-h-[270px]"></div>
+            </div>
+
+            <!-- SUB-PAGE: DERS DEVAMSIZLIKLARI (INTERACTIVE CALENDAR) -->
+            <div id="sub-ders-devamsizliklari" class="subpage-pane hidden">
+              <div class="px-5 pt-2 pb-5">
+                <div class="flex items-center justify-between mb-6 px-1">
+                  <button type="button" onclick="shiftCalendarMonth(-1)" aria-label="Önceki Ay" class="ripple-host p-2 -ml-2 text-[#1f2430] rounded-full">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.1" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                  </button>
+                  <div id="cal-month-label" class="text-[#232732] font-bold text-[16.8px] flex-1 pl-4">
+                    Kasım 2026
+                  </div>
+                  <button type="button" onclick="shiftCalendarMonth(1)" aria-label="Sonraki Ay" class="ripple-host p-2 -mr-2 text-[#1f2430] rounded-full">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.1" d="M9 5l7 7-7 7"/>
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="grid grid-cols-7 text-center mb-3">
+                  <div class="text-[#5e626c] text-[13.5px] font-medium">Pzt</div>
+                  <div class="text-[#5e626c] text-[13.5px] font-medium">Sal</div>
+                  <div class="text-[#5e626c] text-[13.5px] font-medium">Çar</div>
+                  <div class="text-[#5e626c] text-[13.5px] font-medium">Per</div>
+                  <div class="text-[#5e626c] text-[13.5px] font-medium">Cum</div>
+                  <div class="text-[#5e626c] text-[13.5px] font-medium">Cmt</div>
+                  <div class="text-[#5e626c] text-[13.5px] font-medium">Paz</div>
+                </div>
+
+                <div id="cal-days-grid" class="grid grid-cols-7 gap-y-4 text-center"></div>
+              </div>
+
+              <div id="cal-detail-accordion" class="cal-detail-accordion border-t border-[#e6e8ef]">
+                <div id="cal-detail-area" class="cal-detail-accordion-inner"></div>
+              </div>
+            </div>
+
+            <!-- SUB-PAGE: PLACEHOLDER (Ders Programı, DİLİM, Bildirimler, Davranış Notları, Okuduğu Kitaplar) -->
+            <div id="sub-placeholder" class="subpage-pane hidden">
+              <div class="py-12 px-6 flex flex-col items-center justify-center text-center min-h-[260px]">
+                <div class="w-[58px] h-[58px] rounded-full border-[3.5px] border-[#3b5598] bg-[#f4f6fb] flex items-center justify-center mb-5 status-pop">
+                  <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none">
+                    <rect x="10.7" y="4.5" width="2.6" height="10" rx="1.3" fill="#8d93a1"/>
+                    <circle cx="12" cy="18.2" r="1.6" fill="#8d93a1"/>
+                  </svg>
+                </div>
+                <p id="placeholder-desc" class="text-[#5e626c] text-[15.2px] leading-[1.45] max-w-[270px]">
+                  Bu bölüm için açıklanmış kayıt bulunamamıştır.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </main>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- MODAL: OKUL RANDEVU — DOĞRULAMA GEREKLİ                             -->
+    <!-- =================================================================== -->
+    <div id="randevu-modal" class="modal-overlay" onclick="if(event.target === this) closeRandevuModal()">
+      <div class="absolute top-[52px] left-1/2 -translate-x-1/2 pointer-events-none">
+        <div class="eokul-spinner"></div>
+      </div>
+
+      <div class="modal-dialog-box text-center">
+        <div class="w-[62px] h-[62px] rounded-full bg-[#e1eaf2] mx-auto flex items-center justify-center mb-4">
+          <svg class="w-[34px] h-[34px]" viewBox="0 0 36 36" fill="none">
+            <circle cx="18" cy="18" r="13" stroke="#3b8ec2" stroke-width="2.4"/>
+            <circle cx="18" cy="12.3" r="1.6" fill="#3b8ec2"/>
+            <rect x="16.8" y="16" width="2.4" height="8.8" rx="1.2" fill="#3b8ec2"/>
+          </svg>
+        </div>
+
+        <h3 class="text-[#102a83] font-bold text-[18.5px] mb-2.5">
+          Doğrulama Gerekli
+        </h3>
+
+        <p class="text-[#585d6b] text-[14.2px] leading-[1.52] mb-6 px-1">
+          Okul Randevu servisine erişim için öğrencinizi e-Devlet ile yeniden doğrulamanız gerekmektedir.
+        </p>
+
+        <div id="randevu-modal-actions" class="grid grid-cols-2 gap-3.5">
+          <button type="button" onclick="closeRandevuModal()"
+                  class="ripple-host h-[45px] rounded-[9px] bg-[#f8f7fb] border border-[#cad7e8] text-[#454a57] font-bold text-[14.5px]">
+            İptal
+          </button>
+          <button type="button" onclick="triggerRandevuVerify()"
+                  class="ripple-host ripple-light h-[45px] rounded-[9px] bg-[#4b96c4] text-white font-bold text-[14.5px] shadow-sm">
+            Doğrula
+          </button>
+        </div>
+
+        <div id="randevu-verifying-state" class="hidden py-2 flex items-center justify-center space-x-3">
+          <div class="eokul-spinner !w-6 !h-6 !border-2"></div>
+          <span class="text-[#585d6b] text-[13.5px] font-medium">e-Devlet'e yönlendiriliyor...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- BOTTOM RED SNACKBAR & NEUTRAL TOAST (SCOPED TO #app)                -->
+    <!-- =================================================================== -->
+    <div id="red-snackbar-wrap" class="red-snackbar-wrap">
+      <div id="red-snackbar-inner" class="red-snackbar px-5 py-4"></div>
+    </div>
+
+    <div id="notice-toast" class="notice-toast"></div>
+
+  </div>
+
+  <!-- =================================================================== -->
+  <!-- CENTRALIZED DATA & BUG-FREE 120Hz MOTION + SCROLL ENGINE            -->
+  <!-- =================================================================== -->
+  <script>
+    /**
+     * Centralized APP_DATA structure (ready for future real-time remote sync).
+     */
+    const DEFAULT_PROFILES = {
+      safa: { name: 'Safa Tuğra Dalkürek', classInfo: '11.Sınıf - 299' },
+      elifnaz: { name: 'Elifnaz Dalkürek', classInfo: '8.Sınıf - 293' }
+    };
+
+    const APP_DATA = {
+      safa: {
+        id: 'safa',
+        name: 'Safa Tuğra Dalkürek',
+        upperName: 'SAFA TUĞRA DALKÜREK',
+        classInfo: '11.Sınıf - 299',
+        secondaryMenu: [
+          { id: 'okul-randevu', title: 'Okul Randevu', icon: 'randevu', action: 'randevu-modal' },
+          { id: 'ders-devamsizliklari', title: 'Ders Devamsızlıkları', icon: 'ders_devam', action: 'subpage' },
+          { id: 'nakil', title: 'Nakil Bilgileri', icon: 'nakil', action: 'subpage' },
+          { id: 'sorumluluk', title: 'Sorumluluk Bilgileri', icon: 'sorumluluk', action: 'subpage' },
+          { id: 'aldigi-belgeler', title: 'Aldığı Belgeler', icon: 'belgeler', action: 'subpage' }
+        ],
+        grades: {
+          term1Average: '88.6786',
+          term1: [
+            {
+              course: 'Beden Eğitimi Ve Spor (2 Saat)',
+              rows: [
+                { label: 'Sözlü', s1: '100', s2: '', s3: '' },
+                { label: 'Uygulama', s1: '100', s2: '', s3: '' }
+              ],
+              score: '100'
+            },
+            {
+              course: 'Felsefe (2 Saat)',
+              rows: [{ label: 'Sınav', s1: '100', s2: '', s3: '' }],
+              score: '100'
+            },
+            {
+              course: 'Seçmeli Astronomi Ve Uzay Bilimleri (1 Saat)',
+              rows: [{ label: 'Sınav', s1: '100', s2: '', s3: '' }],
+              score: '100'
+            },
+            {
+              course: 'Seçmeli Biyoloji (4 Saat)',
+              rows: [{ label: 'Sınav', s1: '86', s2: '', s3: '' }],
+              score: '86'
+            },
+            {
+              course: 'Seçmeli Matematik (6 Saat)',
+              rows: [{ label: 'Sınav', s1: '96', s2: '', s3: '' }],
+              score: '96'
+            },
+            {
+              course: 'Seçmeli Spor Eğitimi (1 Saat)',
+              rows: [{ label: 'Uygulama', s1: '100', s2: '', s3: '' }],
+              score: '100'
+            },
+            {
+              course: 'Türk Dili Ve Edebiyatı (5 Saat)',
+              rows: [{ label: 'Sınav', s1: '68,45', s2: '', s3: '' }],
+              score: '68.45'
+            }
+          ],
+          term2: []
+        },
+        attendance: {
+          excused: '3 Gün',
+          unexcused: '7 Gün',
+          records: [
+            { iso: '2026-11-13', date: '13 Kasım 2026', day: 'Cuma', wrapDay: true, status: 'Öğleden Sonra Yarım Gün' },
+            { iso: '2026-11-12', date: '12 Kasım 2026 Perşembe', day: '', wrapDay: false, status: 'Raporlu' },
+            { iso: '2026-11-10', date: '10 Kasım 2026 Salı', day: '', wrapDay: false, status: 'Tam Gün' },
+            { iso: '2026-10-26', date: '26 Ekim 2026 Pazartesi', day: '', wrapDay: false, status: 'Tam Gün' },
+            { iso: '2026-10-22', date: '22 Ekim 2026 Perşembe', day: '', wrapDay: false, status: 'Raporlu' },
+            { iso: '2026-10-21', date: '21 Ekim 2026 Çarşamba', day: '', wrapDay: false, status: 'Raporlu' },
+            { iso: '2026-10-16', date: '16 Ekim 2026 Cuma', day: '', wrapDay: false, status: 'Tam Gün' },
+            { iso: '2026-10-09', date: '09 Ekim 2026 Cuma', day: '', wrapDay: false, status: 'Sabahtan Yarım Gün' },
+            { iso: '2026-10-06', date: '06 Ekim 2026 Salı', day: '', wrapDay: false, status: 'Tam Gün' },
+            { iso: '2026-10-02', date: '02 Ekim 2026', day: 'Cuma', wrapDay: true, status: 'Öğleden Sonra Yarım Gün' },
+            { iso: '2026-09-29', date: '29 Eylül 2026 Salı', day: '', wrapDay: false, status: 'Tam Gün' },
+            { iso: '2026-09-28', date: '28 Eylül 2026 Pazartesi', day: '', wrapDay: false, status: 'Geç' },
+            { iso: '2026-09-25', date: '25 Eylül 2026', day: 'Cuma', wrapDay: true, status: 'Öğleden Sonra Yarım Gün' }
+          ]
+        },
+        exams: {
+          byCourse: [],
+          byDate: [],
+          past: [
+            { title: 'YABANCI DİL', date: '13 Kasım 2026 Cuma' },
+            { title: 'DİN KÜLTÜRÜ VE AHLÂK BİLGİSİ|TÜRK DİLİ VE EDEBİYATI', date: '11 Kasım 2026 Çarşamba' },
+            { title: 'FELSEFE|SEÇMELİ FİZİK', date: '06 Kasım 2026 Cuma' },
+            { title: 'SEÇMELİ ASTRONOMİ VE UZAY BİLİMLERİ|SEÇMELİ MATEMATİK', date: '05 Kasım 2026 Perşembe' },
+            { title: 'SEÇMELİ KİMYA|TARİH', date: '04 Kasım 2026 Çarşamba' },
+            { title: 'SEÇMELİ BİYOLOJİ', date: '03 Kasım 2026 Salı' }
+          ]
+        },
+        branchAverages: {
+          term1: [
+            { course: 'Felsefe', examNo: '1.', score: '100', avg: '100', status: 'equal' },
+            { course: 'Seçmeli Astronomi Ve Uzay Bilimleri', examNo: '1.', score: '100', avg: '99,66', status: 'up' },
+            { course: 'Seçmeli Biyoloji', examNo: '1.', score: '86', avg: '82', status: 'up' },
+            { course: 'Seçmeli Matematik', examNo: '1.', score: '96', avg: '77,17', status: 'up' },
+            { course: 'Türk Dili Ve Edebiyatı', examNo: '1.', score: '68,45', avg: '85,41', status: 'down' }
+          ],
+          term2: []
+        },
+        yearEndGrades: [
+          { year: '2019-2020', grade: '4. Sınıf', score: '91,95' },
+          { year: '2020-2021', grade: '5. Sınıf', score: '97,8571' },
+          { year: '2021-2022', grade: '6. Sınıf', score: '83,1064' },
+          { year: '2022-2023', grade: '7. Sınıf', score: '86,8175' },
+          { year: '2023-2024', grade: '8. Sınıf', score: '81,2713' },
+          { year: '2024-2025', grade: '9. Sınıf', score: '78,6699' },
+          { year: '2025-2026', grade: '10. Sınıf', score: '82,3415' }
+        ],
+        certificates: [
+          { period: '2019-2020 I. Dönem', label: 'Takdirname belgesi', grade: '4' },
+          { period: '2019-2020 II. Dönem', label: 'Takdirname belgesi', grade: '4' },
+          { period: '2020-2021 I. Dönem', label: 'Takdirname belgesi', grade: '5' },
+          { period: '2020-2021 II. Dönem', label: 'Takdirname belgesi', grade: '5' },
+          { period: '2021-2022 I. Dönem', label: 'Teşekkür belgesi', grade: '6' },
+          { period: '2021-2022 II. Dönem', label: 'Teşekkür belgesi', grade: '6' },
+          { period: '2022-2023 I. Dönem', label: 'Takdirname belgesi', grade: '7' },
+          { period: '2022-2023 II. Dönem', label: 'Takdirname belgesi', grade: '7' },
+          { period: '2024-2025 I. Dönem', label: 'Teşekkür belgesi', grade: '9. Sınıf' },
+          { period: '2024-2025 II. Dönem', label: 'Teşekkür belgesi', grade: '9. Sınıf' },
+          { period: '2025-2026 I. Dönem', label: 'Teşekkür belgesi', grade: '10. Sınıf' },
+          { period: '2025-2026 II. Dönem', label: 'Teşekkür belgesi', grade: '10. Sınıf' }
+        ]
+      },
+
+      elifnaz: {
+        id: 'elifnaz',
+        name: 'Elifnaz Dalkürek',
+        upperName: 'ELİFNAZ DALKÜREK',
+        classInfo: '8.Sınıf - 293',
+        secondaryMenu: [
+          { id: 'okul-randevu', title: 'Okul Randevu', icon: 'randevu', action: 'randevu-modal' },
+          { id: 'ders-devamsizliklari', title: 'Ders Devamsızlıkları', icon: 'ders_devam', action: 'subpage' },
+          { id: 'davranis', title: 'Davranış Notları', icon: 'davranis', action: 'placeholder' },
+          { id: 'nakil', title: 'Nakil Bilgileri', icon: 'nakil', action: 'subpage' },
+          { id: 'kitaplar', title: 'Okuduğu Kitaplar', icon: 'kitaplar', action: 'placeholder' },
+          { id: 'aldigi-belgeler', title: 'Aldığı Belgeler', icon: 'belgeler', action: 'subpage' }
+        ],
+        grades: {
+          term1Average: '94.2500',
+          term1: [
+            { course: 'Türkçe (5 Saat)', rows: [{ label: 'Sınav', s1: '95', s2: '', s3: '' }], score: '95' },
+            { course: 'Matematik (5 Saat)', rows: [{ label: 'Sınav', s1: '92', s2: '', s3: '' }], score: '92' },
+            { course: 'Fen Bilimleri (4 Saat)', rows: [{ label: 'Sınav', s1: '96', s2: '', s3: '' }], score: '96' },
+            { course: 'T.C. İnkılap Tarihi Ve Atatürkçülük (2 Saat)', rows: [{ label: 'Sınav', s1: '94', s2: '', s3: '' }], score: '94' }
+          ],
+          term2: []
+        },
+        attendance: {
+          excused: '1 Gün',
+          unexcused: '1 Gün',
+          records: [
+            { iso: '2026-11-05', date: '05 Kasım 2026 Perşembe', day: '', wrapDay: false, status: 'Raporlu' },
+            { iso: '2026-10-19', date: '19 Ekim 2026 Pazartesi', day: '', wrapDay: false, status: 'Tam Gün' }
+          ]
+        },
+        exams: {
+          byCourse: [],
+          byDate: [],
+          past: [
+            { title: 'TÜRKÇE', date: '11 Kasım 2026 Çarşamba' },
+            { title: 'MATEMATİK', date: '06 Kasım 2026 Cuma' },
+            { title: 'FEN BİLİMLERİ', date: '04 Kasım 2026 Çarşamba' }
+          ]
+        },
+        branchAverages: {
+          term1: [
+            { course: 'Türkçe', examNo: '1.', score: '95', avg: '84,20', status: 'up' },
+            { course: 'Matematik', examNo: '1.', score: '92', avg: '76,50', status: 'up' },
+            { course: 'Fen Bilimleri', examNo: '1.', score: '96', avg: '81,40', status: 'up' },
+            { course: 'T.C. İnkılap Tarihi Ve Atatürkçülük', examNo: '1.', score: '94', avg: '88,10', status: 'up' }
+          ],
+          term2: []
+        },
+        yearEndGrades: [
+          { year: '2022-2023', grade: '4. Sınıf', score: '96,4200' },
+          { year: '2023-2024', grade: '5. Sınıf', score: '95,1850' },
+          { year: '2024-2025', grade: '6. Sınıf', score: '93,7420' },
+          { year: '2025-2026', grade: '7. Sınıf', score: '94,6100' }
+        ],
+        certificates: [
+          { period: '2022-2023 I. Dönem', label: 'Takdirname belgesi', grade: '4' },
+          { period: '2022-2023 II. Dönem', label: 'Takdirname belgesi', grade: '4' },
+          { period: '2023-2024 I. Dönem', label: 'Takdirname belgesi', grade: '5' },
+          { period: '2023-2024 II. Dönem', label: 'Takdirname belgesi', grade: '5' },
+          { period: '2024-2025 I. Dönem', label: 'Takdirname belgesi', grade: '6' },
+          { period: '2024-2025 II. Dönem', label: 'Takdirname belgesi', grade: '6' },
+          { period: '2025-2026 I. Dönem', label: 'Takdirname belgesi', grade: '7' },
+          { period: '2025-2026 II. Dönem', label: 'Takdirname belgesi', grade: '7' }
+        ]
+      }
+    };
+
+    // =========================================================================
+    // RUNTIME STATE & ANIMATION GUARDS
+    // =========================================================================
+    let activeStudentKey = 'safa';
+    let currentSubPage = null; // null => Ana Menü (Expanded)
+    let activeNotTerm = 1;
+    let activeSubeTerm = 1;
+    let activeExamTab = 0;
+    let ignorePopCount = 0;
+
+    // Safe History Helpers (Android Back Button / Edge-Swipe Support)
+    function safeReplaceNavState(state) {
+      try {
+        history.replaceState(state, '');
+      } catch (_) {}
+    }
+
+    function safePushNavState(state) {
+      try {
+        history.pushState(state, '');
+      } catch (_) {}
+    }
+
+    function safeStepBackHistory(steps) {
+      const count = steps || 1;
+      try {
+        if (count <= 0) return;
+        ignorePopCount += 1;
+        if (count === 1) {
+          history.back();
+        } else {
+          history.go(-count);
+        }
+      } catch (_) {
+        ignorePopCount = Math.max(0, ignorePopCount - 1);
+      }
+    }
+
+    function getCurrentNavLevel() {
+      const ws = document.getElementById('screen-student-workspace');
+      if (!ws || ws.classList.contains('screen-hidden')) return 0;
+      return currentSubPage !== null ? 2 : 1;
+    }
+    let activeAnimations = [];
+    let snackbarDelayTimer = null;
+    let countUpRafId = null;
+    let dayCountRafIds = [];
+    let subCardExitAnim = null;
+
+    const TR_MONTHS = [
+      'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+      'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
+    ];
+    let calYear = 2026;
+    let calMonth = 10; // Kasım 2026
+    let calSelected = { year: 2026, month: 10, day: 19 };
+
+    function toTurkishUpper(str) {
+      return (str || '').toLocaleUpperCase('tr-TR');
+    }
+
+    function cancelActiveAnimations() {
+      activeAnimations.forEach(anim => {
+        try { anim.cancel(); } catch (_) {}
+      });
+      activeAnimations = [];
+    }
+
+    function cleanupSubCardExit() {
+      if (subCardExitAnim) {
+        try { subCardExitAnim.cancel(); } catch (_) {}
+        subCardExitAnim = null;
+      }
+      const subCard = document.getElementById('view-subpage-card');
+      if (subCard) {
+        subCard.style.position = '';
+        subCard.style.top = '';
+        subCard.style.left = '';
+        subCard.style.right = '';
+        subCard.style.zIndex = '';
+        subCard.style.pointerEvents = '';
+        subCard.style.transition = '';
+        subCard.style.transform = '';
+        subCard.style.opacity = '';
+        subCard.style.borderTopLeftRadius = '';
+        subCard.style.borderTopRightRadius = '';
+        subCard.style.boxShadow = '';
+      }
+    }
+
+    function resetHeroPullStyles() {
+      const header = document.getElementById('student-hero-header');
+      const waveLayer = document.getElementById('hero-wave-layer');
+      if (header) {
+        header.style.transition = '';
+        header.style.transform = '';
+      }
+      if (waveLayer) {
+        waveLayer.style.transition = '';
+        waveLayer.style.transform = '';
+      }
+    }
+
+    function trackAnimation(anim) {
+      if (!anim) return;
+      activeAnimations.push(anim);
+      anim.onfinish = () => {
+        activeAnimations = activeAnimations.filter(a => a !== anim);
+      };
+    }
+
+    // =========================================================================
+    // MATERIAL 3 RIPPLE ENGINE (PASSIVE, NEVER INTERFERES WITH SCROLL)
+    // =========================================================================
+    function initRippleEngine() {
+      let pressedHost = null;
+
+      document.addEventListener('pointerdown', (e) => {
+        const host = e.target.closest('.ripple-host');
+        if (!host) return;
+        pressedHost = host;
+        host.classList.add('is-pressed');
+
+        const rect = host.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height) * 2.1;
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const ripple = document.createElement('span');
+        ripple.className = 'm3-ripple';
+        ripple.style.width = size + 'px';
+        ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        host.appendChild(ripple);
+
+        const expandAnim = ripple.animate([
+          { transform: 'translate(-50%, -50%) scale(0)', opacity: 0.85 },
+          { transform: 'translate(-50%, -50%) scale(1)', opacity: 0 }
+        ], {
+          duration: 440,
+          easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+          fill: 'forwards'
+        });
+
+        expandAnim.onfinish = () => ripple.remove();
+      }, { passive: true });
+
+      const releasePress = () => {
+        if (pressedHost) {
+          pressedHost.classList.remove('is-pressed');
+          pressedHost = null;
+        }
+      };
+
+      document.addEventListener('pointerup', releasePress, { passive: true });
+      document.addEventListener('pointercancel', releasePress, { passive: true });
+      document.addEventListener('pointerleave', releasePress, { passive: true });
+    }
+
+    // =========================================================================
+    // TRUE 120Hz GPU FLIP HERO MORPH ENGINE
+    // =========================================================================
+    function captureRects(elements) {
+      const map = new Map();
+      elements.forEach(el => {
+        if (el) map.set(el, el.getBoundingClientRect());
+      });
+      return map;
+    }
+
+    function playFlipHeaderMorph(beforeRects, elementsConfig) {
+      const duration = 360;
+      const easing = 'cubic-bezier(0.22, 1, 0.36, 1)';
+      const isTargetExpanded = document.getElementById('student-hero-header').classList.contains('header-expanded');
+
+      // Phase 1: Batch all layout reads first (prevents layout thrashing)
+      const measured = [];
+      for (let i = 0; i < elementsConfig.length; i++) {
+        const { el, scaleMode } = elementsConfig[i];
+        if (!el || !beforeRects.has(el)) continue;
+        const first = beforeRects.get(el);
+        const last = el.getBoundingClientRect();
+        if (!first.width || !last.width) continue;
+        measured.push({ el, scaleMode, first, last });
+      }
+
+      // Phase 2: Start GPU compositor-only animations
+      for (let i = 0; i < measured.length; i++) {
+        const { el, scaleMode, first, last } = measured[i];
+
+        // Centered elements use translate3d(-50%, 0, 0) in expanded mode
+        if (el.id === 'hero-student-name' || el.id === 'hero-student-class') {
+          const firstCx = first.left + first.width / 2;
+          const lastCx = last.left + last.width / 2;
+          const deltaX = isTargetExpanded ? (firstCx - lastCx) : (first.left - last.left);
+          const deltaY = first.top - last.top;
+
+          const fromT = isTargetExpanded
+            ? `translate3d(calc(-50% + ${deltaX}px), ${deltaY}px, 0)`
+            : `translate3d(${deltaX}px, ${deltaY}px, 0)`;
+          const toT = isTargetExpanded
+            ? 'translate3d(-50%, 0, 0)'
+            : 'translate3d(0, 0, 0)';
+
+          trackAnimation(el.animate([{ transform: fromT }, { transform: toT }], { duration, easing }));
+          continue;
+        }
+
+        const dx = first.left - last.left;
+        const dy = first.top - last.top;
+        if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5 && Math.abs(first.width - last.width) < 0.5) {
+          continue;
+        }
+
+        let fromTransform = `translate3d(${dx}px, ${dy}px, 0)`;
+        if (scaleMode === 'both') {
+          const sx = first.width / last.width;
+          const sy = first.height / last.height;
+          fromTransform = `translate3d(${dx}px, ${dy}px, 0) scale(${sx}, ${sy})`;
+        }
+
+        trackAnimation(el.animate([
+          { transform: fromTransform },
+          { transform: 'translate3d(0, 0, 0) scale(1, 1)' }
+        ], { duration, easing }));
+      }
+    }
+
+    // =========================================================================
+    // NAVIGATION: ÖĞRENCİ LİSTESİ <-> ANA MENÜ <-> INNER SUB-PAGES
+    // =========================================================================
+    function enterStudentShell(studentKey, options) {
+      const opts = options || {};
+      const student = APP_DATA[studentKey];
+      if (!student) return;
+
+      cancelActiveAnimations();
+      toggleFab(false, true);
+      hideRedSnackbar();
+
+      // Measure circular avatar from Öğrenci Listesi BEFORE hiding list
+      const listAvatarBox = document.getElementById('list-avatar-box-' + studentKey);
+      const sourceRect = listAvatarBox ? listAvatarBox.getBoundingClientRect() : null;
+
+      activeStudentKey = studentKey;
+      currentSubPage = null;
+
+      const listScreen = document.getElementById('screen-student-list');
+      const workspaceScreen = document.getElementById('screen-student-workspace');
+      const fabLayer = document.getElementById('fab-layer');
+      const header = document.getElementById('student-hero-header');
+
+      header.classList.remove('header-compact');
+      header.classList.add('header-expanded');
+
+      document.getElementById('hero-student-name').textContent = student.name;
+      document.getElementById('hero-student-class').textContent = student.classInfo;
+      refreshAvatarDisplays();
+      renderSecondaryMenu(student);
+
+      document.getElementById('view-subpage-card').classList.add('hidden');
+      const homeView = document.getElementById('view-student-home');
+      homeView.classList.remove('hidden');
+
+      // Switch active scroll container & reset scrollTop cleanly
+      listScreen.classList.add('screen-hidden');
+      fabLayer.classList.add('screen-hidden');
+      workspaceScreen.classList.remove('screen-hidden');
+      workspaceScreen.scrollTop = 0;
+
+      if (!opts.fromPopState) {
+        const curLevel = (history.state && typeof history.state.level === 'number') ? history.state.level : 0;
+        if (curLevel === 1) {
+          safeReplaceNavState({ level: 1, student: studentKey });
+        } else {
+          safePushNavState({ level: 1, student: studentKey });
+        }
+      }
+
+      // Circular avatar -> center portrait shared-element flight
+      const heroPhoto = document.getElementById('hero-photo');
+      if (sourceRect && heroPhoto) {
+        const destRect = heroPhoto.getBoundingClientRect();
+        const dx = sourceRect.left - destRect.left;
+        const dy = sourceRect.top - destRect.top;
+        const sx = sourceRect.width / destRect.width;
+        const sy = sourceRect.height / destRect.height;
+
+        trackAnimation(heroPhoto.animate([
+          {
+            transform: `translate3d(${dx}px, ${dy}px, 0) scale(${sx}, ${sy})`,
+            borderRadius: '50%',
+            boxShadow: '0 2px 6px rgba(13, 34, 112, 0.16)'
+          },
+          {
+            transform: 'translate3d(0, 0, 0) scale(1, 1)',
+            borderRadius: '8px',
+            boxShadow: '0 4px 12px rgba(13, 34, 112, 0.32)'
+          }
+        ], { duration: 420, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }));
+      }
+
+      // Cascade dashboard grid cells & cards smoothly
+      const gridCells = homeView.querySelectorAll('.menu-grid-cell');
+      gridCells.forEach((cell, idx) => {
+        trackAnimation(cell.animate([
+          { opacity: 0, transform: 'translate3d(0, 14px, 0) scale(0.95)' },
+          { opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)' }
+        ], {
+          duration: 320,
+          delay: 35 + idx * 28,
+          easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+          fill: 'backwards'
+        }));
+      });
+
+      const lowerCards = homeView.querySelectorAll('.eokul-card');
+      lowerCards.forEach((card, idx) => {
+        if (idx === 0) return;
+        trackAnimation(card.animate([
+          { opacity: 0, transform: 'translate3d(0, 18px, 0)' },
+          { opacity: 1, transform: 'translate3d(0, 0, 0)' }
+        ], {
+          duration: 360,
+          delay: 90 + idx * 45,
+          easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+          fill: 'backwards'
+        }));
+      });
+    }
+
+    function leaveStudentShell(options) {
+      const opts = options || {};
+      const fromPopState = Boolean(opts.fromPopState);
+      const prevLevel = getCurrentNavLevel();
+
+      cancelActiveAnimations();
+      cleanupSubCardExit();
+      resetHeroPullStyles();
+      hideRedSnackbar();
+      closeRandevuModal(true);
+      currentSubPage = null;
+
+      const listScreen = document.getElementById('screen-student-list');
+      const workspaceScreen = document.getElementById('screen-student-workspace');
+      const fabLayer = document.getElementById('fab-layer');
+
+      workspaceScreen.classList.add('screen-hidden');
+      listScreen.classList.remove('screen-hidden');
+      fabLayer.classList.remove('screen-hidden');
+      listScreen.scrollTop = 0;
+
+      if (!fromPopState) {
+        const stLevel = (history.state && typeof history.state.level === 'number') ? history.state.level : prevLevel;
+        if (stLevel > 0) {
+          safeStepBackHistory(stLevel);
+        }
+      }
+
+      trackAnimation(listScreen.animate([
+        { opacity: 0, transform: 'scale(0.97)' },
+        { opacity: 1, transform: 'scale(1)' }
+      ], { duration: 280, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }));
+    }
+
+    function openSubPage(pageKey, customTitle) {
+      const student = APP_DATA[activeStudentKey];
+      if (!student) return;
+
+      const workspaceScreen = document.getElementById('screen-student-workspace');
+      const header = document.getElementById('student-hero-header');
+      const heroPhoto = document.getElementById('hero-photo');
+      const heroName = document.getElementById('hero-student-name');
+      const heroClass = document.getElementById('hero-student-class');
+      const heroSwitch = document.getElementById('hero-switch-btn');
+
+      // Reset scrollTop FIRST (before paint) so FLIP starts from visible top header
+      workspaceScreen.scrollTop = 0;
+
+      const wasExpanded = header.classList.contains('header-expanded');
+      const beforeRects = wasExpanded
+        ? captureRects([heroPhoto, heroName, heroClass, heroSwitch])
+        : null;
+
+      const wasAlreadySubPage = currentSubPage !== null;
+      cancelActiveAnimations();
+      cleanupSubCardExit();
+      resetHeroPullStyles();
+      hideRedSnackbar();
+      currentSubPage = pageKey;
+
+      const curStLevel = (history.state && typeof history.state.level === 'number') ? history.state.level : 1;
+      if (wasAlreadySubPage || curStLevel === 2) {
+        safeReplaceNavState({ level: 2, student: activeStudentKey, page: pageKey });
+      } else {
+        safePushNavState({ level: 2, student: activeStudentKey, page: pageKey });
+      }
+
+      // Switch header to Compact Mode
+      header.classList.remove('header-expanded');
+      header.classList.add('header-compact');
+      heroName.textContent = student.upperName;
+
+      document.getElementById('view-student-home').classList.add('hidden');
+      const subCard = document.getElementById('view-subpage-card');
+      subCard.classList.remove('hidden');
+      document.querySelectorAll('.subpage-pane').forEach(p => p.classList.add('hidden'));
+
+      const titleEl = document.getElementById('subpage-title');
+
+      switch (pageKey) {
+        case 'not-bilgileri':
+          titleEl.textContent = 'Not Bilgileri';
+          document.getElementById('sub-not-bilgileri').classList.remove('hidden');
+          activeNotTerm = 1;
+          renderNotBilgileri(0);
+          requestAnimationFrame(() => moveTwoTabGlider('not-term-glider', 'not-tab-1', false));
+          break;
+
+        case 'devamsizlik':
+          titleEl.textContent = 'Devamsızlık Bilgileri';
+          document.getElementById('sub-devamsizlik').classList.remove('hidden');
+          renderDevamsizlik();
+          break;
+
+        case 'sinav-tarihleri':
+          titleEl.textContent = 'Sınav Tarihleri';
+          document.getElementById('sub-sinav-tarihleri').classList.remove('hidden');
+          activeExamTab = 0;
+          renderSinavTarihleri(0);
+          requestAnimationFrame(() => moveExamGlider(false));
+          break;
+
+        case 'yazili-ortalamalari':
+          titleEl.textContent = 'Şube Yazılı Ortalamaları';
+          document.getElementById('sub-yazili-ortalamalari').classList.remove('hidden');
+          activeSubeTerm = 1;
+          renderYaziliOrtalamalari(0);
+          requestAnimationFrame(() => moveTwoTabGlider('sube-term-glider', 'sube-tab-1', false));
+          break;
+
+        case 'yil-sonu-notlari':
+          titleEl.textContent = 'Yıl Sonu Notları';
+          document.getElementById('sub-yil-sonu-notlari').classList.remove('hidden');
+          renderYilSonuNotlari();
+          break;
+
+        case 'aldigi-belgeler':
+          titleEl.textContent = 'Aldığı Belgeler';
+          document.getElementById('sub-aldigi-belgeler').classList.remove('hidden');
+          renderAldigiBelgeler();
+          break;
+
+        case 'sorumluluk':
+          titleEl.textContent = 'Sorumluluk Bilgileri';
+          document.getElementById('sub-sorumluluk').classList.remove('hidden');
+          snackbarDelayTimer = setTimeout(() => {
+            if (currentSubPage === 'sorumluluk') {
+              showRedSnackbar('İstenen veri bulunamadı.', false);
+            }
+          }, 220);
+          break;
+
+        case 'nakil':
+          titleEl.textContent = 'Nakil Bilgisi';
+          document.getElementById('sub-nakil').classList.remove('hidden');
+          renderNakilError(false);
+          break;
+
+        case 'ders-devamsizliklari':
+          titleEl.textContent = 'Ders Devamsızlıkları';
+          document.getElementById('sub-ders-devamsizliklari').classList.remove('hidden');
+          calYear = 2026;
+          calMonth = 10;
+          calSelected = { year: 2026, month: 10, day: 19 };
+          renderCalendar(0);
+          break;
+
+        default:
+          titleEl.textContent = customTitle || 'Bilgi';
+          document.getElementById('placeholder-desc').textContent =
+            (customTitle ? customTitle + ' için ' : 'Bu bölüm için ') + 'açıklanmış kayıt bulunamamıştır.';
+          document.getElementById('sub-placeholder').classList.remove('hidden');
+          break;
+      }
+
+      if (wasExpanded && beforeRects) {
+        playFlipHeaderMorph(beforeRects, [
+          { el: heroPhoto, scaleMode: 'both' },
+          { el: heroName, scaleMode: 'none' },
+          { el: heroClass, scaleMode: 'none' },
+          { el: heroSwitch, scaleMode: 'none' }
+        ]);
+
+        const waveLayer = document.getElementById('hero-wave-layer');
+        if (waveLayer) {
+          trackAnimation(waveLayer.animate([
+            { transform: 'translate3d(0, 24px, 0)' },
+            { transform: 'translate3d(0, 0, 0)' }
+          ], { duration: 380, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }));
+        }
+      }
+
+      trackAnimation(subCard.animate([
+        { opacity: 0, transform: 'translate3d(0, 22px, 0) scale(0.98)' },
+        { opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)' }
+      ], { duration: 340, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }));
+    }
+
+    function returnToStudentHome(options) {
+      if (currentSubPage === null) return;
+
+      const opts = options || {};
+      const fromPullDismiss = Boolean(opts.fromPullDismiss);
+      const student = APP_DATA[activeStudentKey];
+      const workspaceScreen = document.getElementById('screen-student-workspace');
+      const header = document.getElementById('student-hero-header');
+      const waveLayer = document.getElementById('hero-wave-layer');
+      const heroPhoto = document.getElementById('hero-photo');
+      const heroName = document.getElementById('hero-student-name');
+      const heroClass = document.getElementById('hero-student-class');
+      const heroSwitch = document.getElementById('hero-switch-btn');
+      const subCard = document.getElementById('view-subpage-card');
+      const homeView = document.getElementById('view-student-home');
+
+      // Reset scrollTop cleanly BEFORE measuring compact rects (unless pulling from already top)
+      if (!fromPullDismiss) {
+        workspaceScreen.scrollTop = 0;
+      }
+
+      // Measure compact hero rects BEFORE clearing pull parallax so reverse FLIP starts seamlessly
+      const beforeRects = captureRects([heroPhoto, heroName, heroClass, heroSwitch]);
+      const startHeaderY = opts.currentHeaderY || 0;
+      const startWaveY = opts.currentWaveY || 0;
+      const startCardY = opts.currentCardY || 0;
+      const startCardScale = opts.currentCardScale || 1;
+      const fromPopState = Boolean(opts.fromPopState);
+      cancelActiveAnimations();
+      cleanupSubCardExit();
+      resetHeroPullStyles();
+      hideRedSnackbar();
+      currentSubPage = null;
+
+      if (!fromPopState && history.state && history.state.level === 2) {
+        safeStepBackHistory(1);
+      }
+
+      if (fromPullDismiss) {
+        workspaceScreen.scrollTop = 0;
+      }
+
+      header.classList.remove('header-expanded');
+      header.classList.remove('header-compact');
+      header.classList.add('header-expanded');
+      heroName.textContent = student.name;
+
+      // Show dashboard immediately while sub-page card simultaneously glides downward & fades out
+      homeView.classList.remove('hidden');
+
+      if (fromPullDismiss && subCard) {
+        subCard.classList.remove('hidden');
+        subCard.style.position = 'absolute';
+        subCard.style.top = '0';
+        subCard.style.left = '11px';
+        subCard.style.right = '11px';
+        subCard.style.zIndex = '32';
+        subCard.style.pointerEvents = 'none';
+
+        const exitTargetY = Math.max(120, startCardY + 64);
+        subCardExitAnim = subCard.animate([
+          {
+            transform: `translate3d(0, ${startCardY}px, 0) scale(${startCardScale})`,
+            opacity: 1
+          },
+          {
+            transform: `translate3d(0, ${exitTargetY}px, 0) scale(0.92)`,
+            opacity: 0
+          }
+        ], {
+          duration: 220,
+          easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+          fill: 'forwards'
+        });
+
+        subCardExitAnim.onfinish = () => {
+          cleanupSubCardExit();
+          subCard.classList.add('hidden');
+        };
+      } else {
+        subCard.classList.add('hidden');
+      }
+
+      // Simultaneous GPU FLIP Hero Reverse Transition
+      playFlipHeaderMorph(beforeRects, [
+        { el: heroPhoto, scaleMode: 'both' },
+        { el: heroName, scaleMode: 'none' },
+        { el: heroClass, scaleMode: 'none' },
+        { el: heroSwitch, scaleMode: 'none' }
+      ]);
+
+      if (waveLayer) {
+        const waveFromY = fromPullDismiss ? (-26 + startWaveY + startHeaderY) : -24;
+        trackAnimation(waveLayer.animate([
+          { transform: `translate3d(0, ${waveFromY}px, 0)` },
+          { transform: 'translate3d(0, 0, 0)' }
+        ], { duration: 360, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }));
+      }
+
+      if (fromPullDismiss) {
+        // Single GPU compositor layer entrance during pull-to-dismiss (eliminates 8-layer jank)
+        trackAnimation(homeView.animate([
+          { opacity: 0, transform: 'translate3d(0, 14px, 0) scale(0.985)' },
+          { opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)' }
+        ], {
+          duration: 280,
+          easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
+        }));
+      } else {
+        // Cascade 6-icon dashboard grid & lower cards smoothly back into view
+        const gridCells = homeView.querySelectorAll('.menu-grid-cell');
+        gridCells.forEach((cell, idx) => {
+          trackAnimation(cell.animate([
+            { opacity: 0, transform: 'translate3d(0, 14px, 0) scale(0.95)' },
+            { opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)' }
+          ], {
+            duration: 320,
+            delay: 30 + idx * 24,
+            easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+            fill: 'backwards'
+          }));
+        });
+
+        const lowerCards = homeView.querySelectorAll('.eokul-card');
+        lowerCards.forEach((card, idx) => {
+          if (idx === 0) return;
+          trackAnimation(card.animate([
+            { opacity: 0, transform: 'translate3d(0, 18px, 0)' },
+            { opacity: 1, transform: 'translate3d(0, 0, 0)' }
+          ], {
+            duration: 350,
+            delay: 75 + idx * 40,
+            easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+            fill: 'backwards'
+          }));
+        });
+      }
+    }
+
+    // =========================================================================
+    // SLIDING TAB CAPSULES & GPA COUNT-UP ANIMATION
+    // =========================================================================
+    function moveTwoTabGlider(gliderId, activeBtnId, animate) {
+      const glider = document.getElementById(gliderId);
+      const btn = document.getElementById(activeBtnId);
+      if (!glider || !btn) return;
+
+      if (!animate) glider.style.transition = 'none';
+      glider.style.width = btn.offsetWidth + 'px';
+      glider.style.transform = `translate3d(${btn.offsetLeft}px, 0, 0)`;
+
+      if (!animate) {
+        void glider.offsetWidth;
+        glider.style.transition = '';
+      }
+    }
+
+    function moveExamGlider(animate) {
+      const indicator = document.getElementById('exam-segment-indicator');
+      const btn = document.getElementById('exam-tab-' + activeExamTab);
+      if (!indicator || !btn) return;
+
+      if (!animate) indicator.style.transition = 'none';
+      indicator.style.width = btn.offsetWidth + 'px';
+      indicator.style.transform = `translate3d(${btn.offsetLeft}px, 0, 0)`;
+
+      if (!animate) {
+        void indicator.offsetWidth;
+        indicator.style.transition = '';
+      }
+    }
+
+    function animateCountUp(el, targetStr) {
+      if (!el) return;
+      if (countUpRafId) cancelAnimationFrame(countUpRafId);
+
+      const targetVal = parseFloat(targetStr.replace(',', '.'));
+      if (isNaN(targetVal)) {
+        el.textContent = targetStr;
+        return;
+      }
+
+      const decimals = (targetStr.split('.')[1] || '').length;
+      const duration = 680;
+      const startTime = performance.now();
+
+      function tick(now) {
+        const progress = Math.min(1, (now - startTime) / duration);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = targetVal * eased;
+        el.textContent = progress >= 1 ? targetStr : current.toFixed(decimals);
+        if (progress < 1) {
+          countUpRafId = requestAnimationFrame(tick);
+        }
+      }
+      countUpRafId = requestAnimationFrame(tick);
+    }
+
+    function animateDayCountUp(el, targetStr) {
+      if (!el) return;
+      const match = String(targetStr).match(/^(\d+(?:[.,]\d+)?)(.*)$/);
+      if (!match) {
+        el.textContent = targetStr;
+        return;
+      }
+      const targetNum = parseFloat(match[1].replace(',', '.'));
+      const suffix = match[2] || '';
+      const isDecimal = match[1].includes(',') || match[1].includes('.');
+      const duration = 460;
+      const startTime = performance.now();
+
+      function tick(now) {
+        const progress = Math.min(1, (now - startTime) / duration);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const val = targetNum * eased;
+        el.textContent = progress >= 1
+          ? targetStr
+          : (isDecimal ? val.toFixed(1).replace('.', ',') : Math.round(val)) + suffix;
+        if (progress < 1) {
+          dayCountRafIds.push(requestAnimationFrame(tick));
+        }
+      }
+      dayCountRafIds.push(requestAnimationFrame(tick));
+    }
+
+    function staggerDelayStyle(index) {
+      return `animation-delay: ${Math.min(index, 9) * 28}ms;`;
+    }
+
+    // =========================================================================
+    // SVG ICONS LIBRARY
+    // =========================================================================
+    function getCalendarListIconSvg() {
+      return `
+        <svg class="w-11 h-11 relative z-10" viewBox="0 0 48 48" fill="none">
+          <rect x="10" y="12" width="28" height="25" rx="2.5" fill="#ffffff" stroke="#858c97" stroke-width="1.35"/>
+          <line x1="10" y1="18.5" x2="38" y2="18.5" stroke="#858c97" stroke-width="1.35"/>
+          <line x1="14.5" y1="9.5" x2="14.5" y2="14" stroke="#858c97" stroke-width="1.45" stroke-linecap="round"/>
+          <line x1="19.2" y1="9.5" x2="19.2" y2="14" stroke="#858c97" stroke-width="1.45" stroke-linecap="round"/>
+          <line x1="24" y1="9.5" x2="24" y2="14" stroke="#858c97" stroke-width="1.45" stroke-linecap="round"/>
+          <line x1="28.8" y1="9.5" x2="28.8" y2="14" stroke="#858c97" stroke-width="1.45" stroke-linecap="round"/>
+          <line x1="33.5" y1="9.5" x2="33.5" y2="14" stroke="#858c97" stroke-width="1.45" stroke-linecap="round"/>
+          <rect x="13" y="21.5" width="22" height="12.5" stroke="#858c97" stroke-width="1.15"/>
+          <line x1="13" y1="25.6" x2="35" y2="25.6" stroke="#858c97" stroke-width="1.1"/>
+          <line x1="13" y1="29.8" x2="35" y2="29.8" stroke="#858c97" stroke-width="1.1"/>
+          <line x1="18.5" y1="21.5" x2="18.5" y2="34" stroke="#858c97" stroke-width="1.1"/>
+          <line x1="24" y1="21.5" x2="24" y2="34" stroke="#858c97" stroke-width="1.1"/>
+          <line x1="29.5" y1="21.5" x2="29.5" y2="34" stroke="#858c97" stroke-width="1.1"/>
+        </svg>
+      `;
+    }
+
+    function getExamCalendarClockIconSvg() {
+      return `
+        <svg class="w-11 h-11 relative z-10" viewBox="0 0 48 48" fill="none">
+          <path d="M18,36 L13,36 C11.5,36 10.5,35 10.5,33.5 L10.5,12.5 C10.5,11 11.5,10 13,10 L35,10 C36.5,10 37.5,11 37.5,12.5 L37.5,33.5 C37.5,35 36.5,36 35,36 L32,36" fill="#ffffff" stroke="#858c97" stroke-width="1.35" stroke-linecap="round"/>
+          <line x1="10.5" y1="16" x2="37.5" y2="16" stroke="#858c97" stroke-width="1.35"/>
+          <g fill="#858c97">
+            <rect x="14.5" y="19.5" width="2" height="2"/><rect x="18.5" y="19.5" width="2" height="2"/><rect x="22.5" y="19.5" width="2" height="2"/><rect x="26.5" y="19.5" width="2" height="2"/><rect x="30.5" y="19.5" width="2" height="2"/>
+            <rect x="14.5" y="23.5" width="2" height="2"/><rect x="18.5" y="23.5" width="2" height="2"/><rect x="22.5" y="23.5" width="2" height="2"/><rect x="26.5" y="23.5" width="2" height="2"/><rect x="30.5" y="23.5" width="2" height="2"/>
+            <rect x="14.5" y="27.5" width="2" height="2"/><rect x="18.5" y="27.5" width="2" height="2"/><rect x="22.5" y="27.5" width="2" height="2"/>
+          </g>
+          <circle cx="26.5" cy="34.5" r="7" fill="#ffffff" stroke="#858c97" stroke-width="1.35"/>
+          <polyline points="26.5,30.8 26.5,34.5 29.4,36.2" stroke="#858c97" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      `;
+    }
+
+    function getCertificateIconSvg() {
+      return `
+        <svg class="w-11 h-11 relative z-10" viewBox="0 0 48 48" fill="none">
+          <rect x="11" y="10" width="24" height="29" rx="1.8" fill="#ffffff" stroke="#858c97" stroke-width="1.3"/>
+          <rect x="13.5" y="12.5" width="19" height="24" stroke="#858c97" stroke-width="1.1"/>
+          <line x1="16.5" y1="18.5" x2="26.5" y2="18.5" stroke="#858c97" stroke-width="1.2"/>
+          <line x1="16.5" y1="22" x2="26.5" y2="22" stroke="#858c97" stroke-width="1.2"/>
+          <line x1="16.5" y1="25.5" x2="26.5" y2="25.5" stroke="#858c97" stroke-width="1.2"/>
+          <line x1="21" y1="28.5" x2="26.5" y2="28.5" stroke="#858c97" stroke-width="1.2"/>
+          <path d="M32.5,27 L32.5,34.5 L35,32.5 L37.5,34.5 L37.5,27" fill="#ffffff" stroke="#858c97" stroke-width="1.2"/>
+          <circle cx="35" cy="22.5" r="5.2" fill="#ffffff" stroke="#858c97" stroke-width="1.2" stroke-dasharray="2.4 1"/>
+          <circle cx="35" cy="22.5" r="2.4" stroke="#858c97" stroke-width="1.1"/>
+        </svg>
+      `;
+    }
+
+    function getSecondaryIconSvg(type) {
+      switch (type) {
+        case 'randevu':
+          return `
+            <svg class="w-11 h-11 relative z-10" viewBox="0 0 48 48" fill="none">
+              <path d="M13,14 C13,11.8 14.8,10 17,10 L35,10 C37.2,10 39,11.8 39,14 L39,32 C39,34.2 37.2,36 35,36 L22,36" stroke="#858c97" stroke-width="2" stroke-linecap="round"/>
+              <path d="M13,14 C13,11.8 14.8,10 17,10 L35,10 C37.2,10 39,11.8 39,14 L39,17.5 L13,17.5 Z" fill="#858c97"/>
+              <line x1="13" y1="14" x2="13" y2="26" stroke="#858c97" stroke-width="2" stroke-linecap="round"/>
+              <g fill="#858c97">
+                <circle cx="22" cy="22" r="1.3"/><circle cx="26.5" cy="22" r="1.3"/><circle cx="31" cy="22" r="1.3"/><circle cx="35" cy="22" r="1.3"/>
+                <circle cx="22" cy="26" r="1.3"/><circle cx="26.5" cy="26" r="1.3"/><circle cx="31" cy="26" r="1.3"/><circle cx="35" cy="26" r="1.3"/>
+                <circle cx="26.5" cy="30" r="1.3"/><circle cx="31" cy="30" r="1.3"/><circle cx="35" cy="30" r="1.3"/>
+              </g>
+              <circle cx="15" cy="33.5" r="6.5" fill="#858c97" stroke="#ffffff" stroke-width="1.2"/>
+              <line x1="15" y1="30" x2="15" y2="37" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+              <line x1="11.5" y1="33.5" x2="18.5" y2="33.5" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          `;
+        case 'ders_devam': return getCalendarListIconSvg();
+        case 'davranis':
+          return `
+            <svg class="w-11 h-11 relative z-10" viewBox="0 0 48 48" fill="none">
+              <path d="M21,15 L21,12 C21,10.8 22,10 23,10 L39,10 C40.2,10 41,10.8 41,12 L41,24 C41,25.2 40.2,26 39,26 L36,26 L32,31 L32,26 L23,26" stroke="#858c97" stroke-width="1.3" stroke-linejoin="round"/>
+              <path d="M13,16 L31,16 C32.2,16 33,16.8 33,18 L33,29 C33,30.2 32.2,31 31,31 L22,31 L17,36.5 L17,31 L13,31 C11.8,31 11,30.2 11,29 L11,18 C11,16.8 11.8,16 13,16 Z" fill="#ffffff" stroke="#858c97" stroke-width="1.3" stroke-linejoin="round"/>
+              <line x1="15.5" y1="21" x2="28.5" y2="21" stroke="#858c97" stroke-width="1.2"/>
+              <line x1="15.5" y1="24" x2="28.5" y2="24" stroke="#858c97" stroke-width="1.2"/>
+              <line x1="15.5" y1="27" x2="24" y2="27" stroke="#858c97" stroke-width="1.2"/>
+            </svg>
+          `;
+        case 'nakil':
+          return `
+            <svg class="w-11 h-11 relative z-10" viewBox="0 0 48 48" fill="none">
+              <polygon points="14,31 34,31 39,38 9,38" fill="#ffffff" stroke="#858c97" stroke-width="1.3" stroke-linejoin="round"/>
+              <line x1="12" y1="34.5" x2="36" y2="34.5" stroke="#858c97" stroke-width="1.1"/>
+              <line x1="19" y1="31" x2="17" y2="38" stroke="#858c97" stroke-width="1.1"/>
+              <line x1="29" y1="31" x2="31" y2="38" stroke="#858c97" stroke-width="1.1"/>
+              <path d="M24,9 C18.5,9 14.5,13 14.5,18.5 C14.5,24.8 24,34.5 24,34.5 C24,34.5 33.5,24.8 33.5,18.5 C33.5,13 29.5,9 24,9 Z" fill="#ffffff" stroke="#858c97" stroke-width="1.3" stroke-linejoin="round"/>
+              <circle cx="24" cy="18.5" r="4.5" stroke="#858c97" stroke-width="1.3"/>
+            </svg>
+          `;
+        case 'sorumluluk':
+          return `
+            <svg class="w-11 h-11 relative z-10" viewBox="0 0 48 48" fill="none">
+              <rect x="12" y="9" width="23" height="30" rx="2" fill="#ffffff" stroke="#858c97" stroke-width="1.3"/>
+              <circle cx="23.5" cy="17.5" r="4.8" stroke="#858c97" stroke-width="1.2"/>
+              <circle cx="23.5" cy="16.2" r="1.7" stroke="#858c97" stroke-width="1.1"/>
+              <path d="M20.2,20.5 C21,18.7 26,18.7 26.8,20.5" stroke="#858c97" stroke-width="1.1"/>
+              <line x1="16" y1="26" x2="29" y2="26" stroke="#858c97" stroke-width="1.2"/>
+              <line x1="16" y1="29.5" x2="27" y2="29.5" stroke="#858c97" stroke-width="1.2"/>
+              <line x1="16" y1="33" x2="24" y2="33" stroke="#858c97" stroke-width="1.2"/>
+              <path d="M36.5,17.5 L39.5,19.5 L30.5,34.5 L27,36.5 L27.5,32.5 Z" fill="#ffffff" stroke="#858c97" stroke-width="1.3" stroke-linejoin="round"/>
+            </svg>
+          `;
+        case 'kitaplar':
+          return `
+            <svg class="w-11 h-11 relative z-10" viewBox="0 0 48 48" fill="none">
+              <path d="M10,14 L10,36 C15,34.5 20,35.5 24,38 C28,35.5 33,34.5 38,36 L38,14" stroke="#858c97" stroke-width="1.3" stroke-linejoin="round"/>
+              <path d="M12.5,11.5 C16.5,11.5 20.5,13 24,15.5 C27.5,13 31.5,11.5 35.5,11.5 L35.5,33.5 C31.5,32 27.5,33 24,35.5 C20.5,33 16.5,32 12.5,33.5 Z" fill="#ffffff" stroke="#858c97" stroke-width="1.3" stroke-linejoin="round"/>
+              <line x1="24" y1="15.5" x2="24" y2="35.5" stroke="#858c97" stroke-width="1.3"/>
+              <path d="M15,17 Q18.5,17.5 21.5,19 M15,20.5 Q18.5,21 21.5,22.5 M15,24 Q18.5,24.5 21.5,26 M15,27.5 Q18.5,28 21.5,29.5" stroke="#858c97" stroke-width="1.1"/>
+              <path d="M33,17 Q29.5,17.5 26.5,19 M33,20.5 Q29.5,21 26.5,22.5 M33,24 Q29.5,24.5 26.5,26 M33,27.5 Q29.5,28 26.5,29.5" stroke="#858c97" stroke-width="1.1"/>
+            </svg>
+          `;
+        case 'belgeler': return getCertificateIconSvg();
+        default: return '';
+      }
+    }
+
+    function getEmptyExclamationHtml(message) {
+      return `
+        <div class="py-12 px-5 flex flex-col items-center justify-center text-center">
+          <div class="w-[58px] h-[58px] rounded-full border-[3.5px] border-[#3b5598] bg-[#f4f6fb] flex items-center justify-center mb-5 status-pop">
+            <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none">
+              <rect x="10.7" y="4.5" width="2.6" height="10" rx="1.3" fill="#8d93a1"/>
+              <circle cx="12" cy="18.2" r="1.6" fill="#8d93a1"/>
+            </svg>
+          </div>
+          <p class="text-[#5e626c] text-[15.2px] leading-[1.45] max-w-[270px]">
+            ${message}
+          </p>
+        </div>
+      `;
+    }
+
+    function getStatusBadgeSvg(status, delayMs) {
+      let inner = '';
+      if (status === 'equal') {
+        inner = `<svg class="w-7 h-5 mx-auto" viewBox="0 0 28 16" fill="none"><rect x="3" y="4" width="22" height="8.5" rx="4.2" fill="#ffdf00"/></svg>`;
+      } else if (status === 'up') {
+        inner = `<svg class="w-7 h-5 mx-auto" viewBox="0 0 28 18" fill="none"><path d="M12.6,3.2 C13.4,2.3 14.6,2.3 15.4,3.2 L24.6,13.4 C25.5,14.4 24.8,16 23.4,16 L4.6,16 C3.2,16 2.5,14.4 3.4,13.4 Z" fill="#1aa57a"/></svg>`;
+      } else {
+        inner = `<svg class="w-7 h-5 mx-auto" viewBox="0 0 28 18" fill="none"><path d="M12.6,14.8 C13.4,15.7 14.6,15.7 15.4,14.8 L24.6,4.6 C25.5,3.6 24.8,2 23.4,2 L4.6,2 C3.2,2 2.5,3.6 3.4,4.6 Z" fill="#e53935"/></svg>`;
+      }
+      return `<div class="status-pop" style="animation-delay: ${delayMs}ms;">${inner}</div>`;
+    }
+
+    // =========================================================================
+    // SCREEN RENDERERS
+    // =========================================================================
+    function renderSecondaryMenu(student) {
+      const listContainer = document.getElementById('secondary-menu-list');
+      listContainer.innerHTML = student.secondaryMenu.map(item => {
+        let onClickAttr = '';
+        if (item.action === 'randevu-modal') {
+          onClickAttr = `openRandevuModal()`;
+        } else if (item.action === 'subpage') {
+          onClickAttr = `openSubPage('${item.id}')`;
+        } else {
+          onClickAttr = `openSubPage('placeholder', '${item.title}')`;
+        }
+
+        return `
+          <div onclick="${onClickAttr}"
+               class="ripple-host py-3.5 px-1.5 flex items-center justify-between cursor-pointer">
+            <div class="flex items-center space-x-3.5">
+              <div class="relative w-[52px] h-[46px] flex items-center justify-center flex-shrink-0">
+                <div class="absolute left-0 bottom-0 w-10 h-10 rounded-full bg-[#f4f6fa]"></div>
+                ${getSecondaryIconSvg(item.icon)}
+              </div>
+              <span class="text-[#7b808c] text-[14.5px] font-normal">${item.title}</span>
+            </div>
+            <svg class="w-5 h-5 text-[#9ca2aa] mr-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 6l6 6-6 6"/>
+            </svg>
+          </div>
+        `;
+      }).join('');
+    }
+
+    /* Not Bilgileri */
+    function setNotTerm(term) {
+      if (term === activeNotTerm) return;
+      const dir = term > activeNotTerm ? 1 : -1;
+      activeNotTerm = term;
+      moveTwoTabGlider('not-term-glider', 'not-tab-' + term, true);
+      renderNotBilgileri(dir);
+    }
+
+    function renderNotBilgileri(slideDir) {
+      document.getElementById('not-tab-1').classList.toggle('active', activeNotTerm === 1);
+      document.getElementById('not-tab-2').classList.toggle('active', activeNotTerm === 2);
+
+      const body = document.getElementById('not-bilgileri-body');
+      const student = APP_DATA[activeStudentKey];
+      const courses = activeNotTerm === 1 ? student.grades.term1 : student.grades.term2;
+      const slideClass = slideDir > 0 ? 'pane-slide-right' : (slideDir < 0 ? 'pane-slide-left' : '');
+
+      if (!courses || courses.length === 0) {
+        body.innerHTML = `<div class="${slideClass}">${getEmptyExclamationHtml('Bu dönem açıklanmış not bulunamamıştır.')}</div>`;
+        return;
+      }
+
+      const coursesHtml = courses.map((item, idx) => {
+        const scoreRowsHtml = item.rows.map(r => `
+          <tr>
+            <td class="text-left pl-3 font-medium text-[#7b808c]">${r.label}</td>
+            <td class="text-center font-bold text-[#162e7a]">${r.s1}</td>
+            <td class="text-center font-bold text-[#162e7a]">${r.s2}</td>
+            <td class="text-center font-bold text-[#162e7a]">${r.s3}</td>
+          </tr>
+        `).join('');
+
+        return `
+          <div class="stagger-item ${idx > 0 ? 'pt-4 mt-4 border-t border-[#d8dce4]' : 'pt-1'}" style="${staggerDelayStyle(idx)}">
+            <h3 class="text-[#1f2430] font-bold text-[14.2px] mb-2.5 leading-snug">
+              ${item.course}
+            </h3>
+            <div class="eokul-table-wrap">
+              <table class="eokul-table">
+                <colgroup>
+                  <col style="width: 26%;">
+                  <col style="width: 24.6%;">
+                  <col style="width: 24.6%;">
+                  <col style="width: 24.8%;">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th class="text-center font-bold text-[#7b808c]">1.</th>
+                    <th class="text-center font-bold text-[#7b808c]">2.</th>
+                    <th class="text-center font-bold text-[#7b808c]">3.</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${scoreRowsHtml}
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td class="text-right pr-1.5 font-bold text-[#7b808c]">Puanı</td>
+                    <td class="text-center font-bold text-[15px] text-[#1aa57a]">${item.score}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const avgFooterHtml = `
+        <div class="stagger-item pt-4 mt-5 border-t border-[#d8dce4] flex items-center justify-between px-1" style="${staggerDelayStyle(courses.length)}">
+          <div class="flex items-center space-x-3">
+            <svg class="w-[46px] h-[46px] flex-shrink-0" viewBox="0 0 56 56" fill="none">
+              <rect class="mini-chart-bar" style="animation-delay: 80ms;" x="7" y="28" width="5" height="19" stroke="#162e7a" stroke-width="1.6"/>
+              <rect class="mini-chart-bar" style="animation-delay: 140ms;" x="15.5" y="33" width="5" height="14" stroke="#162e7a" stroke-width="1.6"/>
+              <rect class="mini-chart-bar" style="animation-delay: 200ms;" x="24" y="24" width="5" height="23" stroke="#162e7a" stroke-width="1.6"/>
+              <rect class="mini-chart-bar" style="animation-delay: 260ms;" x="32.5" y="27" width="5" height="20" stroke="#162e7a" stroke-width="1.6"/>
+              <rect class="mini-chart-bar" style="animation-delay: 320ms;" x="41" y="20" width="5" height="27" stroke="#162e7a" stroke-width="1.6"/>
+              <polyline points="9.5,19 18,23 26.5,15 35,17 43.5,10" stroke="#7be2e8" stroke-width="1.6"/>
+              <circle cx="9.5" cy="19" r="2.6" fill="#ffffff" stroke="#7be2e8" stroke-width="1.6"/>
+              <circle cx="18" cy="23" r="2.6" fill="#ffffff" stroke="#7be2e8" stroke-width="1.6"/>
+              <circle cx="26.5" cy="15" r="2.6" fill="#ffffff" stroke="#7be2e8" stroke-width="1.6"/>
+              <circle cx="35" cy="17" r="2.6" fill="#ffffff" stroke="#7be2e8" stroke-width="1.6"/>
+              <circle cx="43.5" cy="10" r="2.6" fill="#ffffff" stroke="#7be2e8" stroke-width="1.6"/>
+            </svg>
+            <div>
+              <div class="text-[#7b808c] text-[14.8px] font-medium leading-snug">
+                ${activeNotTerm}. Dönem Not Ortalaması
+              </div>
+              <div class="text-[#8e939e] text-[12px] leading-tight mt-0.5">
+                Ders saati ağırlığına göre<br>hesaplanmıştır
+              </div>
+            </div>
+          </div>
+          <div id="term-average-counter" class="text-[#1aa57a] font-bold text-[15.6px] pl-2 flex-shrink-0 tabular-nums">
+            0.0000
+          </div>
+        </div>
+      `;
+
+      body.innerHTML = `<div class="${slideClass}">${coursesHtml + avgFooterHtml}</div>`;
+      animateCountUp(document.getElementById('term-average-counter'), student.grades.term1Average);
+    }
+
+    /* Devamsızlık Bilgileri */
+    function renderDevamsizlik() {
+      const student = APP_DATA[activeStudentKey];
+      dayCountRafIds.forEach(id => cancelAnimationFrame(id));
+      dayCountRafIds = [];
+
+      animateDayCountUp(document.getElementById('devam-ozurlu-val'), student.attendance.excused);
+      animateDayCountUp(document.getElementById('devam-ozursuz-val'), student.attendance.unexcused);
+
+      const listEl = document.getElementById('devamsizlik-list');
+      listEl.innerHTML = student.attendance.records.map((rec, idx) => `
+        <div class="stagger-item px-4 py-3.5 flex items-center justify-between" style="${staggerDelayStyle(idx)}">
+          <div class="flex items-center space-x-3 min-w-0 pr-2">
+            <div class="relative w-[48px] h-[44px] flex items-center justify-center flex-shrink-0">
+              <div class="absolute left-0 bottom-0 w-9 h-9 rounded-full bg-[#f4f6fa]"></div>
+              ${getCalendarListIconSvg()}
+            </div>
+            <div class="text-[#70747d] text-[13.5px] leading-[1.5]">
+              ${rec.wrapDay ? `<div>${rec.date}</div><div>${rec.day}</div>` : `<div>${rec.date}</div>`}
+            </div>
+          </div>
+          <div class="text-[#1aa57a] text-[13.6px] font-medium text-right flex-shrink-0">
+            ${rec.status}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /* Sınav Tarihleri */
+    function setExamTab(index) {
+      if (index === activeExamTab) return;
+      const dir = index > activeExamTab ? 1 : -1;
+      activeExamTab = index;
+      moveExamGlider(true);
+      renderSinavTarihleri(dir);
+    }
+
+    function renderSinavTarihleri(slideDir) {
+      for (let i = 0; i < 3; i++) {
+        const btn = document.getElementById('exam-tab-' + i);
+        if (btn) btn.classList.toggle('active', i === activeExamTab);
+      }
+
+      const body = document.getElementById('sinav-tarihleri-body');
+      const student = APP_DATA[activeStudentKey];
+      const slideClass = slideDir > 0 ? 'pane-slide-right' : (slideDir < 0 ? 'pane-slide-left' : '');
+
+      if (activeExamTab === 0 || activeExamTab === 1) {
+        body.innerHTML = `<div class="${slideClass}">${getEmptyExclamationHtml('Bu dönem açıklanmış sınav tarihi bulunamamıştır.')}</div>`;
+        return;
+      }
+
+      const exams = student.exams.past || [];
+      if (exams.length === 0) {
+        body.innerHTML = `<div class="${slideClass}">${getEmptyExclamationHtml('Geçmiş sınav kaydı bulunamamıştır.')}</div>`;
+        return;
+      }
+
+      body.innerHTML = `
+        <div class="${slideClass} px-4 divide-y divide-[#d4d8df]">
+          ${exams.map((ex, idx) => `
+            <div class="stagger-item py-3.5 flex items-center space-x-3.5" style="${staggerDelayStyle(idx)}">
+              <div class="relative w-[48px] h-[46px] flex items-center justify-center flex-shrink-0">
+                <div class="absolute left-0 bottom-0 w-10 h-10 rounded-full bg-[#f4f6fa]"></div>
+                ${getExamCalendarClockIconSvg()}
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="text-[#162e7a] font-bold text-[13.5px] leading-[1.4] tracking-[0.1px] break-words">
+                  ${ex.title}
+                </div>
+                <div class="text-[#1aa57a] font-medium text-[13.5px] mt-1">
+                  ${ex.date}
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    /* Şube Yazılı Ortalamaları */
+    function setSubeTerm(term) {
+      if (term === activeSubeTerm) return;
+      const dir = term > activeSubeTerm ? 1 : -1;
+      activeSubeTerm = term;
+      moveTwoTabGlider('sube-term-glider', 'sube-tab-' + term, true);
+      renderYaziliOrtalamalari(dir);
+    }
+
+    function renderYaziliOrtalamalari(slideDir) {
+      document.getElementById('sube-tab-1').classList.toggle('active', activeSubeTerm === 1);
+      document.getElementById('sube-tab-2').classList.toggle('active', activeSubeTerm === 2);
+
+      const body = document.getElementById('yazili-ortalamalari-body');
+      const student = APP_DATA[activeStudentKey];
+      const items = activeSubeTerm === 1 ? student.branchAverages.term1 : student.branchAverages.term2;
+      const slideClass = slideDir > 0 ? 'pane-slide-right' : (slideDir < 0 ? 'pane-slide-left' : '');
+
+      if (!items || items.length === 0) {
+        body.innerHTML = `<div class="${slideClass}">${getEmptyExclamationHtml('Bu dönem açıklanmış not bulunamamıştır.')}</div>`;
+        return;
+      }
+
+      body.innerHTML = `
+        <div class="${slideClass}">
+          ${items.map((item, idx) => `
+            <div class="stagger-item ${idx > 0 ? 'pt-4 mt-4 border-t border-[#d8dce4]' : 'pt-1'}" style="${staggerDelayStyle(idx)}">
+              <h3 class="text-[#1f2430] font-bold text-[14.2px] mb-2.5 leading-snug">
+                ${item.course}
+              </h3>
+              <div class="eokul-table-wrap">
+                <table class="eokul-table">
+                  <colgroup>
+                    <col style="width: 11%;">
+                    <col style="width: 28%;">
+                    <col style="width: 34%;">
+                    <col style="width: 27%;">
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th class="text-center font-bold text-[#7b808c] text-[12.6px] whitespace-nowrap">Sınav Notu</th>
+                      <th class="text-center font-bold text-[#7b808c] text-[12.6px] whitespace-nowrap">Şube Ortalaması</th>
+                      <th class="text-center font-bold text-[#7b808c] text-[12.6px] whitespace-nowrap">Durum</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-center font-bold text-[#7b808c]">${item.examNo}</td>
+                      <td class="text-center font-bold text-[#162e7a] text-[14.2px]">${item.score}</td>
+                      <td class="text-center font-bold text-[#162e7a] text-[14.2px]">${item.avg}</td>
+                      <td class="text-center">${getStatusBadgeSvg(item.status, 90 + idx * 45)}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    /* Yıl Sonu Notları */
+    function renderYilSonuNotlari() {
+      const student = APP_DATA[activeStudentKey];
+      const listEl = document.getElementById('yil-sonu-list');
+
+      listEl.innerHTML = student.yearEndGrades.map((row, idx) => `
+        <div class="stagger-item px-4 py-3.5 flex items-center justify-between" style="${staggerDelayStyle(idx)}">
+          <div class="flex items-center space-x-2.5">
+            <div class="relative w-[48px] h-[44px] flex items-center justify-center flex-shrink-0">
+              <div class="absolute left-0 bottom-0 w-9 h-9 rounded-full bg-[#f4f6fa]"></div>
+              ${getCertificateIconSvg()}
+            </div>
+            <span class="text-[#7e828c] text-[14px] font-normal whitespace-nowrap">${row.year}</span>
+          </div>
+          <div class="flex items-center space-x-4">
+            <span class="text-[#1aa57a] text-[13.5px] font-medium whitespace-nowrap">${row.grade}</span>
+            <div class="w-[106px] border-[1.5px] border-[#162e7a] rounded-[4px] overflow-hidden bg-[#f8f9fd] text-center flex-shrink-0">
+              <div class="text-[#7b808c] text-[11.8px] font-medium py-[2px] px-1 border-b-[1.5px] border-[#162e7a] bg-white">
+                Yıl Sonu Notu
+              </div>
+              <div class="text-[#162e7a] text-[16px] font-bold py-1.5 tracking-[-0.2px]">
+                ${row.score}
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /* Aldığı Belgeler */
+    function renderAldigiBelgeler() {
+      const student = APP_DATA[activeStudentKey];
+      const listEl = document.getElementById('aldigi-belgeler-list');
+
+      listEl.innerHTML = student.certificates.map((cert, idx) => `
+        <div class="stagger-item px-5 py-4 flex items-center justify-between" style="${staggerDelayStyle(idx)}">
+          <div class="flex items-center space-x-4 min-w-0 pr-3">
+            <div class="relative w-[48px] h-[46px] flex items-center justify-center flex-shrink-0">
+              <div class="absolute left-0 bottom-0 w-10 h-10 rounded-full bg-[#f4f6fa]"></div>
+              ${getCertificateIconSvg()}
+            </div>
+            <div class="min-w-0">
+              <div class="text-[#7e828c] text-[14px] font-normal leading-snug">
+                ${cert.period}
+              </div>
+              <div class="text-[#1aa57a] text-[14.5px] font-bold mt-1 leading-snug">
+                ${cert.label}
+              </div>
+            </div>
+          </div>
+          <div class="text-[#162e7a] font-bold text-[14.8px] flex-shrink-0 pl-2">
+            ${cert.grade}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /* Nakil Bilgisi */
+    function renderNakilError(isRetrying) {
+      const box = document.getElementById('nakil-state-body');
+      if (isRetrying) {
+        hideRedSnackbar();
+        box.innerHTML = `
+          <div class="flex flex-col items-center justify-center space-y-4">
+            <div class="eokul-spinner"></div>
+            <p class="text-[#6d717c] text-[14px]">Nakil bilgileri kontrol ediliyor...</p>
+          </div>
+        `;
+        snackbarDelayTimer = setTimeout(() => {
+          if (currentSubPage === 'nakil') renderNakilError(false);
+        }, 700);
+        return;
+      }
+
+      box.innerHTML = `
+        <div class="w-[58px] h-[58px] rounded-full border-[3.5px] border-[#3b5598] bg-[#f4f6fb] flex items-center justify-center mb-5 status-pop">
+          <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none">
+            <rect x="10.7" y="4.5" width="2.6" height="10" rx="1.3" fill="#8d93a1"/>
+            <circle cx="12" cy="18.2" r="1.6" fill="#8d93a1"/>
+          </svg>
+        </div>
+        <p class="text-[#5e626c] text-[15.2px] leading-[1.45] max-w-[290px]">
+          Nakil bilgileri yüklenirken bir hata oluştu. Lütfen tekrar deneyin.
+        </p>
+      `;
+
+      snackbarDelayTimer = setTimeout(() => {
+        if (currentSubPage === 'nakil') {
+          showRedSnackbar('Sunucu hatası oluştu. Lütfen daha sonra tekrar deneyin.', true);
+        }
+      }, 200);
+    }
+
+    /* Ders Devamsızlıkları Calendar */
+    function toIsoDate(y, m, d) {
+      return `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    }
+
+    function findAbsenceForDate(y, m, d) {
+      const iso = toIsoDate(y, m, d);
+      const records = APP_DATA[activeStudentKey].attendance.records || [];
+      return records.find(r => r.iso === iso) || null;
+    }
+
+    function shiftCalendarMonth(delta) {
+      calMonth += delta;
+      if (calMonth < 0) { calMonth = 11; calYear--; }
+      if (calMonth > 11) { calMonth = 0; calYear++; }
+      renderCalendar(delta);
+    }
+
+    function selectCalendarDay(y, m, d, isOtherMonth) {
+      const monthDelta = isOtherMonth ? (y * 12 + m) - (calYear * 12 + calMonth) : 0;
+      calSelected = { year: y, month: m, day: d };
+      if (isOtherMonth) {
+        calYear = y;
+        calMonth = m;
+      }
+      renderCalendar(monthDelta);
+    }
+
+    function renderCalendar(slideDir) {
+      document.getElementById('cal-month-label').textContent = `${TR_MONTHS[calMonth]} ${calYear}`;
+
+      const firstDayOfMonth = new Date(calYear, calMonth, 1);
+      const startOffset = (firstDayOfMonth.getDay() + 6) % 7;
+      const daysInCurrent = new Date(calYear, calMonth + 1, 0).getDate();
+      const daysInPrev = new Date(calYear, calMonth, 0).getDate();
+
+      const prevMonth = calMonth === 0 ? 11 : calMonth - 1;
+      const prevYear = calMonth === 0 ? calYear - 1 : calYear;
+      const nextMonth = calMonth === 11 ? 0 : calMonth + 1;
+      const nextYear = calMonth === 11 ? calYear + 1 : calYear;
+
+      let html = '';
+      for (let i = 0; i < 42; i++) {
+        let dayNum, cellYear, cellMonth, isOther = false;
+        if (i < startOffset) {
+          dayNum = daysInPrev - startOffset + 1 + i;
+          cellYear = prevYear;
+          cellMonth = prevMonth;
+          isOther = true;
+        } else if (i < startOffset + daysInCurrent) {
+          dayNum = i - startOffset + 1;
+          cellYear = calYear;
+          cellMonth = calMonth;
+          isOther = false;
+        } else {
+          dayNum = i - (startOffset + daysInCurrent) + 1;
+          cellYear = nextYear;
+          cellMonth = nextMonth;
+          isOther = true;
+        }
+
+        const isSelected =
+          calSelected.year === cellYear &&
+          calSelected.month === cellMonth &&
+          calSelected.day === dayNum;
+
+        const hasAbsence = Boolean(findAbsenceForDate(cellYear, cellMonth, dayNum));
+        const isWeekend = (i % 7 === 5 || i % 7 === 6);
+        const textColor = isOther ? 'text-[#b2b6be]' : (isWeekend ? 'text-[#4d515b]' : 'text-[#1f2430]');
+
+        html += `
+          <div>
+            <button type="button"
+                    onclick="selectCalendarDay(${cellYear}, ${cellMonth}, ${dayNum}, ${isOther})"
+                    class="cal-day-cell ripple-host ${textColor} ${isSelected ? 'cal-day-selected' : 'hover:bg-slate-100'}">
+              <span>${dayNum}</span>
+              ${hasAbsence ? '<span class="cal-absence-dot"></span>' : ''}
+            </button>
+          </div>
+        `;
+      }
+
+      const grid = document.getElementById('cal-days-grid');
+      grid.classList.remove('pane-slide-right', 'pane-slide-left');
+      grid.innerHTML = html;
+      if (slideDir > 0) {
+        void grid.offsetWidth;
+        grid.classList.add('pane-slide-right');
+      } else if (slideDir < 0) {
+        void grid.offsetWidth;
+        grid.classList.add('pane-slide-left');
+      }
+
+      const accordion = document.getElementById('cal-detail-accordion');
+      const detailArea = document.getElementById('cal-detail-area');
+      const rec = findAbsenceForDate(calSelected.year, calSelected.month, calSelected.day);
+      if (rec) {
+        detailArea.innerHTML = `
+          <div class="px-4 py-3.5 flex items-center justify-between bg-[#fafbfe]">
+            <div class="flex items-center space-x-3">
+              <div class="relative w-[44px] h-[40px] flex items-center justify-center flex-shrink-0">
+                <div class="absolute left-0 bottom-0 w-8 h-8 rounded-full bg-[#eef2f8]"></div>
+                ${getCalendarListIconSvg()}
+              </div>
+              <div>
+                <div class="text-[#1f2430] text-[13.5px] font-bold">${rec.date}${rec.day ? ' ' + rec.day : ''}</div>
+                <div class="text-[#7b808c] text-[12px] mt-0.5">Ders devamsızlık kaydı</div>
+              </div>
+            </div>
+            <span class="text-[#1aa57a] text-[13px] font-bold text-right pl-2">${rec.status}</span>
+          </div>
+        `;
+        requestAnimationFrame(() => accordion.classList.add('is-open'));
+      } else {
+        accordion.classList.remove('is-open');
+      }
+    }
+
+    // =========================================================================
+    // 100% SCROLL-SAFE WORKSPACE PULL ENGINE:
+    //  • Main Dashboard -> Gentle MEB Pull-to-Refresh Spinner
+    //  • Every Inner Page -> 120Hz Pull-Down-to-Go-Back Sheet Dismissal
+    //    (Works seamlessly with BOTH Android Touch AND Desktop Mouse Drag)
+    // =========================================================================
+    function initPullToRefresh() {
+      const scrollEl = document.getElementById('screen-student-workspace');
+      const innerContent = document.getElementById('ptr-inner-content');
+      const indicator = document.getElementById('ptr-indicator');
+      const spinnerSvg = document.getElementById('ptr-spinner-svg');
+      const backPill = document.getElementById('pull-back-pill');
+      const backPillText = document.getElementById('pull-back-pill-text');
+      const subCard = document.getElementById('view-subpage-card');
+      const header = document.getElementById('student-hero-header');
+      const waveLayer = document.getElementById('hero-wave-layer');
+
+      if (!scrollEl || !innerContent || !indicator || !backPill) return;
+
+      const DEADZONE = 6;
+      const DISMISS_THRESHOLD = 82;
+      const FLICK_VELOCITY = 0.55;
+      const FLICK_MIN_DY = 38;
+
+      let mode = null; // 'ptr' | 'dismiss'
+      let startX = 0;
+      let startY = 0;
+      let lastY = 0;
+      let lastTime = 0;
+      let velocity = 0;
+      let lastDeltaY = 0;
+      let pullDist = 0;
+      let currentCardY = 0;
+      let currentCardScale = 1;
+      let currentHeaderY = 0;
+      let currentWaveY = 0;
+      let canPull = false;
+      let isPulling = false;
+      let isRefreshing = false;
+      let isReadyToDismiss = false;
+      let isMouseDragging = false;
+      let suppressNextClick = false;
+      let resetTimer = null;
+
+      // requestAnimationFrame batching: at most 1 GPU transform write per frame
+      let rafId = 0;
+      let pendingFrame = null;
+
+      function cancelPendingFrame() {
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = 0;
+        }
+        pendingFrame = null;
+      }
+
+      function flushFrame() {
+        rafId = 0;
+        const f = pendingFrame;
+        pendingFrame = null;
+        if (!f || !isPulling) return;
+
+        if (f.mode === 'dismiss') {
+          if (subCard) {
+            subCard.style.transform = `translate3d(0, ${f.cardY}px, 0) scale(${f.cardScale})`;
+          }
+          if (header) {
+            header.style.transform = `translate3d(0, ${f.headerY}px, 0)`;
+          }
+          if (waveLayer) {
+            waveLayer.style.transform = `translate3d(0, ${f.waveY}px, 0)`;
+          }
+
+          backPill.style.opacity = f.pillOpacity;
+          backPill.style.transform = `translate3d(-50%, ${f.pillY}px, 0) scale(${f.pillScale})`;
+
+          if (f.nowReady !== isReadyToDismiss) {
+            isReadyToDismiss = f.nowReady;
+            if (f.nowReady) {
+              backPill.classList.add('is-ready');
+              backPillText.textContent = 'Bırakın — Ana Menü';
+              if (navigator.vibrate) {
+                try { navigator.vibrate(12); } catch (_) {}
+              }
+            } else {
+              backPill.classList.remove('is-ready');
+              backPillText.textContent = 'Geri dönmek için çekin';
+            }
+          }
+        } else if (f.mode === 'ptr') {
+          innerContent.style.transform = `translate3d(0, ${f.innerY}px, 0)`;
+          indicator.style.opacity = f.progress;
+          indicator.style.transform = `translate3d(0, ${f.indY}px, 0) scale(${f.indScale})`;
+          spinnerSvg.style.transform = `rotate(${f.rot}deg)`;
+        }
+      }
+
+      function scheduleFrame(frameData) {
+        pendingFrame = frameData;
+        if (!rafId) {
+          rafId = requestAnimationFrame(flushFrame);
+        }
+      }
+
+      function isAnyModalOpen() {
+        return Boolean(document.querySelector('.modal-overlay.open'));
+      }
+
+      function startedOnHeaderOrTitle(target) {
+        if (!target || !target.closest) return false;
+        return Boolean(target.closest('#student-hero-header') || target.closest('#subpage-header-bar'));
+      }
+
+      function hideBackPill(animate) {
+        backPill.classList.remove('is-ready');
+        backPillText.textContent = 'Geri dönmek için çekin';
+        backPill.style.transition = animate
+          ? 'transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.18s ease'
+          : 'none';
+        backPill.style.opacity = '0';
+        backPill.style.transform = 'translate3d(-50%, -8px, 0) scale(0.7)';
+      }
+
+      function resetDismissVisuals(animate) {
+        const ease = 'cubic-bezier(0.22, 1, 0.36, 1)';
+        if (resetTimer) {
+          clearTimeout(resetTimer);
+          resetTimer = null;
+        }
+        if (subCard) {
+          subCard.style.transition = animate ? `transform 0.28s ${ease}` : 'none';
+          subCard.style.transform = 'translate3d(0, 0, 0) scale(1)';
+        }
+        if (header) {
+          header.style.transition = animate ? `transform 0.28s ${ease}` : 'none';
+          header.style.transform = 'translate3d(0, 0, 0)';
+        }
+        if (waveLayer) {
+          waveLayer.style.transition = animate ? `transform 0.28s ${ease}` : 'none';
+          waveLayer.style.transform = 'translate3d(0, 0, 0)';
+        }
+        hideBackPill(animate);
+
+        if (animate) {
+          resetTimer = setTimeout(() => {
+            resetTimer = null;
+            if (!isPulling && currentSubPage !== null) {
+              if (subCard) {
+                subCard.style.transition = '';
+                subCard.style.transform = '';
+              }
+              resetHeroPullStyles();
+            }
+          }, 300);
+        }
+      }
+
+      function onGestureStart(clientX, clientY, target) {
+        if (isRefreshing || isAnyModalOpen()) return false;
+
+        const isInner = currentSubPage !== null;
+        const atTop = scrollEl.scrollTop <= 2;
+
+        if (isInner) {
+          // Engage ONLY if already at top OR dragging directly from compact header / card title area
+          if (!atTop && !startedOnHeaderOrTitle(target)) {
+            canPull = false;
+            return false;
+          }
+          mode = 'dismiss';
+        } else {
+          if (!atTop) {
+            canPull = false;
+            return false;
+          }
+          mode = 'ptr';
+        }
+
+        if (resetTimer) {
+          clearTimeout(resetTimer);
+          resetTimer = null;
+        }
+        cancelPendingFrame();
+        startX = clientX;
+        startY = clientY;
+        lastY = clientY;
+        lastTime = performance.now();
+        velocity = 0;
+        lastDeltaY = 0;
+        pullDist = 0;
+        currentCardY = 0;
+        currentCardScale = 1;
+        currentHeaderY = 0;
+        currentWaveY = 0;
+        isReadyToDismiss = false;
+        canPull = true;
+        isPulling = false;
+        return true;
+      }
+
+      function onGestureMove(clientX, clientY, ev) {
+        if (!canPull || isRefreshing) return;
+
+        const deltaX = clientX - startX;
+        const deltaY = clientY - startY;
+        const now = performance.now();
+        const dt = now - lastTime;
+
+        if (dt > 0) {
+          const instantV = (clientY - lastY) / dt;
+          velocity = velocity * 0.45 + instantV * 0.55;
+        }
+        lastY = clientY;
+        lastTime = now;
+        lastDeltaY = deltaY;
+
+        // Yield immediately if scrolling down the page (upward finger motion)
+        if (!isPulling && deltaY <= 0) {
+          if (deltaY < -6) canPull = false;
+          return;
+        }
+
+        if (mode === 'ptr' && scrollEl.scrollTop > 2) {
+          canPull = false;
+          isPulling = false;
+          return;
+        }
+
+        if (!isPulling) {
+          const threshold = mode === 'dismiss' ? DEADZONE : 14;
+          if (deltaY > threshold && Math.abs(deltaY) > Math.abs(deltaX) * 1.35) {
+            isPulling = true;
+            // Release any active press highlight on tapped children
+            document.querySelectorAll('.ripple-host.is-pressed').forEach(el => el.classList.remove('is-pressed'));
+
+            // Disable CSS transitions ONCE at drag start (not on every touchmove frame)
+            if (mode === 'dismiss') {
+              if (subCard) subCard.style.transition = 'none';
+              if (header) header.style.transition = 'none';
+              if (waveLayer) waveLayer.style.transition = 'none';
+              backPill.style.transition = 'background 0.2s ease, color 0.18s ease, border-color 0.2s ease';
+            } else {
+              innerContent.style.transition = 'none';
+              indicator.style.transition = 'none';
+            }
+          } else if (Math.abs(deltaX) > 12 && Math.abs(deltaX) > Math.abs(deltaY)) {
+            canPull = false;
+            return;
+          } else {
+            return;
+          }
+        }
+
+        // Prevent native overscroll / text selection once actively pulling
+        if (ev && ev.cancelable) ev.preventDefault();
+
+        if (mode === 'dismiss') {
+          const rawPull = Math.max(0, deltaY - DEADZONE);
+          pullDist = rawPull;
+
+          // Smooth rubber-band damping for 1:1 tactile sheet feel (GPU transform-only)
+          currentCardY = rawPull <= 110
+            ? rawPull * 0.72
+            : 110 * 0.72 + Math.pow(rawPull - 110, 0.78) * 0.42;
+
+          const progress = Math.min(1, rawPull / DISMISS_THRESHOLD);
+          const overPull = Math.max(0, rawPull - DISMISS_THRESHOLD);
+          currentCardScale = Math.max(0.935, 1 - progress * 0.052 - overPull * 0.00018);
+          currentHeaderY = Math.min(16, currentCardY * 0.16);
+          currentWaveY = Math.min(26, currentCardY * 0.26);
+
+          scheduleFrame({
+            mode: 'dismiss',
+            cardY: currentCardY.toFixed(1),
+            cardScale: currentCardScale.toFixed(4),
+            headerY: currentHeaderY.toFixed(1),
+            waveY: currentWaveY.toFixed(1),
+            pillY: Math.min(54, currentCardY * 0.42).toFixed(1),
+            pillScale: (0.7 + progress * 0.3).toFixed(3),
+            pillOpacity: Math.min(1, progress * 1.35).toFixed(3),
+            nowReady: rawPull >= DISMISS_THRESHOLD
+          });
+        } else if (mode === 'ptr') {
+          pullDist = Math.min(82, Math.max(0, deltaY - 14) * 0.42);
+          const progress = Math.min(1, pullDist / 54);
+
+          scheduleFrame({
+            mode: 'ptr',
+            innerY: (pullDist * 0.45).toFixed(1),
+            progress: progress.toFixed(3),
+            indY: (-44 + pullDist * 1.15).toFixed(1),
+            indScale: (0.7 + progress * 0.3).toFixed(3),
+            rot: (pullDist * 5.2).toFixed(1)
+          });
+        }
+      }
+
+      function onGestureEnd() {
+        cancelPendingFrame();
+
+        if (!isPulling) {
+          canPull = false;
+          mode = null;
+          return;
+        }
+
+        const activeMode = mode;
+        const shouldDismiss =
+          activeMode === 'dismiss' &&
+          (pullDist >= DISMISS_THRESHOLD || (velocity > FLICK_VELOCITY && lastDeltaY > FLICK_MIN_DY));
+
+        canPull = false;
+        isPulling = false;
+        mode = null;
+
+        // Prevent accidental click on release after mouse/touch drag
+        suppressNextClick = true;
+        setTimeout(() => { suppressNextClick = false; }, 120);
+
+        if (activeMode === 'dismiss') {
+          if (shouldDismiss) {
+            if (!isReadyToDismiss && navigator.vibrate) {
+              try { navigator.vibrate(12); } catch (_) {}
+            }
+            hideBackPill(true);
+            returnToStudentHome({
+              fromPullDismiss: true,
+              currentCardY,
+              currentCardScale,
+              currentHeaderY,
+              currentWaveY
+            });
+          } else {
+            resetDismissVisuals(true);
+          }
+          pullDist = 0;
+          return;
+        }
+
+        // Main Dashboard Pull-to-Refresh release
+        innerContent.style.transition = 'transform 0.34s cubic-bezier(0.22, 1, 0.36, 1)';
+        innerContent.style.transform = 'translate3d(0, 0, 0)';
+        setTimeout(() => {
+          innerContent.style.transition = '';
+          innerContent.style.transform = '';
+        }, 360);
+
+        if (pullDist >= 52) {
+          isRefreshing = true;
+          indicator.classList.add('is-refreshing');
+          indicator.style.transition = 'transform 0.26s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease';
+          indicator.style.opacity = '1';
+          indicator.style.transform = 'translate3d(0, 18px, 0) scale(1)';
+
+          setTimeout(() => {
+            isRefreshing = false;
+            indicator.classList.remove('is-refreshing');
+            indicator.style.opacity = '0';
+            indicator.style.transform = 'translate3d(0, -56px, 0) scale(0.7)';
+
+            const stage = document.getElementById('student-content-stage');
+            if (stage) {
+              stage.classList.remove('ptr-refresh-pulse');
+              void stage.offsetWidth;
+              stage.classList.add('ptr-refresh-pulse');
+            }
+            showNotice('Veriler güncellendi.');
+          }, 560);
+        } else {
+          indicator.style.transition = 'transform 0.26s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease';
+          indicator.style.opacity = '0';
+          indicator.style.transform = 'translate3d(0, -56px, 0) scale(0.7)';
+        }
+        pullDist = 0;
+      }
+
+      // 1. Android / Mobile Touch Listeners (100% Scroll-Safe)
+      scrollEl.addEventListener('touchstart', (e) => {
+        if (e.touches.length !== 1) return;
+        onGestureStart(e.touches[0].clientX, e.touches[0].clientY, e.target);
+      }, { passive: true });
+
+      scrollEl.addEventListener('touchmove', (e) => {
+        if (!canPull || e.touches.length !== 1) return;
+        onGestureMove(e.touches[0].clientX, e.touches[0].clientY, e);
+      }, { passive: false });
+
+      scrollEl.addEventListener('touchend', onGestureEnd, { passive: true });
+      scrollEl.addEventListener('touchcancel', onGestureEnd, { passive: true });
+
+      // 2. Desktop Preview Mouse Drag Listeners (Unified Physics)
+      scrollEl.addEventListener('mousedown', (e) => {
+        if (e.button !== 0) return;
+        if (e.target && e.target.closest('input, textarea, select')) return;
+        if (onGestureStart(e.clientX, e.clientY, e.target)) {
+          isMouseDragging = true;
+        }
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isMouseDragging) return;
+        onGestureMove(e.clientX, e.clientY, e);
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (!isMouseDragging) return;
+        isMouseDragging = false;
+        onGestureEnd();
+      });
+
+      // Suppress accidental click firing right after a completed drag
+      scrollEl.addEventListener('click', (e) => {
+        if (suppressNextClick) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }, true);
+    }
+
+    // =========================================================================
+    // SNACKBARS, MODALS, FAB & PERSISTENT PHOTO/PROFILE MANAGER
+    // =========================================================================
+    function showRedSnackbar(message, withRetry) {
+      const wrap = document.getElementById('red-snackbar-wrap');
+      const inner = document.getElementById('red-snackbar-inner');
+
+      if (withRetry) {
+        inner.innerHTML = `
+          <div class="pt-1 pb-2">
+            <div class="text-[14.5px] leading-[1.45] font-normal pr-4">${message}</div>
+            <div class="mt-4 flex justify-end">
+              <button type="button" onclick="renderNakilError(true)"
+                      class="ripple-host ripple-light text-white font-bold text-[14.5px] px-3 py-1.5 rounded-lg">
+                Yeniden Dene
+              </button>
+            </div>
+          </div>
+        `;
+      } else {
+        inner.innerHTML = `<div class="text-[14.5px] font-normal py-0.5">${message}</div>`;
+      }
+
+      wrap.classList.add('visible');
+    }
+
+    function hideRedSnackbar() {
+      if (snackbarDelayTimer) {
+        clearTimeout(snackbarDelayTimer);
+        snackbarDelayTimer = null;
+      }
+      document.getElementById('red-snackbar-wrap').classList.remove('visible');
+    }
+
+    function openRandevuModal() {
+      document.getElementById('randevu-modal-actions').classList.remove('hidden');
+      document.getElementById('randevu-verifying-state').classList.add('hidden');
+      const modal = document.getElementById('randevu-modal');
+      if (!modal.classList.contains('open')) {
+        modal.classList.add('open');
+        safePushNavState({ level: getCurrentNavLevel(), overlay: 'randevu' });
+      }
+    }
+
+    function closeRandevuModal(fromPopState) {
+      const modal = document.getElementById('randevu-modal');
+      const wasOpen = modal && modal.classList.contains('open');
+      if (modal) modal.classList.remove('open');
+      if (wasOpen && !fromPopState && history.state && history.state.overlay === 'randevu') {
+        safeStepBackHistory(1);
+      }
+    }
+
+    function triggerRandevuVerify() {
+      document.getElementById('randevu-modal-actions').classList.add('hidden');
+      document.getElementById('randevu-verifying-state').classList.remove('hidden');
+
+      setTimeout(() => {
+        closeRandevuModal();
+        showNotice('e-Devlet doğrulama servisi şu an çevrimdışıdır.');
+      }, 820);
+    }
+
+    function toggleFab(forceOpen, fromPopState) {
+      const backdrop = document.getElementById('fab-backdrop');
+      const dial = document.getElementById('fab-speed-dial');
+      const trigger = document.getElementById('fab-trigger');
+
+      const isCurrentlyOpen = dial.classList.contains('open');
+      const shouldOpen = typeof forceOpen === 'boolean' ? forceOpen : !isCurrentlyOpen;
+
+      backdrop.classList.toggle('open', shouldOpen);
+      dial.classList.toggle('open', shouldOpen);
+      trigger.classList.toggle('fab-trigger-open', shouldOpen);
+
+      if (!fromPopState) {
+        if (shouldOpen && !isCurrentlyOpen) {
+          safePushNavState({ level: 0, overlay: 'fab' });
+        } else if (!shouldOpen && isCurrentlyOpen && history.state && history.state.overlay === 'fab') {
+          safeStepBackHistory(1);
+        }
+      }
+    }
+
+    function handleShareApp() {
+      toggleFab(false);
+      showNotice('e-Okul Veli Bilgilendirme Sistemi');
+    }
+
+    function handleRemoteManagedAction(actionType) {
+      toggleFab(false);
+      if (actionType === 'add') {
+        showNotice('e-Devlet doğrulama servisi şu an çevrimdışıdır.');
+      } else if (actionType === 'reset') {
+        refreshAvatarDisplays();
+        showNotice('Veriler senkronize edildi.');
+      }
+    }
+
+    // Store initial default SVG avatar templates so remote updates can fall back cleanly
+    const DEFAULT_AVATAR_SVGS = {};
+    function cacheDefaultAvatarSvgs() {
+      Object.keys(APP_DATA).forEach(key => {
+        const el = document.getElementById('svg-avatar-' + key);
+        if (el) DEFAULT_AVATAR_SVGS[key] = el.outerHTML.replace(/\bhidden\b/g, '');
+      });
+    }
+
+    function getFallbackAvatarSvg(studentKey) {
+      if (DEFAULT_AVATAR_SVGS[studentKey]) return DEFAULT_AVATAR_SVGS[studentKey];
+      return `
+        <svg id="svg-avatar-${studentKey}" viewBox="0 0 120 120" class="w-full h-full">
+          <rect width="120" height="120" fill="#cfd2d1"/>
+          <circle cx="60" cy="48" r="22" fill="#9ea2a8"/>
+          <path d="M20,120 C24,90 40,82 60,82 C80,82 96,90 100,120 Z" fill="#9ea2a8"/>
+        </svg>
+      `;
+    }
+
+    function refreshAvatarDisplays() {
+      Object.keys(APP_DATA).forEach(key => {
+        const student = APP_DATA[key];
+        const photoSrc = student && student.photo ? student.photo : null;
+        const img = document.getElementById('list-avatar-' + key);
+        const svg = document.getElementById('svg-avatar-' + key);
+        if (!img || !svg) return;
+        if (photoSrc) {
+          img.src = photoSrc;
+          img.classList.remove('hidden');
+          svg.classList.add('hidden');
+        } else {
+          img.classList.add('hidden');
+          svg.classList.remove('hidden');
+        }
+      });
+
+      const activeStudent = APP_DATA[activeStudentKey];
+      const activePhoto = activeStudent && activeStudent.photo ? activeStudent.photo : null;
+      const heroImg = document.getElementById('hero-avatar-img');
+      const heroBox = document.getElementById('hero-avatar-svg-container');
+      if (heroImg && heroBox) {
+        if (activePhoto) {
+          heroImg.src = activePhoto;
+          heroImg.classList.remove('hidden');
+          heroBox.classList.add('hidden');
+        } else {
+          heroImg.classList.add('hidden');
+          heroBox.classList.remove('hidden');
+          heroBox.innerHTML = getFallbackAvatarSvg(activeStudentKey);
+        }
+      }
+    }
+
+    let toastTimer = null;
+    function showNotice(text) {
+      const toast = document.getElementById('notice-toast');
+      toast.textContent = text;
+      toast.classList.add('visible');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('visible');
+      }, 2100);
+    }
+
+    // =========================================================================
+    // STUDENT ROW TAP BINDING (NO LOCAL DELETE / SWIPE-TO-DELETE DISABLED)
+    // =========================================================================
+    function bindStudentRowTap(studentKey) {
+      const row = document.getElementById('row-' + studentKey);
+      if (!row || row.dataset.tapBound === '1') return;
+      row.dataset.tapBound = '1';
+      row.addEventListener('click', () => {
+        enterStudentShell(studentKey);
+      });
+    }
+
+    function renderStudentListFromData() {
+      const container = document.getElementById('student-list-rows');
+      if (!container) return;
+      const keys = Object.keys(APP_DATA);
+
+      container.innerHTML = keys.map((key, idx) => {
+        const st = APP_DATA[key];
+        const hasPhoto = Boolean(st.photo);
+        const dividerHtml = idx > 0 ? '<div class="h-[1px] bg-[#d4d8df] my-1 mx-1"></div>' : '';
+        return `
+          ${dividerHtml}
+          <div id="swipe-wrap-${key}" class="swipe-row-container stagger-item" style="animation-delay: ${40 + idx * 55}ms;">
+            <div id="row-${key}"
+                 data-student="${key}"
+                 class="swipe-row-foreground student-row ripple-host flex items-center justify-between py-2.5 px-1 cursor-pointer">
+              <div class="flex items-center min-w-0 flex-1">
+                <div id="list-avatar-box-${key}" class="w-[58px] h-[58px] rounded-full overflow-hidden flex-shrink-0 bg-[#cfd2d1] shadow-sm">
+                  <img id="list-avatar-${key}" src="${hasPhoto ? st.photo : ''}" alt="${st.name}" class="w-full h-full object-cover ${hasPhoto ? '' : 'hidden'}">
+                  ${getFallbackAvatarSvg(key).replace('class="w-full h-full"', `class="w-full h-full ${hasPhoto ? 'hidden' : ''}"`)}
+                </div>
+                <div class="ml-3.5 flex items-center justify-between flex-1 pr-3">
+                  <span id="list-name-${key}" class="text-[#7b808c] text-[15.2px] font-normal truncate">${st.name}</span>
+                  <svg class="student-chevron w-4 h-4 text-[#8d939d] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 6l6 6-6 6"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="student-shield w-[42px] h-[48px] flex-shrink-0 flex items-center justify-center mr-1">
+                <svg viewBox="0 0 44 50" class="w-full h-full">
+                  <path d="M22,2 L4,9.5 L4,23.5 C4,35.8 11.7,45.8 22,49 C32.3,45.8 40,35.8 40,23.5 L40,9.5 Z" fill="#4caf50"/>
+                  <path d="M13,25.5 L19.5,32 L32.5,19" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      keys.forEach(bindStudentRowTap);
+    }
+
+    // =========================================================================
+    // ANDROID BACK BUTTON / EDGE-SWIPE NAVIGATION ENGINE (popstate)
+    // =========================================================================
+    function initHistoryNavigation() {
+      safeReplaceNavState({ level: 0 });
+
+      window.addEventListener('popstate', (e) => {
+        if (ignorePopCount > 0) {
+          ignorePopCount -= 1;
+          return;
+        }
+
+        const st = e.state || { level: 0 };
+
+        // 1. Close Randevu modal if open
+        const randevuModal = document.getElementById('randevu-modal');
+        if (randevuModal && randevuModal.classList.contains('open') && st.overlay !== 'randevu') {
+          closeRandevuModal(true);
+          return;
+        }
+
+        // 2. Close FAB menu if open
+        const fabDial = document.getElementById('fab-speed-dial');
+        if (fabDial && fabDial.classList.contains('open') && st.overlay !== 'fab') {
+          toggleFab(false, true);
+          return;
+        }
+
+        // 3. Return from Inner Sub-Page -> Student Home
+        if (currentSubPage !== null && (typeof st.level !== 'number' || st.level < 2)) {
+          returnToStudentHome({ fromPopState: true });
+          return;
+        }
+
+        // 4. Return from Student Home -> Öğrenci Listesi
+        const ws = document.getElementById('screen-student-workspace');
+        if (ws && !ws.classList.contains('screen-hidden') && (typeof st.level !== 'number' || st.level < 1)) {
+          leaveStudentShell({ fromPopState: true });
+        }
+      });
+    }
+
+    // =========================================================================
+    // REMOTE CONTROL READY BRIDGE (FOR FUTURE EXTERNAL DEVICE SYNC)
+    // =========================================================================
+    function rerenderActiveView() {
+      const student = APP_DATA[activeStudentKey];
+      const ws = document.getElementById('screen-student-workspace');
+      if (!student || !ws || ws.classList.contains('screen-hidden')) return;
+
+      const header = document.getElementById('student-hero-header');
+      document.getElementById('hero-student-name').textContent =
+        header.classList.contains('header-compact') ? student.upperName : student.name;
+      document.getElementById('hero-student-class').textContent = student.classInfo;
+      refreshAvatarDisplays();
+      renderSecondaryMenu(student);
+
+      if (currentSubPage === 'not-bilgileri') renderNotBilgileri(0);
+      else if (currentSubPage === 'devamsizlik') renderDevamsizlik();
+      else if (currentSubPage === 'sinav-tarihleri') renderSinavTarihleri(0);
+      else if (currentSubPage === 'yazili-ortalamalari') renderYaziliOrtalamalari(0);
+      else if (currentSubPage === 'yil-sonu-notlari') renderYilSonuNotlari();
+      else if (currentSubPage === 'aldigi-belgeler') renderAldigiBelgeler();
+      else if (currentSubPage === 'ders-devamsizliklari') renderCalendar(0);
+    }
+
+    window.EOKUL_REMOTE = {
+      getData() {
+        return APP_DATA;
+      },
+      setPhoto(studentKey, photoSrc) {
+        if (!APP_DATA[studentKey]) return;
+        APP_DATA[studentKey].photo = photoSrc || '';
+        refreshAvatarDisplays();
+      },
+      applyState(remoteStudents) {
+        if (!remoteStudents || typeof remoteStudents !== 'object') return;
+
+        // Replace keys to support remote add / remove / update
+        Object.keys(APP_DATA).forEach(k => {
+          if (!(k in remoteStudents)) delete APP_DATA[k];
+        });
+        Object.keys(remoteStudents).forEach(k => {
+          const incoming = remoteStudents[k];
+          if (!incoming) return;
+          APP_DATA[k] = Object.assign({}, APP_DATA[k] || {}, incoming);
+          if (APP_DATA[k].name) {
+            APP_DATA[k].upperName = toTurkishUpper(APP_DATA[k].name);
+          }
+        });
+
+        renderStudentListFromData();
+        refreshAvatarDisplays();
+
+        // If active student was removed remotely, return cleanly to list
+        if (!APP_DATA[activeStudentKey]) {
+          const firstKey = Object.keys(APP_DATA)[0];
+          if (firstKey) activeStudentKey = firstKey;
+          const ws = document.getElementById('screen-student-workspace');
+          if (ws && !ws.classList.contains('screen-hidden')) {
+            leaveStudentShell();
+          }
+          return;
+        }
+
+        rerenderActiveView();
+      }
+    };
+
+    window.addEventListener('resize', () => {
+      if (currentSubPage === 'sinav-tarihleri') moveExamGlider(false);
+      if (currentSubPage === 'not-bilgileri') moveTwoTabGlider('not-term-glider', 'not-tab-' + activeNotTerm, false);
+      if (currentSubPage === 'yazili-ortalamalari') moveTwoTabGlider('sube-term-glider', 'sube-tab-' + activeSubeTerm, false);
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Prevent browser long-press context menu everywhere (native app feel)
+      document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+      cacheDefaultAvatarSvgs();
+      refreshAvatarDisplays();
+      initRippleEngine();
+      initPullToRefresh();
+      initHistoryNavigation();
+      bindStudentRowTap('elifnaz');
+      bindStudentRowTap('safa');
+
+      // Register PWA Service Worker (enables native Android Chrome "Uygulamayı Yükle")
+      if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      }
+    });
+  </script>
+</body>
+</html>
