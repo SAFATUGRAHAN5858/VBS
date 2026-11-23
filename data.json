@@ -1,7 +1,7 @@
 {
   "meta": {
-    "version": 14,
-    "updatedAt": "2026-11-23T18:49:42.762Z",
+    "version": 15,
+    "updatedAt": "2026-11-23T18:49:54.419Z",
     "forceReloadAt": 1795459390742
   },
   "students": {
@@ -156,13 +156,6 @@
         "excused": "3 Gün",
         "unexcused": "7 Gün",
         "records": [
-          {
-            "iso": "2026-11-23",
-            "date": "23 Kasım 2026 Pazartesi",
-            "day": "",
-            "wrapDay": false,
-            "status": "İzinli"
-          },
           {
             "iso": "2026-11-13",
             "date": "13 Kasım 2026",
