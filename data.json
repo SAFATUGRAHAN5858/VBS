@@ -1,7 +1,7 @@
 {
   "meta": {
-    "version": 13,
-    "updatedAt": "2026-11-23T18:48:26.868Z",
+    "version": 14,
+    "updatedAt": "2026-11-23T18:49:42.762Z",
     "forceReloadAt": 1795459390742
   },
   "students": {
@@ -153,9 +153,16 @@
         "term2": []
       },
       "attendance": {
-        "excused": "4 Gün",
+        "excused": "3 Gün",
         "unexcused": "7 Gün",
         "records": [
+          {
+            "iso": "2026-11-23",
+            "date": "23 Kasım 2026 Pazartesi",
+            "day": "",
+            "wrapDay": false,
+            "status": "İzinli"
+          },
           {
             "iso": "2026-11-13",
             "date": "13 Kasım 2026",
