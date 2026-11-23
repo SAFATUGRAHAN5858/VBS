@@ -1,0 +1,646 @@
+{
+  "meta": {
+    "version": 2,
+    "updatedAt": "2026-11-23T17:27:27.068Z",
+    "forceReloadAt": 0
+  },
+  "students": {
+    "safa": {
+      "id": "safa",
+      "name": "Safa Tuğra Dalkürek",
+      "upperName": "SAFA TUĞRA DALKÜREK",
+      "classInfo": "11.Sınıf - 299",
+      "photo": "data:image/jpeg;base64,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",
+      "secondaryMenu": [
+        {
+          "id": "okul-randevu",
+          "title": "Okul Randevu",
+          "icon": "randevu",
+          "action": "randevu-modal"
+        },
+        {
+          "id": "ders-devamsizliklari",
+          "title": "Ders Devamsızlıkları",
+          "icon": "ders_devam",
+          "action": "subpage"
+        },
+        {
+          "id": "nakil",
+          "title": "Nakil Bilgileri",
+          "icon": "nakil",
+          "action": "subpage"
+        },
+        {
+          "id": "sorumluluk",
+          "title": "Sorumluluk Bilgileri",
+          "icon": "sorumluluk",
+          "action": "subpage"
+        },
+        {
+          "id": "aldigi-belgeler",
+          "title": "Aldığı Belgeler",
+          "icon": "belgeler",
+          "action": "subpage"
+        }
+      ],
+      "grades": {
+        "term1Average": "88.6786",
+        "term2Average": "0.0000",
+        "term1": [
+          {
+            "course": "Beden Eğitimi Ve Spor (2 Saat)",
+            "rows": [
+              {
+                "label": "Sözlü",
+                "s1": "100",
+                "s2": "",
+                "s3": ""
+              },
+              {
+                "label": "Uygulama",
+                "s1": "100",
+                "s2": "",
+                "s3": ""
+              }
+            ],
+            "score": "100"
+          },
+          {
+            "course": "Felsefe (2 Saat)",
+            "rows": [
+              {
+                "label": "Sınav",
+                "s1": "100",
+                "s2": "",
+                "s3": ""
+              }
+            ],
+            "score": "100"
+          },
+          {
+            "course": "Seçmeli Astronomi Ve Uzay Bilimleri (1 Saat)",
+            "rows": [
+              {
+                "label": "Sınav",
+                "s1": "100",
+                "s2": "",
+                "s3": ""
+              }
+            ],
+            "score": "100"
+          },
+          {
+            "course": "Seçmeli Biyoloji (4 Saat)",
+            "rows": [
+              {
+                "label": "Sınav",
+                "s1": "86",
+                "s2": "",
+                "s3": ""
+              }
+            ],
+            "score": "86"
+          },
+          {
+            "course": "Seçmeli Matematik (6 Saat)",
+            "rows": [
+              {
+                "label": "Sınav",
+                "s1": "96",
+                "s2": "",
+                "s3": ""
+              }
+            ],
+            "score": "96"
+          },
+          {
+            "course": "Seçmeli Spor Eğitimi (1 Saat)",
+            "rows": [
+              {
+                "label": "Uygulama",
+                "s1": "100",
+                "s2": "",
+                "s3": ""
+              }
+            ],
+            "score": "100"
+          },
+          {
+            "course": "Türk Dili Ve Edebiyatı (5 Saat)",
+            "rows": [
+              {
+                "label": "Sınav",
+                "s1": "68,45",
+                "s2": "",
+                "s3": ""
+              }
+            ],
+            "score": "68.45"
+          }
+        ],
+        "term2": []
+      },
+      "attendance": {
+        "excused": "3 Gün",
+        "unexcused": "7 Gün",
+        "records": [
+          {
+            "iso": "2026-11-13",
+            "date": "13 Kasım 2026",
+            "day": "Cuma",
+            "wrapDay": true,
+            "status": "Öğleden Sonra Yarım Gün"
+          },
+          {
+            "iso": "2026-11-12",
+            "date": "12 Kasım 2026 Perşembe",
+            "day": "",
+            "wrapDay": false,
+            "status": "Raporlu"
+          },
+          {
+            "iso": "2026-11-10",
+            "date": "10 Kasım 2026 Salı",
+            "day": "",
+            "wrapDay": false,
+            "status": "Tam Gün"
+          },
+          {
+            "iso": "2026-10-26",
+            "date": "26 Ekim 2026 Pazartesi",
+            "day": "",
+            "wrapDay": false,
+            "status": "Tam Gün"
+          },
+          {
+            "iso": "2026-10-22",
+            "date": "22 Ekim 2026 Perşembe",
+            "day": "",
+            "wrapDay": false,
+            "status": "Raporlu"
+          },
+          {
+            "iso": "2026-10-21",
+            "date": "21 Ekim 2026 Çarşamba",
+            "day": "",
+            "wrapDay": false,
+            "status": "Raporlu"
+          },
+          {
+            "iso": "2026-10-16",
+            "date": "16 Ekim 2026 Cuma",
+            "day": "",
+            "wrapDay": false,
+            "status": "Tam Gün"
+          },
+          {
+            "iso": "2026-10-09",
+            "date": "09 Ekim 2026 Cuma",
+            "day": "",
+            "wrapDay": false,
+            "status": "Sabahtan Yarım Gün"
+          },
+          {
+            "iso": "2026-10-06",
+            "date": "06 Ekim 2026 Salı",
+            "day": "",
+            "wrapDay": false,
+            "status": "Tam Gün"
+          },
+          {
+            "iso": "2026-10-02",
+            "date": "02 Ekim 2026",
+            "day": "Cuma",
+            "wrapDay": true,
+            "status": "Öğleden Sonra Yarım Gün"
+          },
+          {
+            "iso": "2026-09-29",
+            "date": "29 Eylül 2026 Salı",
+            "day": "",
+            "wrapDay": false,
+            "status": "Tam Gün"
+          },
+          {
+            "iso": "2026-09-28",
+            "date": "28 Eylül 2026 Pazartesi",
+            "day": "",
+            "wrapDay": false,
+            "status": "Geç"
+          },
+          {
+            "iso": "2026-09-25",
+            "date": "25 Eylül 2026",
+            "day": "Cuma",
+            "wrapDay": true,
+            "status": "Öğleden Sonra Yarım Gün"
+          }
+        ]
+      },
+      "exams": {
+        "byCourse": [],
+        "byDate": [],
+        "past": [
+          {
+            "title": "YABANCI DİL",
+            "date": "13 Kasım 2026 Cuma"
+          },
+          {
+            "title": "DİN KÜLTÜRÜ VE AHLÂK BİLGİSİ|TÜRK DİLİ VE EDEBİYATI",
+            "date": "11 Kasım 2026 Çarşamba"
+          },
+          {
+            "title": "FELSEFE|SEÇMELİ FİZİK",
+            "date": "06 Kasım 2026 Cuma"
+          },
+          {
+            "title": "SEÇMELİ ASTRONOMİ VE UZAY BİLİMLERİ|SEÇMELİ MATEMATİK",
+            "date": "05 Kasım 2026 Perşembe"
+          },
+          {
+            "title": "SEÇMELİ KİMYA|TARİH",
+            "date": "04 Kasım 2026 Çarşamba"
+          },
+          {
+            "title": "SEÇMELİ BİYOLOJİ",
+            "date": "03 Kasım 2026 Salı"
+          }
+        ]
+      },
+      "branchAverages": {
+        "term1": [
+          {
+            "course": "Felsefe",
+            "examNo": "1.",
+            "score": "100",
+            "avg": "100",
+            "status": "equal"
+          },
+          {
+            "course": "Seçmeli Astronomi Ve Uzay Bilimleri",
+            "examNo": "1.",
+            "score": "100",
+            "avg": "99,66",
+            "status": "up"
+          },
+          {
+            "course": "Seçmeli Biyoloji",
+            "examNo": "1.",
+            "score": "86",
+            "avg": "82",
+            "status": "up"
+          },
+          {
+            "course": "Seçmeli Matematik",
+            "examNo": "1.",
+            "score": "96",
+            "avg": "77,17",
+            "status": "up"
+          },
+          {
+            "course": "Türk Dili Ve Edebiyatı",
+            "examNo": "1.",
+            "score": "68,45",
+            "avg": "85,41",
+            "status": "down"
+          }
+        ],
+        "term2": []
+      },
+      "yearEndGrades": [
+        {
+          "year": "2019-2020",
+          "grade": "4. Sınıf",
+          "score": "91,95"
+        },
+        {
+          "year": "2020-2021",
+          "grade": "5. Sınıf",
+          "score": "97,8571"
+        },
+        {
+          "year": "2021-2022",
+          "grade": "6. Sınıf",
+          "score": "83,1064"
+        },
+        {
+          "year": "2022-2023",
+          "grade": "7. Sınıf",
+          "score": "86,8175"
+        },
+        {
+          "year": "2023-2024",
+          "grade": "8. Sınıf",
+          "score": "81,2713"
+        },
+        {
+          "year": "2024-2025",
+          "grade": "9. Sınıf",
+          "score": "78,6699"
+        },
+        {
+          "year": "2025-2026",
+          "grade": "10. Sınıf",
+          "score": "82,3415"
+        }
+      ],
+      "certificates": [
+        {
+          "period": "2019-2020 I. Dönem",
+          "label": "Takdirname belgesi",
+          "grade": "4"
+        },
+        {
+          "period": "2019-2020 II. Dönem",
+          "label": "Takdirname belgesi",
+          "grade": "4"
+        },
+        {
+          "period": "2020-2021 I. Dönem",
+          "label": "Takdirname belgesi",
+          "grade": "5"
+        },
+        {
+          "period": "2020-2021 II. Dönem",
+          "label": "Takdirname belgesi",
+          "grade": "5"
+        },
+        {
+          "period": "2021-2022 I. Dönem",
+          "label": "Teşekkür belgesi",
+          "grade": "6"
+        },
+        {
+          "period": "2021-2022 II. Dönem",
+          "label": "Teşekkür belgesi",
+          "grade": "6"
+        },
+        {
+          "period": "2022-2023 I. Dönem",
+          "label": "Takdirname belgesi",
+          "grade": "7"
+        },
+        {
+          "period": "2022-2023 II. Dönem",
+          "label": "Takdirname belgesi",
+          "grade": "7"
+        },
+        {
+          "period": "2024-2025 I. Dönem",
+          "label": "Teşekkür belgesi",
+          "grade": "9. Sınıf"
+        },
+        {
+          "period": "2024-2025 II. Dönem",
+          "label": "Teşekkür belgesi",
+          "grade": "9. Sınıf"
+        },
+        {
+          "period": "2025-2026 I. Dönem",
+          "label": "Teşekkür belgesi",
+          "grade": "10. Sınıf"
+        },
+        {
+          "period": "2025-2026 II. Dönem",
+          "label": "Teşekkür belgesi",
+          "grade": "10. Sınıf"
+        }
+      ]
+    },
+    "elifnaz": {
+      "id": "elifnaz",
+      "name": "Elifnaz Dalkürek",
+      "upperName": "ELİFNAZ DALKÜREK",
+      "classInfo": "8.Sınıf - 293",
+      "photo": "",
+      "secondaryMenu": [
+        {
+          "id": "okul-randevu",
+          "title": "Okul Randevu",
+          "icon": "randevu",
+          "action": "randevu-modal"
+        },
+        {
+          "id": "ders-devamsizliklari",
+          "title": "Ders Devamsızlıkları",
+          "icon": "ders_devam",
+          "action": "subpage"
+        },
+        {
+          "id": "davranis",
+          "title": "Davranış Notları",
+          "icon": "davranis",
+          "action": "placeholder"
+        },
+        {
+          "id": "nakil",
+          "title": "Nakil Bilgileri",
+          "icon": "nakil",
+          "action": "subpage"
+        },
+        {
+          "id": "kitaplar",
+          "title": "Okuduğu Kitaplar",
+          "icon": "kitaplar",
+          "action": "placeholder"
+        },
+        {
+          "id": "aldigi-belgeler",
+          "title": "Aldığı Belgeler",
+          "icon": "belgeler",
+          "action": "subpage"
+        }
+      ],
+      "grades": {
+        "term1Average": "94.2500",
+        "term2Average": "0.0000",
+        "term1": [
+          {
+            "course": "Türkçe (5 Saat)",
+            "rows": [
+              {
+                "label": "Sınav",
+                "s1": "95",
+                "s2": "",
+                "s3": ""
+              }
+            ],
+            "score": "95"
+          },
+          {
+            "course": "Matematik (5 Saat)",
+            "rows": [
+              {
+                "label": "Sınav",
+                "s1": "92",
+                "s2": "",
+                "s3": ""
+              }
+            ],
+            "score": "92"
+          },
+          {
+            "course": "Fen Bilimleri (4 Saat)",
+            "rows": [
+              {
+                "label": "Sınav",
+                "s1": "96",
+                "s2": "",
+                "s3": ""
+              }
+            ],
+            "score": "96"
+          },
+          {
+            "course": "T.C. İnkılap Tarihi Ve Atatürkçülük (2 Saat)",
+            "rows": [
+              {
+                "label": "Sınav",
+                "s1": "94",
+                "s2": "",
+                "s3": ""
+              }
+            ],
+            "score": "94"
+          }
+        ],
+        "term2": []
+      },
+      "attendance": {
+        "excused": "1 Gün",
+        "unexcused": "1 Gün",
+        "records": [
+          {
+            "iso": "2026-11-05",
+            "date": "05 Kasım 2026 Perşembe",
+            "day": "",
+            "wrapDay": false,
+            "status": "Raporlu"
+          },
+          {
+            "iso": "2026-10-19",
+            "date": "19 Ekim 2026 Pazartesi",
+            "day": "",
+            "wrapDay": false,
+            "status": "Tam Gün"
+          }
+        ]
+      },
+      "exams": {
+        "byCourse": [],
+        "byDate": [],
+        "past": [
+          {
+            "title": "TÜRKÇE",
+            "date": "11 Kasım 2026 Çarşamba"
+          },
+          {
+            "title": "MATEMATİK",
+            "date": "06 Kasım 2026 Cuma"
+          },
+          {
+            "title": "FEN BİLİMLERİ",
+            "date": "04 Kasım 2026 Çarşamba"
+          }
+        ]
+      },
+      "branchAverages": {
+        "term1": [
+          {
+            "course": "Türkçe",
+            "examNo": "1.",
+            "score": "95",
+            "avg": "84,20",
+            "status": "up"
+          },
+          {
+            "course": "Matematik",
+            "examNo": "1.",
+            "score": "92",
+            "avg": "76,50",
+            "status": "up"
+          },
+          {
+            "course": "Fen Bilimleri",
+            "examNo": "1.",
+            "score": "96",
+            "avg": "81,40",
+            "status": "up"
+          },
+          {
+            "course": "T.C. İnkılap Tarihi Ve Atatürkçülük",
+            "examNo": "1.",
+            "score": "94",
+            "avg": "88,10",
+            "status": "up"
+          }
+        ],
+        "term2": []
+      },
+      "yearEndGrades": [
+        {
+          "year": "2022-2023",
+          "grade": "4. Sınıf",
+          "score": "96,4200"
+        },
+        {
+          "year": "2023-2024",
+          "grade": "5. Sınıf",
+          "score": "95,1850"
+        },
+        {
+          "year": "2024-2025",
+          "grade": "6. Sınıf",
+          "score": "93,7420"
+        },
+        {
+          "year": "2025-2026",
+          "grade": "7. Sınıf",
+          "score": "94,6100"
+        }
+      ],
+      "certificates": [
+        {
+          "period": "2022-2023 I. Dönem",
+          "label": "Takdirname belgesi",
+          "grade": "4"
+        },
+        {
+          "period": "2022-2023 II. Dönem",
+          "label": "Takdirname belgesi",
+          "grade": "4"
+        },
+        {
+          "period": "2023-2024 I. Dönem",
+          "label": "Takdirname belgesi",
+          "grade": "5"
+        },
+        {
+          "period": "2023-2024 II. Dönem",
+          "label": "Takdirname belgesi",
+          "grade": "5"
+        },
+        {
+          "period": "2024-2025 I. Dönem",
+          "label": "Takdirname belgesi",
+          "grade": "6"
+        },
+        {
+          "period": "2024-2025 II. Dönem",
+          "label": "Takdirname belgesi",
+          "grade": "6"
+        },
+        {
+          "period": "2025-2026 I. Dönem",
+          "label": "Takdirname belgesi",
+          "grade": "7"
+        },
+        {
+          "period": "2025-2026 II. Dönem",
+          "label": "Takdirname belgesi",
+          "grade": "7"
+        }
+      ]
+    }
+  }
+}
