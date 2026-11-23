@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
@@ -15,6 +15,7 @@
   <title>e-Okul VBS</title>
   <script src="https://cdn.tailwindcss.com"></script>
 
+
   <style>
     :root {
       --meb-navy-top: #102a83;
@@ -30,16 +31,19 @@
       --ease-snappy: cubic-bezier(0.2, 0.9, 0.3, 1);
     }
 
+
     * {
       -webkit-tap-highlight-color: transparent;
       outline: none;
       box-sizing: border-box;
     }
 
+
     *:focus,
     *:active {
       outline: none;
     }
+
 
     /* Bulletproof Full-Viewport Root Shell */
     html, body {
@@ -58,16 +62,19 @@
       user-select: none;
     }
 
+
     img, svg {
       -webkit-user-drag: none;
       user-drag: none;
     }
+
 
     @media (min-width: 481px) {
       body {
         background: #dce3ef;
       }
     }
+
 
     /* Centered Mobile Viewport Frame (480px max on desktop, edge-to-edge on Android) */
     #app {
@@ -81,11 +88,13 @@
       overflow: hidden;
     }
 
+
     @media (min-width: 481px) {
       #app {
         box-shadow: 0 0 44px rgba(16, 42, 131, 0.16);
       }
     }
+
 
     /* Dedicated Native Vertical Scroll Container for EVERY Screen */
     .screen-scroll {
@@ -103,6 +112,7 @@
       background: #f2f4f7;
     }
 
+
     /* Subtle sleek scrollbar for desktop browsers */
     .screen-scroll::-webkit-scrollbar {
       width: 4px;
@@ -115,10 +125,12 @@
       border-radius: 999px;
     }
 
+
     .screen-hidden {
       display: none !important;
       pointer-events: none !important;
     }
+
 
     /* Official Floating e-Okul White Card */
     .eokul-card {
@@ -126,6 +138,7 @@
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(16, 42, 131, 0.07), 0 1px 2px rgba(16, 42, 131, 0.03);
     }
+
 
     /* ===================================================================== */
     /* MATERIAL 3 RIPPLE & ELASTIC TAP FEEDBACK (NEVER BLOCKS SCROLL)        */
@@ -138,9 +151,11 @@
       transition: transform 0.18s var(--ease-snappy), background-color 0.18s ease;
     }
 
+
     .ripple-host.is-pressed {
       transform: scale(0.985);
     }
+
 
     .m3-ripple {
       position: absolute;
@@ -152,9 +167,11 @@
       will-change: transform, opacity;
     }
 
+
     .ripple-light .m3-ripple {
       background: rgba(255, 255, 255, 0.26);
     }
+
 
     /* MEB Emblem Subtle Initial Settle & One-Time Light Glint */
     .meb-emblem-shell {
@@ -163,6 +180,7 @@
       border-radius: 9999px;
       animation: mebEmblemSettle 0.62s var(--ease-fluid) both;
     }
+
 
     .meb-glint-sweep {
       position: absolute;
@@ -179,6 +197,7 @@
       animation: mebGlintOnce 1.15s var(--ease-fluid) 0.38s 1 forwards;
     }
 
+
     @keyframes mebEmblemSettle {
       from {
         opacity: 0;
@@ -190,12 +209,14 @@
       }
     }
 
+
     @keyframes mebGlintOnce {
       0% { transform: translate3d(-145%, 0, 0); opacity: 0; }
       20% { opacity: 1; }
       85% { opacity: 1; }
       100% { transform: translate3d(145%, 0, 0); opacity: 0; }
     }
+
 
     /* ===================================================================== */
     /* PULL-TO-REFRESH INDICATOR (SCOPED INSIDE #app, ZERO SCROLL BLOCK)     */
@@ -220,9 +241,11 @@
       will-change: transform, opacity;
     }
 
+
     .ptr-indicator.is-refreshing svg {
       animation: spin360 0.72s linear infinite;
     }
+
 
     .ptr-inner-content {
       position: relative;
@@ -230,15 +253,18 @@
       min-height: 100%;
     }
 
+
     .ptr-refresh-pulse {
       animation: ptrShimmerPulse 0.48s var(--ease-fluid);
     }
+
 
     @keyframes ptrShimmerPulse {
       0% { opacity: 1; transform: scale(1); }
       45% { opacity: 0.72; transform: scale(0.992); }
       100% { opacity: 1; transform: scale(1); }
     }
+
 
     /* ===================================================================== */
     /* PULL-DOWN-TO-GO-BACK FLOATING GLASS PILL & SHEET DISMISSAL PHYSICS    */
@@ -269,12 +295,14 @@
       transition: background 0.2s ease, color 0.18s ease, border-color 0.2s ease;
     }
 
+
     .pull-back-pill.is-ready {
       background: linear-gradient(135deg, #18a999 0%, #3ac4d6 100%);
       border-color: rgba(255, 255, 255, 0.42);
       color: #ffffff;
       box-shadow: 0 8px 24px rgba(24, 169, 153, 0.34);
     }
+
 
     .pull-back-pill-icon-wrap {
       position: relative;
@@ -286,6 +314,7 @@
       flex-shrink: 0;
     }
 
+
     .pull-back-icon-chevron,
     .pull-back-icon-home {
       position: absolute;
@@ -296,31 +325,37 @@
       transition: opacity 0.2s ease, transform 0.28s var(--ease-spring);
     }
 
+
     .pull-back-icon-chevron {
       opacity: 1;
       transform: scale(1) rotate(0deg);
     }
+
 
     .pull-back-icon-home {
       opacity: 0;
       transform: scale(0.45) rotate(-24deg);
     }
 
+
     .pull-back-pill.is-ready .pull-back-icon-chevron {
       opacity: 0;
       transform: scale(0.45) rotate(180deg);
     }
+
 
     .pull-back-pill.is-ready .pull-back-icon-home {
       opacity: 1;
       transform: scale(1) rotate(0deg);
     }
 
+
     #view-subpage-card {
       transform-origin: center top;
       will-change: transform, opacity;
       backface-visibility: hidden;
     }
+
 
     /* ===================================================================== */
     /* SCREEN 1: ÖĞRENCİ LİSTESİ & SWIPE-TO-DELETE                           */
@@ -336,6 +371,7 @@
       overflow: hidden;
     }
 
+
     .swipe-row-container {
       position: relative;
       overflow: hidden;
@@ -343,6 +379,7 @@
       background-color: #ffffff;
       touch-action: pan-y;
     }
+
 
     /* Completely hidden at rest so ZERO red bleed or border ever appears on tap */
     .swipe-delete-bg {
@@ -361,11 +398,13 @@
       transition: opacity 0.2s var(--ease-fluid), transform 0.24s var(--ease-fluid);
     }
 
+
     .swipe-delete-bg.is-revealed {
       opacity: 1;
       pointer-events: auto;
       transform: translate3d(0, 0, 0);
     }
+
 
     .swipe-delete-btn {
       display: flex;
@@ -381,6 +420,7 @@
       cursor: pointer;
     }
 
+
     .swipe-row-foreground {
       position: relative;
       z-index: 2;
@@ -390,19 +430,23 @@
       will-change: transform;
     }
 
+
     /* Harmonious Sky-Turquoise Tap Feedback for Student Rows */
     .student-row {
       transition: transform 0.2s var(--ease-snappy), background-color 0.2s ease, box-shadow 0.2s ease;
     }
+
 
     .student-row.is-pressed {
       background-color: #edf9fb;
       transform: scale(0.988);
     }
 
+
     .student-row .student-chevron {
       transition: transform 0.24s var(--ease-spring), color 0.2s ease;
     }
+
 
     .student-row.is-pressed .student-chevron,
     .student-row:hover .student-chevron {
@@ -410,13 +454,16 @@
       color: #162e7a;
     }
 
+
     .student-row .student-shield {
       transition: transform 0.28s var(--ease-spring);
     }
 
+
     .student-row.is-pressed .student-shield {
       transform: scale(1.08);
     }
+
 
     /* ===================================================================== */
     /* PERSISTENT MORPHING HERO HEADER (EXPANDED <-> COMPACT FLIP)           */
@@ -431,13 +478,16 @@
       backface-visibility: hidden;
     }
 
+
     .student-hero-header.header-expanded {
       height: 236px;
     }
 
+
     .student-hero-header.header-compact {
       height: 86px;
     }
+
 
     .hero-wave-layer {
       position: absolute;
@@ -452,6 +502,7 @@
       backface-visibility: hidden;
     }
 
+
     .hero-navy-fill {
       position: absolute;
       top: 0;
@@ -461,6 +512,7 @@
       background: linear-gradient(180deg, var(--meb-navy-top) 0%, var(--meb-navy-bottom) 100%);
     }
 
+
     .hero-wave-svg {
       position: absolute;
       bottom: 0;
@@ -469,6 +521,7 @@
       height: 235px;
       display: block;
     }
+
 
     /* SHARED-ELEMENT PHOTO: 98x114 (Expanded) <-> 52x52 (Compact) */
     .hero-photo {
@@ -484,12 +537,14 @@
       will-change: transform;
     }
 
+
     .header-expanded .hero-photo {
       top: 16px;
       left: calc(50% - 49px);
       width: 98px;
       height: 114px;
     }
+
 
     .header-compact .hero-photo {
       top: 14px;
@@ -498,6 +553,7 @@
       height: 52px;
       border-radius: 7px;
     }
+
 
     /* SHARED-ELEMENT NAME & CLASS */
     .hero-name {
@@ -513,6 +569,7 @@
       will-change: transform;
     }
 
+
     .header-expanded .hero-name {
       top: 142px;
       left: 50%;
@@ -521,6 +578,7 @@
       font-size: 16px;
       text-align: center;
     }
+
 
     .header-compact .hero-name {
       top: 19px;
@@ -533,6 +591,7 @@
       text-align: left;
     }
 
+
     .hero-class {
       position: absolute;
       z-index: 15;
@@ -543,6 +602,7 @@
       will-change: transform;
     }
 
+
     .header-expanded .hero-class {
       top: 169px;
       left: 50%;
@@ -550,12 +610,14 @@
       font-size: 14.2px;
     }
 
+
     .header-compact .hero-class {
       top: 41px;
       left: 78px;
       transform: translate3d(0, 0, 0);
       font-size: 13px;
     }
+
 
     /* Expanded Left Action: Bildirimler */
     .hero-action-bell {
@@ -574,17 +636,20 @@
       transition: opacity 0.24s var(--ease-fluid), transform 0.34s var(--ease-fluid);
     }
 
+
     .header-expanded .hero-action-bell {
       opacity: 1;
       transform: translate3d(0, 0, 0);
       pointer-events: auto;
     }
 
+
     .header-compact .hero-action-bell {
       opacity: 0;
       transform: translate3d(-22px, 0, 0);
       pointer-events: none;
     }
+
 
     /* SHARED-ELEMENT SWITCH-STUDENT ICON (Glides into compact right bar) */
     .hero-switch-btn {
@@ -600,12 +665,14 @@
       will-change: transform;
     }
 
+
     .header-expanded .hero-switch-btn {
       top: 38px;
       right: 3%;
       width: 31%;
       padding: 6px 4px;
     }
+
 
     .header-compact .hero-switch-btn {
       top: 20px;
@@ -614,6 +681,7 @@
       height: 38px;
       padding: 0;
     }
+
 
     .hero-switch-label {
       color: #d6e2f8;
@@ -624,12 +692,14 @@
       transition: opacity 0.16s ease, transform 0.22s var(--ease-fluid);
     }
 
+
     .header-compact .hero-switch-label {
       opacity: 0;
       transform: translate3d(0, 6px, 0);
       position: absolute;
       pointer-events: none;
     }
+
 
     /* Compact Home Action */
     .hero-home-btn {
@@ -647,17 +717,20 @@
       transition: opacity 0.26s ease 0.06s, transform 0.38s var(--ease-spring) 0.04s;
     }
 
+
     .header-expanded .hero-home-btn {
       opacity: 0;
       transform: translate3d(16px, 0, 0) scale(0.65);
       pointer-events: none;
     }
 
+
     .header-compact .hero-home-btn {
       opacity: 1;
       transform: translate3d(0, 0, 0) scale(1);
       pointer-events: auto;
     }
+
 
     /* Floating Content Stage overlapping turquoise wave */
     .student-content-stage {
@@ -667,9 +740,11 @@
       margin-top: -20px;
     }
 
+
     .header-compact + .student-content-stage {
       margin-top: -6px;
     }
+
 
     /* ===================================================================== */
     /* FLOATING FAB LAYER (POSITIONED INSIDE #app, ZERO SCROLL BLOCKING)     */
@@ -680,6 +755,7 @@
       z-index: 35;
       pointer-events: none;
     }
+
 
     .fab-backdrop {
       position: absolute;
@@ -692,10 +768,12 @@
       transition: opacity 0.24s var(--ease-fluid);
     }
 
+
     .fab-backdrop.open {
       opacity: 1;
       pointer-events: auto;
     }
+
 
     .fab-trigger-btn {
       position: absolute;
@@ -715,6 +793,7 @@
       cursor: pointer;
     }
 
+
     .fab-dial-anchor {
       position: absolute;
       bottom: 90px;
@@ -727,9 +806,11 @@
       pointer-events: none;
     }
 
+
     .fab-dial-anchor.open {
       pointer-events: auto;
     }
+
 
     .fab-dial-item {
       display: flex;
@@ -742,20 +823,24 @@
       pointer-events: none;
     }
 
+
     .fab-dial-anchor.open .fab-dial-item {
       opacity: 1;
       transform: translate3d(0, 0, 0) scale(1);
       pointer-events: auto;
     }
 
+
     .fab-dial-anchor.open .fab-dial-item:nth-child(3) { transition-delay: 0ms; }
     .fab-dial-anchor.open .fab-dial-item:nth-child(2) { transition-delay: 45ms; }
     .fab-dial-anchor.open .fab-dial-item:nth-child(1) { transition-delay: 90ms; }
+
 
     .fab-dial-anchor:not(.open) .fab-dial-item {
       transition-duration: 0.16s;
       transition-timing-function: ease-in;
     }
+
 
     .fab-label-pill {
       background: #ffffff;
@@ -768,6 +853,7 @@
       white-space: nowrap;
     }
 
+
     .fab-action-btn {
       width: 54px;
       height: 54px;
@@ -777,6 +863,7 @@
       justify-content: center;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
     }
+
 
     /* Morphing 3-bar hamburger -> X */
     .fab-bars {
@@ -788,6 +875,7 @@
       justify-content: space-between;
     }
 
+
     .fab-bar {
       display: block;
       width: 20px;
@@ -797,6 +885,7 @@
       transform-origin: center;
       transition: transform 0.34s var(--ease-spring), opacity 0.2s ease;
     }
+
 
     .fab-trigger-open .fab-bar-1 {
       transform: translate3d(0, 6.85px, 0) rotate(45deg);
@@ -808,6 +897,7 @@
     .fab-trigger-open .fab-bar-3 {
       transform: translate3d(0, -6.85px, 0) rotate(-45deg);
     }
+
 
     /* ===================================================================== */
     /* DASHBOARD GRID, GLIDING TABS & TABLES                                 */
@@ -821,18 +911,22 @@
       cursor: pointer;
     }
 
+
     .menu-grid-cell svg {
       transition: transform 0.28s var(--ease-spring);
       will-change: transform;
     }
 
+
     .menu-grid-cell:hover svg {
       transform: translate3d(0, -2.5px, 0) scale(1.04);
     }
 
+
     .menu-grid-cell.is-pressed svg {
       transform: translate3d(0, -3px, 0) scale(1.07);
     }
+
 
     /* 2-Tab Sliding Pill Switcher (Not Bilgileri & Şube Yazılı Ortalamaları) */
     .term-switcher {
@@ -841,6 +935,7 @@
       grid-template-columns: 1fr 1fr;
       gap: 14px;
     }
+
 
     .term-pill-glider {
       position: absolute;
@@ -853,6 +948,7 @@
       pointer-events: none;
       transition: transform 0.34s var(--ease-fluid), width 0.34s var(--ease-fluid);
     }
+
 
     .term-pill-btn {
       position: relative;
@@ -870,10 +966,12 @@
       transition: color 0.24s ease, background-color 0.24s ease;
     }
 
+
     .term-pill-btn.active {
       background-color: transparent;
       color: #5b5f69;
     }
+
 
     /* 3-Tab Navy-Bordered Segment Control (Sınav Tarihleri) */
     .exam-segment-bar {
@@ -886,6 +984,7 @@
       background-color: #ffffff;
     }
 
+
     .exam-segment-indicator {
       position: absolute;
       top: 4px;
@@ -897,6 +996,7 @@
       pointer-events: none;
       transition: transform 0.36s var(--ease-fluid), width 0.36s var(--ease-fluid);
     }
+
 
     .exam-segment-btn {
       position: relative;
@@ -914,9 +1014,11 @@
       transition: color 0.24s ease;
     }
 
+
     .exam-segment-btn.active {
       color: #ffffff;
     }
+
 
     /* Official Light Gray Rounded Data Tables */
     .eokul-table-wrap {
@@ -926,11 +1028,13 @@
       overflow: hidden;
     }
 
+
     .eokul-table {
       width: 100%;
       border-collapse: collapse;
       table-layout: fixed;
     }
+
 
     .eokul-table th,
     .eokul-table td {
@@ -941,6 +1045,7 @@
       vertical-align: middle;
     }
 
+
     .eokul-table tr:first-child th,
     .eokul-table tr:first-child td { border-top: none; }
     .eokul-table tr:last-child td { border-bottom: none; }
@@ -948,6 +1053,7 @@
     .eokul-table tr td:first-child { border-left: none; }
     .eokul-table tr th:last-child,
     .eokul-table tr td:last-child { border-right: none; }
+
 
     /* ===================================================================== */
     /* STAGGERED ROW REVEALS & DIRECTIONAL TAB SLIDES                        */
@@ -958,12 +1064,14 @@
       animation: staggerRise 0.34s var(--ease-fluid) forwards;
     }
 
+
     @keyframes staggerRise {
       to {
         opacity: 1;
         transform: translate3d(0, 0, 0);
       }
     }
+
 
     /* Sequential Mini Bar-Chart Rise Animation in Not Bilgileri Footer */
     .mini-chart-bar {
@@ -973,17 +1081,20 @@
       animation: chartBarRise 0.44s var(--ease-spring) forwards;
     }
 
+
     @keyframes chartBarRise {
       to {
         transform: scaleY(1);
       }
     }
 
+
     .status-pop {
       opacity: 0;
       transform: scale(0.5);
       animation: badgePop 0.36s var(--ease-spring) forwards;
     }
+
 
     @keyframes badgePop {
       to {
@@ -992,23 +1103,28 @@
       }
     }
 
+
     @keyframes paneSlideFromRight {
       from { opacity: 0; transform: translate3d(24px, 0, 0); }
       to { opacity: 1; transform: translate3d(0, 0, 0); }
     }
+
 
     @keyframes paneSlideFromLeft {
       from { opacity: 0; transform: translate3d(-24px, 0, 0); }
       to { opacity: 1; transform: translate3d(0, 0, 0); }
     }
 
+
     .pane-slide-right {
       animation: paneSlideFromRight 0.28s var(--ease-fluid) both;
     }
 
+
     .pane-slide-left {
       animation: paneSlideFromLeft 0.28s var(--ease-fluid) both;
     }
+
 
     /* ===================================================================== */
     /* INTERACTIVE CALENDAR (DERS DEVAMSIZLIKLARI)                           */
@@ -1028,6 +1144,7 @@
       transition: background-color 0.18s ease, color 0.18s ease, transform 0.2s var(--ease-spring);
     }
 
+
     .cal-day-selected {
       background-color: #9fa8da;
       color: #ffffff !important;
@@ -1036,11 +1153,13 @@
       animation: daySelectPop 0.3s var(--ease-spring);
     }
 
+
     @keyframes daySelectPop {
       0% { transform: scale(0.76); }
       60% { transform: scale(1.1); }
       100% { transform: scale(1); }
     }
+
 
     .cal-absence-dot {
       position: absolute;
@@ -1051,9 +1170,11 @@
       background-color: var(--meb-green);
     }
 
+
     .cal-day-selected .cal-absence-dot {
       background-color: #ffffff;
     }
+
 
     /* Smooth Accordion Reveal for Selected Calendar Day Detail */
     .cal-detail-accordion {
@@ -1063,14 +1184,17 @@
       transition: grid-template-rows 0.3s var(--ease-fluid), opacity 0.24s ease;
     }
 
+
     .cal-detail-accordion.is-open {
       grid-template-rows: 1fr;
       opacity: 1;
     }
 
+
     .cal-detail-accordion-inner {
       overflow: hidden;
     }
+
 
     /* ===================================================================== */
     /* MODALS, SPINNER & BOTTOM RED SNACKBAR (SCOPED TO #app)                */
@@ -1091,10 +1215,12 @@
       transition: opacity 0.24s var(--ease-fluid);
     }
 
+
     .modal-overlay.open {
       opacity: 1;
       pointer-events: auto;
     }
+
 
     .modal-dialog-box {
       background: #f5f3f9;
@@ -1110,10 +1236,12 @@
       transition: transform 0.34s var(--ease-spring), opacity 0.22s ease;
     }
 
+
     .modal-overlay.open .modal-dialog-box {
       transform: translate3d(0, 0, 0) scale(1);
       opacity: 1;
     }
+
 
     .eokul-spinner {
       width: 36px;
@@ -1126,9 +1254,11 @@
       animation: spin360 0.8s linear infinite;
     }
 
+
     @keyframes spin360 {
       to { transform: rotate(360deg); }
     }
+
 
     .red-snackbar-wrap {
       position: absolute;
@@ -1141,10 +1271,12 @@
       pointer-events: none;
     }
 
+
     .red-snackbar-wrap.visible {
       transform: translate3d(0, 0, 0);
       pointer-events: auto;
     }
+
 
     .red-snackbar {
       background-color: var(--meb-red);
@@ -1152,6 +1284,7 @@
       width: 100%;
       box-shadow: 0 -3px 16px rgba(0, 0, 0, 0.2);
     }
+
 
     .notice-toast {
       position: absolute;
@@ -1172,6 +1305,7 @@
       transition: opacity 0.22s ease, transform 0.24s var(--ease-fluid);
     }
 
+
     .notice-toast.visible {
       opacity: 1;
       transform: translate3d(-50%, 0, 0);
@@ -1180,7 +1314,9 @@
 </head>
 <body>
 
+
   <div id="app">
+
 
     <!-- FLOATING PULL-TO-REFRESH SPINNER (NEVER BLOCKS TOUCH) -->
     <div id="ptr-indicator" class="ptr-indicator" aria-hidden="true">
@@ -1188,6 +1324,7 @@
         <path d="M12 3a9 9 0 1 1-6.36 2.64" stroke="#162e7a" stroke-width="2.6" stroke-linecap="round"/>
       </svg>
     </div>
+
 
     <!-- FLOATING PULL-DOWN-TO-GO-BACK GLASS PILL (INNER PAGES ONLY) -->
     <div id="pull-back-pill" class="pull-back-pill" aria-hidden="true">
@@ -1206,6 +1343,7 @@
       </span>
       <span id="pull-back-pill-text">Geri dönmek için çekin</span>
     </div>
+
 
     <!-- =================================================================== -->
     <!-- SCREEN 1: ÖĞRENCİ LİSTESİ (DEDICATED NATIVE VERTICAL SCROLL)        -->
@@ -1228,6 +1366,7 @@
         </svg>
       </div>
 
+
       <div class="relative z-10">
         <!-- Official 16-Star White MEB Crest & Ministry Header -->
         <div class="pt-4 pb-5 px-4 flex flex-col items-center text-center">
@@ -1239,6 +1378,7 @@
                 <!-- Official Sharp 5-Pointed Ring Star -->
                 <polygon id="meb-ring-star" points="0,-89.6 1.95,-83.6 8.2,-83.6 3.15,-79.9 5.05,-73.9 0,-77.6 -5.05,-73.9 -3.15,-79.9 -8.2,-83.6 -1.95,-83.6" fill="#ffffff"/>
               </defs>
+
 
               <!-- 1. Braided Rope Outer Wreath (60 Interlocking Diagonal Segments) -->
               <g transform="translate(110,110)">
@@ -1304,8 +1444,10 @@
                 <use href="#meb-braid-link" xlink:href="#meb-braid-link" transform="rotate(354)"/>
               </g>
 
+
               <!-- Crisp Inner Border of Outer Rope Frame -->
               <circle cx="110" cy="110" r="95" fill="none" stroke="#ffffff" stroke-width="1.35"/>
+
 
               <!-- 2. 16 Stars Ring (Symmetrically Flanked at 11.25° + n*22.5°) -->
               <g transform="translate(110,110)">
@@ -1327,14 +1469,17 @@
                 <use href="#meb-ring-star" xlink:href="#meb-ring-star" transform="rotate(348.75)"/>
               </g>
 
+
               <!-- 3. Inner Medallion Ring -->
               <circle cx="110" cy="110" r="67.5" fill="none" stroke="#ffffff" stroke-width="2.1"/>
+
 
               <!-- 4. Sculpted MEB Torch Flame (Alev) -->
               <path d="M 101.5,89.5 C 96.2,84.0 95.8,75.0 101.0,67.5 C 103.6,63.7 107.0,59.5 107.2,54.0 C 107.3,51.2 108.4,48.6 110.6,47.2 C 110.2,51.4 113.0,54.6 116.4,58.6 C 122.4,65.6 124.4,74.2 121.4,82.6 C 120.2,85.8 118.4,88.2 116.6,89.5 Z" fill="#ffffff"/>
               <!-- Flame Internal Sculpted Cutouts -->
               <path d="M 105.0,88.5 C 101.4,83.5 101.8,76.4 106.4,70.2 C 108.5,67.4 110.4,64.2 110.6,60.2 C 111.8,63.8 114.6,66.6 116.8,70.8 C 119.0,75.2 118.4,82.6 114.2,88.5 C 115.6,82.4 114.8,77.2 111.5,73.2 C 109.6,76.2 107.6,79.8 108.6,85.0 C 106.4,83.6 105.2,86.0 105.0,88.5 Z" fill="#102a83"/>
               <path d="M 109.8,88.8 C 108.0,84.4 108.8,79.5 111.6,75.6 C 113.4,79.0 113.8,84.2 111.4,88.8 Z" fill="#ffffff"/>
+
 
               <!-- 5. Torch Chalice Rim & Fluted Cup (Meşale Çanağı) -->
               <path d="M 94.5,91.8 C 94.5,90.4 95.8,89.8 97.5,89.8 L 122.5,89.8 C 124.2,89.8 125.5,90.4 125.5,91.8 C 125.5,93.1 124.2,93.8 122.5,93.8 L 97.5,93.8 C 95.8,93.8 94.5,93.1 94.5,91.8 Z" fill="#ffffff"/>
@@ -1343,10 +1488,12 @@
               <line x1="110.0" y1="96.6" x2="110.0" y2="108.2" stroke="#102a83" stroke-width="1.35" stroke-linecap="round"/>
               <line x1="116.5" y1="96.6" x2="113.8" y2="107.8" stroke="#102a83" stroke-width="1.35" stroke-linecap="round"/>
 
+
               <!-- 6. Lower Torch Handle Extending Beneath Book -->
               <path d="M 105.0,147.0 L 115.0,147.0 L 112.4,164.8 C 111.9,167.2 108.1,167.2 107.6,164.8 Z" fill="#ffffff"/>
               <rect x="104.0" y="148.2" width="12.0" height="2.4" rx="1.2" fill="#102a83"/>
               <line x1="110.0" y1="152.2" x2="110.0" y2="163.5" stroke="#102a83" stroke-width="1.3" stroke-linecap="round"/>
+
 
               <!-- 7. Open Book with Layered Curved Pages (Açık Kitap) -->
               <!-- Outer Hardcover -->
@@ -1362,6 +1509,7 @@
               <path d="M 157.2,123.0 C 142.5,119.8 125.5,122.4 112.0,129.8" fill="none" stroke="#ffffff" stroke-width="1.25" stroke-linecap="round"/>
               <path d="M 157.2,128.5 C 142.5,125.4 125.5,128.0 112.0,134.8" fill="none" stroke="#ffffff" stroke-width="1.25" stroke-linecap="round"/>
               <path d="M 157.2,133.2 C 142.5,130.4 125.5,133.0 112.0,139.6" fill="none" stroke="#ffffff" stroke-width="1.25" stroke-linecap="round"/>
+
 
               <!-- 8. Central Crescent & Star Medallion (Ay-Yıldız) -->
               <circle cx="110" cy="127" r="16.2" fill="#102a83" stroke="#ffffff" stroke-width="2.2"/>
@@ -1379,11 +1527,13 @@
           </p>
         </div>
 
+
         <!-- WHITE CARD: ÖĞRENCİ LİSTESİ -->
         <div id="student-list-card" class="mx-[11px] mt-2 eokul-card px-4 pt-5 pb-7">
           <h2 class="text-center text-[#848a94] font-bold text-[16.5px] mb-3.5">
             Öğrenci Listesi
           </h2>
+
 
           <div id="student-list-rows">
             <!-- Row 1: Elifnaz Dalkürek -->
@@ -1433,7 +1583,9 @@
               </div>
             </div>
 
+
             <div id="divider-students" class="h-[1px] bg-[#d4d8df] my-1 mx-1"></div>
+
 
             <!-- Row 2: Safa Tuğra Dalkürek -->
             <div id="swipe-wrap-safa" class="swipe-row-container stagger-item" style="animation-delay: 95ms;">
@@ -1483,10 +1635,12 @@
             </div>
           </div>
 
+
           <p class="text-[#848a94] text-[13.6px] font-normal mt-6 pl-3">
             * Öğrenciyi silmek için sola kaydırınız.
           </p>
         </div>
+
 
         <!-- Ministry Footer -->
         <div class="mt-6 px-6 text-center text-[#848a94] text-[13.4px] leading-[1.55] font-normal">
@@ -1495,9 +1649,11 @@
       </div>
     </section>
 
+
     <!-- FLOATING FAB OVERLAY LAYER (ONLY SHOWN ON ÖĞRENCİ LİSTESİ) -->
     <div id="fab-layer">
       <div id="fab-backdrop" onclick="toggleFab(false)" class="fab-backdrop"></div>
+
 
       <div id="fab-speed-dial" class="fab-dial-anchor">
         <!-- Uygulamayı Öner -->
@@ -1510,6 +1666,7 @@
           </div>
         </div>
 
+
         <!-- Öğrenci Ekle (Uzaktan Kontrol) -->
         <div onclick="handleRemoteManagedAction('add')" class="fab-dial-item">
           <span class="fab-label-pill">Öğrenci Ekle</span>
@@ -1519,6 +1676,7 @@
             </svg>
           </div>
         </div>
+
 
         <!-- Sıfırla -->
         <div onclick="handleRemoteManagedAction('reset')" class="fab-dial-item">
@@ -1530,6 +1688,7 @@
           </div>
         </div>
       </div>
+
 
       <button id="fab-trigger"
               type="button"
@@ -1544,11 +1703,13 @@
       </button>
     </div>
 
+
     <!-- =================================================================== -->
     <!-- SCREEN 2: STUDENT WORKSPACE (DEDICATED NATIVE VERTICAL SCROLL)      -->
     <!-- =================================================================== -->
     <section id="screen-student-workspace" class="screen-scroll screen-hidden">
       <div id="ptr-inner-content" class="ptr-inner-content">
+
 
         <!-- SINGLE PERSISTENT MORPHING HERO HEADER -->
         <header id="student-hero-header" class="student-hero-header header-expanded">
@@ -1564,6 +1725,7 @@
             </svg>
           </div>
 
+
           <!-- Expanded Left Action: Bildirimler -->
           <div onclick="openSubPage('placeholder', 'Bildirimler')"
                class="hero-action-bell ripple-host ripple-light">
@@ -1578,6 +1740,7 @@
             <span class="text-[#d6e2f8] text-[13.2px] font-normal mt-1.5">Bildirimler</span>
           </div>
 
+
           <!-- SHARED-ELEMENT STUDENT PHOTO (GPU FLIP Center <-> Top-Left) -->
           <div id="hero-photo"
                class="hero-photo">
@@ -1585,9 +1748,11 @@
             <div id="hero-avatar-svg-container" class="w-full h-full"></div>
           </div>
 
+
           <!-- SHARED-ELEMENT STUDENT NAME & CLASS -->
           <div id="hero-student-name" class="hero-name">Safa Tuğra Dalkürek</div>
           <div id="hero-student-class" class="hero-class">11.Sınıf - 299</div>
+
 
           <!-- SHARED-ELEMENT SWITCH-STUDENT ICON -->
           <div id="hero-switch-btn"
@@ -1601,6 +1766,7 @@
             </svg>
             <span class="hero-switch-label">Öğrenci Değiştir</span>
           </div>
+
 
           <!-- Compact Home Action -->
           <button id="hero-home-btn"
@@ -1616,10 +1782,12 @@
           </button>
         </header>
 
+
         <!-- =============================================================== -->
         <!-- DYNAMIC CONTENT STAGE (DASHBOARD OR INNER SUB-PAGE)             -->
         <!-- =============================================================== -->
         <main id="student-content-stage" class="student-content-stage">
+
 
           <!-- DASHBOARD: ÖĞRENCİ ANA MENÜ -->
           <div id="view-student-home">
@@ -1646,6 +1814,7 @@
                   <span class="text-[#7b808c] text-[12.2px] font-bold mt-2.5 text-center">Not Bilgileri</span>
                 </div>
 
+
                 <!-- 2. Devamsızlık Bilgileri -->
                 <div onclick="openSubPage('devamsizlik')"
                      class="menu-grid-cell ripple-host border-r border-b border-[#eff1f6]">
@@ -1665,6 +1834,7 @@
                   </svg>
                   <span class="text-[#7b808c] text-[12.2px] font-bold mt-2.5 text-center">Devamsızlık Bilgileri</span>
                 </div>
+
 
                 <!-- 3. Ders Programı -->
                 <div onclick="openSubPage('placeholder', 'Ders Programı')"
@@ -1693,6 +1863,7 @@
                   <span class="text-[#7b808c] text-[12.2px] font-bold mt-2.5 text-center">Ders Programı</span>
                 </div>
 
+
                 <!-- 4. Sınav Tarihleri -->
                 <div onclick="openSubPage('sinav-tarihleri')"
                      class="menu-grid-cell ripple-host border-r border-[#eff1f6] rounded-bl-lg">
@@ -1709,6 +1880,7 @@
                   </svg>
                   <span class="text-[#7b808c] text-[12.2px] font-bold mt-2.5 text-center">Sınav Tarihleri</span>
                 </div>
+
 
                 <!-- 5. Yazılı Ortalamaları -->
                 <div onclick="openSubPage('yazili-ortalamalari')"
@@ -1729,6 +1901,7 @@
                   <span class="text-[#7b808c] text-[12.2px] font-bold mt-2.5 text-center">Yazılı Ortalamaları</span>
                 </div>
 
+
                 <!-- 6. Yıl Sonu Notları -->
                 <div onclick="openSubPage('yil-sonu-notlari')"
                      class="menu-grid-cell ripple-host rounded-br-lg">
@@ -1748,6 +1921,7 @@
                 </div>
               </div>
             </div>
+
 
             <!-- STANDALONE CARD: DİLİM -->
             <div onclick="openSubPage('placeholder', 'DİLİM')"
@@ -1780,12 +1954,58 @@
               </svg>
             </div>
 
+
             <!-- LOWER STACKED MENU LIST CARD (STUDENT-SPECIFIC) -->
             <div id="secondary-menu-list" class="mt-4 eokul-card px-2.5 divide-y divide-[#d8dce4]"></div>
+
+
+            <!-- SYSTEM SYNC & APP UPDATE CARD (BOTTOM OF STUDENT SCREEN) -->
+            <div class="mt-4 eokul-card px-2.5 divide-y divide-[#d8dce4]">
+              <div onclick="manualSyncStudentData()"
+                   class="ripple-host py-3.5 px-1.5 flex items-center justify-between cursor-pointer">
+                <div class="flex items-center space-x-3.5">
+                  <div class="relative w-[52px] h-[46px] flex items-center justify-center flex-shrink-0">
+                    <div class="absolute left-0 bottom-0 w-10 h-10 rounded-full bg-[#f4f6fa]"></div>
+                    <svg class="w-10 h-10 relative z-10" viewBox="0 0 48 48" fill="none">
+                      <path d="M35.5,22 A11.5,11.5 0 0,0 14.2,17.2" stroke="#858c97" stroke-width="1.8" stroke-linecap="round"/>
+                      <polyline points="13.5,11.8 13.8,17.6 19.6,17.2" stroke="#858c97" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M12.5,26 A11.5,11.5 0 0,0 33.8,30.8" stroke="#858c97" stroke-width="1.8" stroke-linecap="round"/>
+                      <polyline points="34.5,36.2 34.2,30.4 28.4,30.8" stroke="#858c97" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                  <span class="text-[#7b808c] text-[14.5px] font-normal">Bilgileri Güncelle</span>
+                </div>
+                <svg class="w-5 h-5 text-[#9ca2aa] mr-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 6l6 6-6 6"/>
+                </svg>
+              </div>
+
+
+              <div onclick="manualCheckAppUpdate()"
+                   class="ripple-host py-3.5 px-1.5 flex items-center justify-between cursor-pointer">
+                <div class="flex items-center space-x-3.5">
+                  <div class="relative w-[52px] h-[46px] flex items-center justify-center flex-shrink-0">
+                    <div class="absolute left-0 bottom-0 w-10 h-10 rounded-full bg-[#f4f6fa]"></div>
+                    <svg class="w-10 h-10 relative z-10" viewBox="0 0 48 48" fill="none">
+                      <rect x="14" y="9" width="20" height="30" rx="3" fill="#ffffff" stroke="#858c97" stroke-width="1.5"/>
+                      <line x1="20" y1="35" x2="28" y2="35" stroke="#858c97" stroke-width="1.5" stroke-linecap="round"/>
+                      <path d="M24,16 L24,27" stroke="#858c97" stroke-width="1.8" stroke-linecap="round"/>
+                      <polyline points="19.5,22.5 24,27.5 28.5,22.5" stroke="#858c97" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                  <span class="text-[#7b808c] text-[14.5px] font-normal">Uygulama Güncelleme</span>
+                </div>
+                <svg class="w-5 h-5 text-[#9ca2aa] mr-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 6l6 6-6 6"/>
+                </svg>
+              </div>
+            </div>
           </div>
+
 
           <!-- SHARED WHITE CARD FOR ALL INNER SUB-PAGES -->
           <div id="view-subpage-card" class="eokul-card hidden">
+
 
             <!-- Sub-Page Card Header Bar (Clean e-Okul Header — Pull Down to Go Back) -->
             <div id="subpage-header-bar" class="px-5 pt-5 pb-3.5 flex items-center justify-between select-none">
@@ -1793,6 +2013,7 @@
                 Not Bilgileri
               </h2>
             </div>
+
 
             <!-- SUB-PAGE: NOT BİLGİLERİ -->
             <div id="sub-not-bilgileri" class="subpage-pane hidden">
@@ -1805,6 +2026,7 @@
               </div>
               <div id="not-bilgileri-body" class="px-4 pb-6"></div>
             </div>
+
 
             <!-- SUB-PAGE: DEVAMSIZLIK BİLGİLERİ -->
             <div id="sub-devamsizlik" class="subpage-pane hidden">
@@ -1823,6 +2045,7 @@
               <div id="devamsizlik-list" class="border-t border-[#e6e8ef] divide-y divide-[#e6e8ef] pb-2"></div>
             </div>
 
+
             <!-- SUB-PAGE: SINAV TARİHLERİ -->
             <div id="sub-sinav-tarihleri" class="subpage-pane hidden">
               <div class="px-4 pt-1 pb-4">
@@ -1836,6 +2059,7 @@
               <div id="sinav-tarihleri-body" class="pb-6"></div>
             </div>
 
+
             <!-- SUB-PAGE: ŞUBE YAZILI ORTALAMALARI -->
             <div id="sub-yazili-ortalamalari" class="subpage-pane hidden">
               <div class="px-5 pt-1 pb-4">
@@ -1848,15 +2072,18 @@
               <div id="yazili-ortalamalari-body" class="px-4 pb-6"></div>
             </div>
 
+
             <!-- SUB-PAGE: YIL SONU NOTLARI -->
             <div id="sub-yil-sonu-notlari" class="subpage-pane hidden">
               <div id="yil-sonu-list" class="divide-y divide-[#e2e5ec] pb-3"></div>
             </div>
 
+
             <!-- SUB-PAGE: ALDIĞI BELGELER -->
             <div id="sub-aldigi-belgeler" class="subpage-pane hidden">
               <div id="aldigi-belgeler-list" class="divide-y divide-[#e2e5ec] pb-3"></div>
             </div>
+
 
             <!-- SUB-PAGE: SORUMLULUK BİLGİLERİ -->
             <div id="sub-sorumluluk" class="subpage-pane hidden">
@@ -1873,10 +2100,12 @@
               </div>
             </div>
 
+
             <!-- SUB-PAGE: NAKİL BİLGİSİ -->
             <div id="sub-nakil" class="subpage-pane hidden">
               <div id="nakil-state-body" class="py-12 px-6 flex flex-col items-center justify-center text-center min-h-[270px]"></div>
             </div>
+
 
             <!-- SUB-PAGE: DERS DEVAMSIZLIKLARI (INTERACTIVE CALENDAR) -->
             <div id="sub-ders-devamsizliklari" class="subpage-pane hidden">
@@ -1897,6 +2126,7 @@
                   </button>
                 </div>
 
+
                 <div class="grid grid-cols-7 text-center mb-3">
                   <div class="text-[#5e626c] text-[13.5px] font-medium">Pzt</div>
                   <div class="text-[#5e626c] text-[13.5px] font-medium">Sal</div>
@@ -1907,13 +2137,16 @@
                   <div class="text-[#5e626c] text-[13.5px] font-medium">Paz</div>
                 </div>
 
+
                 <div id="cal-days-grid" class="grid grid-cols-7 gap-y-4 text-center"></div>
               </div>
+
 
               <div id="cal-detail-accordion" class="cal-detail-accordion border-t border-[#e6e8ef]">
                 <div id="cal-detail-area" class="cal-detail-accordion-inner"></div>
               </div>
             </div>
+
 
             <!-- SUB-PAGE: PLACEHOLDER (Ders Programı, DİLİM, Bildirimler, Davranış Notları, Okuduğu Kitaplar) -->
             <div id="sub-placeholder" class="subpage-pane hidden">
@@ -1930,10 +2163,12 @@
               </div>
             </div>
 
+
           </div>
         </main>
       </div>
     </section>
+
 
     <!-- =================================================================== -->
     <!-- MODAL: OKUL RANDEVU — DOĞRULAMA GEREKLİ                             -->
@@ -1942,6 +2177,7 @@
       <div class="absolute top-[52px] left-1/2 -translate-x-1/2 pointer-events-none">
         <div class="eokul-spinner"></div>
       </div>
+
 
       <div class="modal-dialog-box text-center">
         <div class="w-[62px] h-[62px] rounded-full bg-[#e1eaf2] mx-auto flex items-center justify-center mb-4">
@@ -1952,13 +2188,16 @@
           </svg>
         </div>
 
+
         <h3 class="text-[#102a83] font-bold text-[18.5px] mb-2.5">
           Doğrulama Gerekli
         </h3>
 
+
         <p class="text-[#585d6b] text-[14.2px] leading-[1.52] mb-6 px-1">
           Okul Randevu servisine erişim için öğrencinizi e-Devlet ile yeniden doğrulamanız gerekmektedir.
         </p>
+
 
         <div id="randevu-modal-actions" class="grid grid-cols-2 gap-3.5">
           <button type="button" onclick="closeRandevuModal()"
@@ -1971,12 +2210,14 @@
           </button>
         </div>
 
+
         <div id="randevu-verifying-state" class="hidden py-2 flex items-center justify-center space-x-3">
           <div class="eokul-spinner !w-6 !h-6 !border-2"></div>
           <span class="text-[#585d6b] text-[13.5px] font-medium">e-Devlet'e yönlendiriliyor...</span>
         </div>
       </div>
     </div>
+
 
     <!-- =================================================================== -->
     <!-- BOTTOM RED SNACKBAR & NEUTRAL TOAST (SCOPED TO #app)                -->
@@ -1985,9 +2226,12 @@
       <div id="red-snackbar-inner" class="red-snackbar px-5 py-4"></div>
     </div>
 
+
     <div id="notice-toast" class="notice-toast"></div>
 
+
   </div>
+
 
   <!-- =================================================================== -->
   <!-- CENTRALIZED DATA & BUG-FREE 120Hz MOTION + SCROLL ENGINE            -->
@@ -2000,6 +2244,7 @@
       safa: { name: 'Safa Tuğra Dalkürek', classInfo: '11.Sınıf - 299' },
       elifnaz: { name: 'Elifnaz Dalkürek', classInfo: '8.Sınıf - 293' }
     };
+
 
     const APP_DATA = {
       safa: {
@@ -2124,6 +2369,7 @@
         ]
       },
 
+
       elifnaz: {
         id: 'elifnaz',
         name: 'Elifnaz Dalkürek',
@@ -2192,6 +2438,7 @@
       }
     };
 
+
     // =========================================================================
     // RUNTIME STATE & ANIMATION GUARDS
     // =========================================================================
@@ -2202,6 +2449,7 @@
     let activeExamTab = 0;
     let ignorePopCount = 0;
 
+
     // Safe History Helpers (Android Back Button / Edge-Swipe Support)
     function safeReplaceNavState(state) {
       try {
@@ -2209,11 +2457,13 @@
       } catch (_) {}
     }
 
+
     function safePushNavState(state) {
       try {
         history.pushState(state, '');
       } catch (_) {}
     }
+
 
     function safeStepBackHistory(steps) {
       const count = steps || 1;
@@ -2230,6 +2480,7 @@
       }
     }
 
+
     function getCurrentNavLevel() {
       const ws = document.getElementById('screen-student-workspace');
       if (!ws || ws.classList.contains('screen-hidden')) return 0;
@@ -2241,6 +2492,7 @@
     let dayCountRafIds = [];
     let subCardExitAnim = null;
 
+
     const TR_MONTHS = [
       'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
       'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
@@ -2249,9 +2501,11 @@
     let calMonth = 10; // Kasım 2026
     let calSelected = { year: 2026, month: 10, day: 19 };
 
+
     function toTurkishUpper(str) {
       return (str || '').toLocaleUpperCase('tr-TR');
     }
+
 
     function cancelActiveAnimations() {
       activeAnimations.forEach(anim => {
@@ -2259,6 +2513,7 @@
       });
       activeAnimations = [];
     }
+
 
     function cleanupSubCardExit() {
       if (subCardExitAnim) {
@@ -2282,6 +2537,7 @@
       }
     }
 
+
     function resetHeroPullStyles() {
       const header = document.getElementById('student-hero-header');
       const waveLayer = document.getElementById('hero-wave-layer');
@@ -2295,6 +2551,7 @@
       }
     }
 
+
     function trackAnimation(anim) {
       if (!anim) return;
       activeAnimations.push(anim);
@@ -2303,11 +2560,13 @@
       };
     }
 
+
     // =========================================================================
     // MATERIAL 3 RIPPLE ENGINE (PASSIVE, NEVER INTERFERES WITH SCROLL)
     // =========================================================================
     function initRippleEngine() {
       let pressedHost = null;
+
 
       document.addEventListener('pointerdown', (e) => {
         const host = e.target.closest('.ripple-host');
@@ -2315,10 +2574,12 @@
         pressedHost = host;
         host.classList.add('is-pressed');
 
+
         const rect = host.getBoundingClientRect();
         const size = Math.max(rect.width, rect.height) * 2.1;
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
+
 
         const ripple = document.createElement('span');
         ripple.className = 'm3-ripple';
@@ -2327,6 +2588,7 @@
         ripple.style.left = x + 'px';
         ripple.style.top = y + 'px';
         host.appendChild(ripple);
+
 
         const expandAnim = ripple.animate([
           { transform: 'translate(-50%, -50%) scale(0)', opacity: 0.85 },
@@ -2337,8 +2599,10 @@
           fill: 'forwards'
         });
 
+
         expandAnim.onfinish = () => ripple.remove();
       }, { passive: true });
+
 
       const releasePress = () => {
         if (pressedHost) {
@@ -2347,10 +2611,12 @@
         }
       };
 
+
       document.addEventListener('pointerup', releasePress, { passive: true });
       document.addEventListener('pointercancel', releasePress, { passive: true });
       document.addEventListener('pointerleave', releasePress, { passive: true });
     }
+
 
     // =========================================================================
     // TRUE 120Hz GPU FLIP HERO MORPH ENGINE
@@ -2363,10 +2629,12 @@
       return map;
     }
 
+
     function playFlipHeaderMorph(beforeRects, elementsConfig) {
       const duration = 360;
       const easing = 'cubic-bezier(0.22, 1, 0.36, 1)';
       const isTargetExpanded = document.getElementById('student-hero-header').classList.contains('header-expanded');
+
 
       // Phase 1: Batch all layout reads first (prevents layout thrashing)
       const measured = [];
@@ -2379,9 +2647,11 @@
         measured.push({ el, scaleMode, first, last });
       }
 
+
       // Phase 2: Start GPU compositor-only animations
       for (let i = 0; i < measured.length; i++) {
         const { el, scaleMode, first, last } = measured[i];
+
 
         // Centered elements use translate3d(-50%, 0, 0) in expanded mode
         if (el.id === 'hero-student-name' || el.id === 'hero-student-class') {
@@ -2390,6 +2660,7 @@
           const deltaX = isTargetExpanded ? (firstCx - lastCx) : (first.left - last.left);
           const deltaY = first.top - last.top;
 
+
           const fromT = isTargetExpanded
             ? `translate3d(calc(-50% + ${deltaX}px), ${deltaY}px, 0)`
             : `translate3d(${deltaX}px, ${deltaY}px, 0)`;
@@ -2397,15 +2668,18 @@
             ? 'translate3d(-50%, 0, 0)'
             : 'translate3d(0, 0, 0)';
 
+
           trackAnimation(el.animate([{ transform: fromT }, { transform: toT }], { duration, easing }));
           continue;
         }
+
 
         const dx = first.left - last.left;
         const dy = first.top - last.top;
         if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5 && Math.abs(first.width - last.width) < 0.5) {
           continue;
         }
+
 
         let fromTransform = `translate3d(${dx}px, ${dy}px, 0)`;
         if (scaleMode === 'both') {
@@ -2414,12 +2688,14 @@
           fromTransform = `translate3d(${dx}px, ${dy}px, 0) scale(${sx}, ${sy})`;
         }
 
+
         trackAnimation(el.animate([
           { transform: fromTransform },
           { transform: 'translate3d(0, 0, 0) scale(1, 1)' }
         ], { duration, easing }));
       }
     }
+
 
     // =========================================================================
     // NAVIGATION: ÖĞRENCİ LİSTESİ <-> ANA MENÜ <-> INNER SUB-PAGES
@@ -2429,39 +2705,48 @@
       const student = APP_DATA[studentKey];
       if (!student) return;
 
+
       cancelActiveAnimations();
       toggleFab(false, true);
       hideRedSnackbar();
+
 
       // Measure circular avatar from Öğrenci Listesi BEFORE hiding list
       const listAvatarBox = document.getElementById('list-avatar-box-' + studentKey);
       const sourceRect = listAvatarBox ? listAvatarBox.getBoundingClientRect() : null;
 
+
       activeStudentKey = studentKey;
       currentSubPage = null;
+
 
       const listScreen = document.getElementById('screen-student-list');
       const workspaceScreen = document.getElementById('screen-student-workspace');
       const fabLayer = document.getElementById('fab-layer');
       const header = document.getElementById('student-hero-header');
 
+
       header.classList.remove('header-compact');
       header.classList.add('header-expanded');
+
 
       document.getElementById('hero-student-name').textContent = student.name;
       document.getElementById('hero-student-class').textContent = student.classInfo;
       refreshAvatarDisplays();
       renderSecondaryMenu(student);
 
+
       document.getElementById('view-subpage-card').classList.add('hidden');
       const homeView = document.getElementById('view-student-home');
       homeView.classList.remove('hidden');
+
 
       // Switch active scroll container & reset scrollTop cleanly
       listScreen.classList.add('screen-hidden');
       fabLayer.classList.add('screen-hidden');
       workspaceScreen.classList.remove('screen-hidden');
       workspaceScreen.scrollTop = 0;
+
 
       if (!opts.fromPopState) {
         const curLevel = (history.state && typeof history.state.level === 'number') ? history.state.level : 0;
@@ -2472,6 +2757,7 @@
         }
       }
 
+
       // Circular avatar -> center portrait shared-element flight
       const heroPhoto = document.getElementById('hero-photo');
       if (sourceRect && heroPhoto) {
@@ -2480,6 +2766,7 @@
         const dy = sourceRect.top - destRect.top;
         const sx = sourceRect.width / destRect.width;
         const sy = sourceRect.height / destRect.height;
+
 
         trackAnimation(heroPhoto.animate([
           {
@@ -2495,6 +2782,7 @@
         ], { duration: 420, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }));
       }
 
+
       // Cascade dashboard grid cells & cards smoothly
       const gridCells = homeView.querySelectorAll('.menu-grid-cell');
       gridCells.forEach((cell, idx) => {
@@ -2508,6 +2796,7 @@
           fill: 'backwards'
         }));
       });
+
 
       const lowerCards = homeView.querySelectorAll('.eokul-card');
       lowerCards.forEach((card, idx) => {
@@ -2524,10 +2813,12 @@
       });
     }
 
+
     function leaveStudentShell(options) {
       const opts = options || {};
       const fromPopState = Boolean(opts.fromPopState);
       const prevLevel = getCurrentNavLevel();
+
 
       cancelActiveAnimations();
       cleanupSubCardExit();
@@ -2536,14 +2827,17 @@
       closeRandevuModal(true);
       currentSubPage = null;
 
+
       const listScreen = document.getElementById('screen-student-list');
       const workspaceScreen = document.getElementById('screen-student-workspace');
       const fabLayer = document.getElementById('fab-layer');
+
 
       workspaceScreen.classList.add('screen-hidden');
       listScreen.classList.remove('screen-hidden');
       fabLayer.classList.remove('screen-hidden');
       listScreen.scrollTop = 0;
+
 
       if (!fromPopState) {
         const stLevel = (history.state && typeof history.state.level === 'number') ? history.state.level : prevLevel;
@@ -2552,15 +2846,18 @@
         }
       }
 
+
       trackAnimation(listScreen.animate([
         { opacity: 0, transform: 'scale(0.97)' },
         { opacity: 1, transform: 'scale(1)' }
       ], { duration: 280, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }));
     }
 
+
     function openSubPage(pageKey, customTitle) {
       const student = APP_DATA[activeStudentKey];
       if (!student) return;
+
 
       const workspaceScreen = document.getElementById('screen-student-workspace');
       const header = document.getElementById('student-hero-header');
@@ -2569,13 +2866,16 @@
       const heroClass = document.getElementById('hero-student-class');
       const heroSwitch = document.getElementById('hero-switch-btn');
 
+
       // Reset scrollTop FIRST (before paint) so FLIP starts from visible top header
       workspaceScreen.scrollTop = 0;
+
 
       const wasExpanded = header.classList.contains('header-expanded');
       const beforeRects = wasExpanded
         ? captureRects([heroPhoto, heroName, heroClass, heroSwitch])
         : null;
+
 
       const wasAlreadySubPage = currentSubPage !== null;
       cancelActiveAnimations();
@@ -2584,6 +2884,7 @@
       hideRedSnackbar();
       currentSubPage = pageKey;
 
+
       const curStLevel = (history.state && typeof history.state.level === 'number') ? history.state.level : 1;
       if (wasAlreadySubPage || curStLevel === 2) {
         safeReplaceNavState({ level: 2, student: activeStudentKey, page: pageKey });
@@ -2591,17 +2892,21 @@
         safePushNavState({ level: 2, student: activeStudentKey, page: pageKey });
       }
 
+
       // Switch header to Compact Mode
       header.classList.remove('header-expanded');
       header.classList.add('header-compact');
       heroName.textContent = student.upperName;
+
 
       document.getElementById('view-student-home').classList.add('hidden');
       const subCard = document.getElementById('view-subpage-card');
       subCard.classList.remove('hidden');
       document.querySelectorAll('.subpage-pane').forEach(p => p.classList.add('hidden'));
 
+
       const titleEl = document.getElementById('subpage-title');
+
 
       switch (pageKey) {
         case 'not-bilgileri':
@@ -2612,11 +2917,13 @@
           requestAnimationFrame(() => moveTwoTabGlider('not-term-glider', 'not-tab-1', false));
           break;
 
+
         case 'devamsizlik':
           titleEl.textContent = 'Devamsızlık Bilgileri';
           document.getElementById('sub-devamsizlik').classList.remove('hidden');
           renderDevamsizlik();
           break;
+
 
         case 'sinav-tarihleri':
           titleEl.textContent = 'Sınav Tarihleri';
@@ -2626,6 +2933,7 @@
           requestAnimationFrame(() => moveExamGlider(false));
           break;
 
+
         case 'yazili-ortalamalari':
           titleEl.textContent = 'Şube Yazılı Ortalamaları';
           document.getElementById('sub-yazili-ortalamalari').classList.remove('hidden');
@@ -2634,17 +2942,20 @@
           requestAnimationFrame(() => moveTwoTabGlider('sube-term-glider', 'sube-tab-1', false));
           break;
 
+
         case 'yil-sonu-notlari':
           titleEl.textContent = 'Yıl Sonu Notları';
           document.getElementById('sub-yil-sonu-notlari').classList.remove('hidden');
           renderYilSonuNotlari();
           break;
 
+
         case 'aldigi-belgeler':
           titleEl.textContent = 'Aldığı Belgeler';
           document.getElementById('sub-aldigi-belgeler').classList.remove('hidden');
           renderAldigiBelgeler();
           break;
+
 
         case 'sorumluluk':
           titleEl.textContent = 'Sorumluluk Bilgileri';
@@ -2656,11 +2967,13 @@
           }, 220);
           break;
 
+
         case 'nakil':
           titleEl.textContent = 'Nakil Bilgisi';
           document.getElementById('sub-nakil').classList.remove('hidden');
           renderNakilError(false);
           break;
+
 
         case 'ders-devamsizliklari':
           titleEl.textContent = 'Ders Devamsızlıkları';
@@ -2671,6 +2984,7 @@
           renderCalendar(0);
           break;
 
+
         default:
           titleEl.textContent = customTitle || 'Bilgi';
           document.getElementById('placeholder-desc').textContent =
@@ -2679,6 +2993,7 @@
           break;
       }
 
+
       if (wasExpanded && beforeRects) {
         playFlipHeaderMorph(beforeRects, [
           { el: heroPhoto, scaleMode: 'both' },
@@ -2686,6 +3001,7 @@
           { el: heroClass, scaleMode: 'none' },
           { el: heroSwitch, scaleMode: 'none' }
         ]);
+
 
         const waveLayer = document.getElementById('hero-wave-layer');
         if (waveLayer) {
@@ -2696,14 +3012,17 @@
         }
       }
 
+
       trackAnimation(subCard.animate([
         { opacity: 0, transform: 'translate3d(0, 22px, 0) scale(0.98)' },
         { opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)' }
       ], { duration: 340, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }));
     }
 
+
     function returnToStudentHome(options) {
       if (currentSubPage === null) return;
+
 
       const opts = options || {};
       const fromPullDismiss = Boolean(opts.fromPullDismiss);
@@ -2718,10 +3037,12 @@
       const subCard = document.getElementById('view-subpage-card');
       const homeView = document.getElementById('view-student-home');
 
+
       // Reset scrollTop cleanly BEFORE measuring compact rects (unless pulling from already top)
       if (!fromPullDismiss) {
         workspaceScreen.scrollTop = 0;
       }
+
 
       // Measure compact hero rects BEFORE clearing pull parallax so reverse FLIP starts seamlessly
       const beforeRects = captureRects([heroPhoto, heroName, heroClass, heroSwitch]);
@@ -2736,21 +3057,26 @@
       hideRedSnackbar();
       currentSubPage = null;
 
+
       if (!fromPopState && history.state && history.state.level === 2) {
         safeStepBackHistory(1);
       }
 
+
       if (fromPullDismiss) {
         workspaceScreen.scrollTop = 0;
       }
+
 
       header.classList.remove('header-expanded');
       header.classList.remove('header-compact');
       header.classList.add('header-expanded');
       heroName.textContent = student.name;
 
+
       // Show dashboard immediately while sub-page card simultaneously glides downward & fades out
       homeView.classList.remove('hidden');
+
 
       if (fromPullDismiss && subCard) {
         subCard.classList.remove('hidden');
@@ -2760,6 +3086,7 @@
         subCard.style.right = '11px';
         subCard.style.zIndex = '32';
         subCard.style.pointerEvents = 'none';
+
 
         const exitTargetY = Math.max(120, startCardY + 64);
         subCardExitAnim = subCard.animate([
@@ -2777,6 +3104,7 @@
           fill: 'forwards'
         });
 
+
         subCardExitAnim.onfinish = () => {
           cleanupSubCardExit();
           subCard.classList.add('hidden');
@@ -2784,6 +3112,7 @@
       } else {
         subCard.classList.add('hidden');
       }
+
 
       // Simultaneous GPU FLIP Hero Reverse Transition
       playFlipHeaderMorph(beforeRects, [
@@ -2793,6 +3122,7 @@
         { el: heroSwitch, scaleMode: 'none' }
       ]);
 
+
       if (waveLayer) {
         const waveFromY = fromPullDismiss ? (-26 + startWaveY + startHeaderY) : -24;
         trackAnimation(waveLayer.animate([
@@ -2800,6 +3130,7 @@
           { transform: 'translate3d(0, 0, 0)' }
         ], { duration: 360, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }));
       }
+
 
       if (fromPullDismiss) {
         // Single GPU compositor layer entrance during pull-to-dismiss (eliminates 8-layer jank)
@@ -2825,6 +3156,7 @@
           }));
         });
 
+
         const lowerCards = homeView.querySelectorAll('.eokul-card');
         lowerCards.forEach((card, idx) => {
           if (idx === 0) return;
@@ -2841,6 +3173,7 @@
       }
     }
 
+
     // =========================================================================
     // SLIDING TAB CAPSULES & GPA COUNT-UP ANIMATION
     // =========================================================================
@@ -2849,9 +3182,11 @@
       const btn = document.getElementById(activeBtnId);
       if (!glider || !btn) return;
 
+
       if (!animate) glider.style.transition = 'none';
       glider.style.width = btn.offsetWidth + 'px';
       glider.style.transform = `translate3d(${btn.offsetLeft}px, 0, 0)`;
+
 
       if (!animate) {
         void glider.offsetWidth;
@@ -2859,14 +3194,17 @@
       }
     }
 
+
     function moveExamGlider(animate) {
       const indicator = document.getElementById('exam-segment-indicator');
       const btn = document.getElementById('exam-tab-' + activeExamTab);
       if (!indicator || !btn) return;
 
+
       if (!animate) indicator.style.transition = 'none';
       indicator.style.width = btn.offsetWidth + 'px';
       indicator.style.transform = `translate3d(${btn.offsetLeft}px, 0, 0)`;
+
 
       if (!animate) {
         void indicator.offsetWidth;
@@ -2874,9 +3212,11 @@
       }
     }
 
+
     function animateCountUp(el, targetStr) {
       if (!el) return;
       if (countUpRafId) cancelAnimationFrame(countUpRafId);
+
 
       const targetVal = parseFloat(targetStr.replace(',', '.'));
       if (isNaN(targetVal)) {
@@ -2884,9 +3224,11 @@
         return;
       }
 
+
       const decimals = (targetStr.split('.')[1] || '').length;
       const duration = 680;
       const startTime = performance.now();
+
 
       function tick(now) {
         const progress = Math.min(1, (now - startTime) / duration);
@@ -2900,6 +3242,7 @@
       countUpRafId = requestAnimationFrame(tick);
     }
 
+
     function animateDayCountUp(el, targetStr) {
       if (!el) return;
       const match = String(targetStr).match(/^(\d+(?:[.,]\d+)?)(.*)$/);
@@ -2912,6 +3255,7 @@
       const isDecimal = match[1].includes(',') || match[1].includes('.');
       const duration = 460;
       const startTime = performance.now();
+
 
       function tick(now) {
         const progress = Math.min(1, (now - startTime) / duration);
@@ -2927,9 +3271,11 @@
       dayCountRafIds.push(requestAnimationFrame(tick));
     }
 
+
     function staggerDelayStyle(index) {
       return `animation-delay: ${Math.min(index, 9) * 28}ms;`;
     }
+
 
     // =========================================================================
     // SVG ICONS LIBRARY
@@ -2954,6 +3300,7 @@
       `;
     }
 
+
     function getExamCalendarClockIconSvg() {
       return `
         <svg class="w-11 h-11 relative z-10" viewBox="0 0 48 48" fill="none">
@@ -2970,6 +3317,7 @@
       `;
     }
 
+
     function getCertificateIconSvg() {
       return `
         <svg class="w-11 h-11 relative z-10" viewBox="0 0 48 48" fill="none">
@@ -2985,6 +3333,7 @@
         </svg>
       `;
     }
+
 
     function getSecondaryIconSvg(type) {
       switch (type) {
@@ -3054,6 +3403,7 @@
       }
     }
 
+
     function getEmptyExclamationHtml(message) {
       return `
         <div class="py-12 px-5 flex flex-col items-center justify-center text-center">
@@ -3070,6 +3420,7 @@
       `;
     }
 
+
     function getStatusBadgeSvg(status, delayMs) {
       let inner = '';
       if (status === 'equal') {
@@ -3081,6 +3432,7 @@
       }
       return `<div class="status-pop" style="animation-delay: ${delayMs}ms;">${inner}</div>`;
     }
+
 
     // =========================================================================
     // SCREEN RENDERERS
@@ -3096,6 +3448,7 @@
         } else {
           onClickAttr = `openSubPage('placeholder', '${item.title}')`;
         }
+
 
         return `
           <div onclick="${onClickAttr}"
@@ -3115,6 +3468,7 @@
       }).join('');
     }
 
+
     /* Not Bilgileri */
     function setNotTerm(term) {
       if (term === activeNotTerm) return;
@@ -3124,19 +3478,23 @@
       renderNotBilgileri(dir);
     }
 
+
     function renderNotBilgileri(slideDir) {
       document.getElementById('not-tab-1').classList.toggle('active', activeNotTerm === 1);
       document.getElementById('not-tab-2').classList.toggle('active', activeNotTerm === 2);
+
 
       const body = document.getElementById('not-bilgileri-body');
       const student = APP_DATA[activeStudentKey];
       const courses = activeNotTerm === 1 ? student.grades.term1 : student.grades.term2;
       const slideClass = slideDir > 0 ? 'pane-slide-right' : (slideDir < 0 ? 'pane-slide-left' : '');
 
+
       if (!courses || courses.length === 0) {
         body.innerHTML = `<div class="${slideClass}">${getEmptyExclamationHtml('Bu dönem açıklanmış not bulunamamıştır.')}</div>`;
         return;
       }
+
 
       const coursesHtml = courses.map((item, idx) => {
         const scoreRowsHtml = item.rows.map(r => `
@@ -3147,6 +3505,7 @@
             <td class="text-center font-bold text-[#162e7a]">${r.s3}</td>
           </tr>
         `).join('');
+
 
         return `
           <div class="stagger-item ${idx > 0 ? 'pt-4 mt-4 border-t border-[#d8dce4]' : 'pt-1'}" style="${staggerDelayStyle(idx)}">
@@ -3184,6 +3543,7 @@
         `;
       }).join('');
 
+
       const avgFooterHtml = `
         <div class="stagger-item pt-4 mt-5 border-t border-[#d8dce4] flex items-center justify-between px-1" style="${staggerDelayStyle(courses.length)}">
           <div class="flex items-center space-x-3">
@@ -3215,9 +3575,12 @@
         </div>
       `;
 
+
       body.innerHTML = `<div class="${slideClass}">${coursesHtml + avgFooterHtml}</div>`;
-      animateCountUp(document.getElementById('term-average-counter'), student.grades.term1Average);
+      const avgVal = activeNotTerm === 1 ? (student.grades.term1Average || '0.0000') : (student.grades.term2Average || '0.0000');
+      animateCountUp(document.getElementById('term-average-counter'), avgVal);
     }
+
 
     /* Devamsızlık Bilgileri */
     function renderDevamsizlik() {
@@ -3225,8 +3588,10 @@
       dayCountRafIds.forEach(id => cancelAnimationFrame(id));
       dayCountRafIds = [];
 
+
       animateDayCountUp(document.getElementById('devam-ozurlu-val'), student.attendance.excused);
       animateDayCountUp(document.getElementById('devam-ozursuz-val'), student.attendance.unexcused);
+
 
       const listEl = document.getElementById('devamsizlik-list');
       listEl.innerHTML = student.attendance.records.map((rec, idx) => `
@@ -3247,6 +3612,7 @@
       `).join('');
     }
 
+
     /* Sınav Tarihleri */
     function setExamTab(index) {
       if (index === activeExamTab) return;
@@ -3256,26 +3622,32 @@
       renderSinavTarihleri(dir);
     }
 
+
     function renderSinavTarihleri(slideDir) {
       for (let i = 0; i < 3; i++) {
         const btn = document.getElementById('exam-tab-' + i);
         if (btn) btn.classList.toggle('active', i === activeExamTab);
       }
 
+
       const body = document.getElementById('sinav-tarihleri-body');
       const student = APP_DATA[activeStudentKey];
       const slideClass = slideDir > 0 ? 'pane-slide-right' : (slideDir < 0 ? 'pane-slide-left' : '');
 
-      if (activeExamTab === 0 || activeExamTab === 1) {
-        body.innerHTML = `<div class="${slideClass}">${getEmptyExclamationHtml('Bu dönem açıklanmış sınav tarihi bulunamamıştır.')}</div>`;
+
+      const exams = activeExamTab === 0
+        ? (student.exams.byCourse || [])
+        : (activeExamTab === 1 ? (student.exams.byDate || []) : (student.exams.past || []));
+
+
+      if (exams.length === 0) {
+        const emptyMsg = activeExamTab === 2
+          ? 'Geçmiş sınav kaydı bulunamamıştır.'
+          : 'Bu dönem açıklanmış sınav tarihi bulunamamıştır.';
+        body.innerHTML = `<div class="${slideClass}">${getEmptyExclamationHtml(emptyMsg)}</div>`;
         return;
       }
 
-      const exams = student.exams.past || [];
-      if (exams.length === 0) {
-        body.innerHTML = `<div class="${slideClass}">${getEmptyExclamationHtml('Geçmiş sınav kaydı bulunamamıştır.')}</div>`;
-        return;
-      }
 
       body.innerHTML = `
         <div class="${slideClass} px-4 divide-y divide-[#d4d8df]">
@@ -3299,6 +3671,7 @@
       `;
     }
 
+
     /* Şube Yazılı Ortalamaları */
     function setSubeTerm(term) {
       if (term === activeSubeTerm) return;
@@ -3308,19 +3681,23 @@
       renderYaziliOrtalamalari(dir);
     }
 
+
     function renderYaziliOrtalamalari(slideDir) {
       document.getElementById('sube-tab-1').classList.toggle('active', activeSubeTerm === 1);
       document.getElementById('sube-tab-2').classList.toggle('active', activeSubeTerm === 2);
+
 
       const body = document.getElementById('yazili-ortalamalari-body');
       const student = APP_DATA[activeStudentKey];
       const items = activeSubeTerm === 1 ? student.branchAverages.term1 : student.branchAverages.term2;
       const slideClass = slideDir > 0 ? 'pane-slide-right' : (slideDir < 0 ? 'pane-slide-left' : '');
 
+
       if (!items || items.length === 0) {
         body.innerHTML = `<div class="${slideClass}">${getEmptyExclamationHtml('Bu dönem açıklanmış not bulunamamıştır.')}</div>`;
         return;
       }
+
 
       body.innerHTML = `
         <div class="${slideClass}">
@@ -3361,10 +3738,12 @@
       `;
     }
 
+
     /* Yıl Sonu Notları */
     function renderYilSonuNotlari() {
       const student = APP_DATA[activeStudentKey];
       const listEl = document.getElementById('yil-sonu-list');
+
 
       listEl.innerHTML = student.yearEndGrades.map((row, idx) => `
         <div class="stagger-item px-4 py-3.5 flex items-center justify-between" style="${staggerDelayStyle(idx)}">
@@ -3390,10 +3769,12 @@
       `).join('');
     }
 
+
     /* Aldığı Belgeler */
     function renderAldigiBelgeler() {
       const student = APP_DATA[activeStudentKey];
       const listEl = document.getElementById('aldigi-belgeler-list');
+
 
       listEl.innerHTML = student.certificates.map((cert, idx) => `
         <div class="stagger-item px-5 py-4 flex items-center justify-between" style="${staggerDelayStyle(idx)}">
@@ -3418,6 +3799,7 @@
       `).join('');
     }
 
+
     /* Nakil Bilgisi */
     function renderNakilError(isRetrying) {
       const box = document.getElementById('nakil-state-body');
@@ -3435,6 +3817,7 @@
         return;
       }
 
+
       box.innerHTML = `
         <div class="w-[58px] h-[58px] rounded-full border-[3.5px] border-[#3b5598] bg-[#f4f6fb] flex items-center justify-center mb-5 status-pop">
           <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none">
@@ -3447,6 +3830,7 @@
         </p>
       `;
 
+
       snackbarDelayTimer = setTimeout(() => {
         if (currentSubPage === 'nakil') {
           showRedSnackbar('Sunucu hatası oluştu. Lütfen daha sonra tekrar deneyin.', true);
@@ -3454,10 +3838,12 @@
       }, 200);
     }
 
+
     /* Ders Devamsızlıkları Calendar */
     function toIsoDate(y, m, d) {
       return `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
     }
+
 
     function findAbsenceForDate(y, m, d) {
       const iso = toIsoDate(y, m, d);
@@ -3465,12 +3851,14 @@
       return records.find(r => r.iso === iso) || null;
     }
 
+
     function shiftCalendarMonth(delta) {
       calMonth += delta;
       if (calMonth < 0) { calMonth = 11; calYear--; }
       if (calMonth > 11) { calMonth = 0; calYear++; }
       renderCalendar(delta);
     }
+
 
     function selectCalendarDay(y, m, d, isOtherMonth) {
       const monthDelta = isOtherMonth ? (y * 12 + m) - (calYear * 12 + calMonth) : 0;
@@ -3482,18 +3870,22 @@
       renderCalendar(monthDelta);
     }
 
+
     function renderCalendar(slideDir) {
       document.getElementById('cal-month-label').textContent = `${TR_MONTHS[calMonth]} ${calYear}`;
+
 
       const firstDayOfMonth = new Date(calYear, calMonth, 1);
       const startOffset = (firstDayOfMonth.getDay() + 6) % 7;
       const daysInCurrent = new Date(calYear, calMonth + 1, 0).getDate();
       const daysInPrev = new Date(calYear, calMonth, 0).getDate();
 
+
       const prevMonth = calMonth === 0 ? 11 : calMonth - 1;
       const prevYear = calMonth === 0 ? calYear - 1 : calYear;
       const nextMonth = calMonth === 11 ? 0 : calMonth + 1;
       const nextYear = calMonth === 11 ? calYear + 1 : calYear;
+
 
       let html = '';
       for (let i = 0; i < 42; i++) {
@@ -3515,14 +3907,17 @@
           isOther = true;
         }
 
+
         const isSelected =
           calSelected.year === cellYear &&
           calSelected.month === cellMonth &&
           calSelected.day === dayNum;
 
+
         const hasAbsence = Boolean(findAbsenceForDate(cellYear, cellMonth, dayNum));
         const isWeekend = (i % 7 === 5 || i % 7 === 6);
         const textColor = isOther ? 'text-[#b2b6be]' : (isWeekend ? 'text-[#4d515b]' : 'text-[#1f2430]');
+
 
         html += `
           <div>
@@ -3536,6 +3931,7 @@
         `;
       }
 
+
       const grid = document.getElementById('cal-days-grid');
       grid.classList.remove('pane-slide-right', 'pane-slide-left');
       grid.innerHTML = html;
@@ -3546,6 +3942,7 @@
         void grid.offsetWidth;
         grid.classList.add('pane-slide-left');
       }
+
 
       const accordion = document.getElementById('cal-detail-accordion');
       const detailArea = document.getElementById('cal-detail-area');
@@ -3572,6 +3969,7 @@
       }
     }
 
+
     // =========================================================================
     // 100% SCROLL-SAFE WORKSPACE PULL ENGINE:
     //  • Main Dashboard -> Gentle MEB Pull-to-Refresh Spinner
@@ -3589,12 +3987,15 @@
       const header = document.getElementById('student-hero-header');
       const waveLayer = document.getElementById('hero-wave-layer');
 
+
       if (!scrollEl || !innerContent || !indicator || !backPill) return;
+
 
       const DEADZONE = 6;
       const DISMISS_THRESHOLD = 82;
       const FLICK_VELOCITY = 0.55;
       const FLICK_MIN_DY = 38;
+
 
       let mode = null; // 'ptr' | 'dismiss'
       let startX = 0;
@@ -3616,9 +4017,11 @@
       let suppressNextClick = false;
       let resetTimer = null;
 
+
       // requestAnimationFrame batching: at most 1 GPU transform write per frame
       let rafId = 0;
       let pendingFrame = null;
+
 
       function cancelPendingFrame() {
         if (rafId) {
@@ -3628,11 +4031,13 @@
         pendingFrame = null;
       }
 
+
       function flushFrame() {
         rafId = 0;
         const f = pendingFrame;
         pendingFrame = null;
         if (!f || !isPulling) return;
+
 
         if (f.mode === 'dismiss') {
           if (subCard) {
@@ -3645,8 +4050,10 @@
             waveLayer.style.transform = `translate3d(0, ${f.waveY}px, 0)`;
           }
 
+
           backPill.style.opacity = f.pillOpacity;
           backPill.style.transform = `translate3d(-50%, ${f.pillY}px, 0) scale(${f.pillScale})`;
+
 
           if (f.nowReady !== isReadyToDismiss) {
             isReadyToDismiss = f.nowReady;
@@ -3669,6 +4076,7 @@
         }
       }
 
+
       function scheduleFrame(frameData) {
         pendingFrame = frameData;
         if (!rafId) {
@@ -3676,14 +4084,17 @@
         }
       }
 
+
       function isAnyModalOpen() {
         return Boolean(document.querySelector('.modal-overlay.open'));
       }
+
 
       function startedOnHeaderOrTitle(target) {
         if (!target || !target.closest) return false;
         return Boolean(target.closest('#student-hero-header') || target.closest('#subpage-header-bar'));
       }
+
 
       function hideBackPill(animate) {
         backPill.classList.remove('is-ready');
@@ -3694,6 +4105,7 @@
         backPill.style.opacity = '0';
         backPill.style.transform = 'translate3d(-50%, -8px, 0) scale(0.7)';
       }
+
 
       function resetDismissVisuals(animate) {
         const ease = 'cubic-bezier(0.22, 1, 0.36, 1)';
@@ -3715,6 +4127,7 @@
         }
         hideBackPill(animate);
 
+
         if (animate) {
           resetTimer = setTimeout(() => {
             resetTimer = null;
@@ -3729,11 +4142,14 @@
         }
       }
 
+
       function onGestureStart(clientX, clientY, target) {
         if (isRefreshing || isAnyModalOpen()) return false;
 
+
         const isInner = currentSubPage !== null;
         const atTop = scrollEl.scrollTop <= 2;
+
 
         if (isInner) {
           // Engage ONLY if already at top OR dragging directly from compact header / card title area
@@ -3749,6 +4165,7 @@
           }
           mode = 'ptr';
         }
+
 
         if (resetTimer) {
           clearTimeout(resetTimer);
@@ -3772,13 +4189,16 @@
         return true;
       }
 
+
       function onGestureMove(clientX, clientY, ev) {
         if (!canPull || isRefreshing) return;
+
 
         const deltaX = clientX - startX;
         const deltaY = clientY - startY;
         const now = performance.now();
         const dt = now - lastTime;
+
 
         if (dt > 0) {
           const instantV = (clientY - lastY) / dt;
@@ -3788,11 +4208,13 @@
         lastTime = now;
         lastDeltaY = deltaY;
 
+
         // Yield immediately if scrolling down the page (upward finger motion)
         if (!isPulling && deltaY <= 0) {
           if (deltaY < -6) canPull = false;
           return;
         }
+
 
         if (mode === 'ptr' && scrollEl.scrollTop > 2) {
           canPull = false;
@@ -3800,12 +4222,14 @@
           return;
         }
 
+
         if (!isPulling) {
           const threshold = mode === 'dismiss' ? DEADZONE : 14;
           if (deltaY > threshold && Math.abs(deltaY) > Math.abs(deltaX) * 1.35) {
             isPulling = true;
             // Release any active press highlight on tapped children
             document.querySelectorAll('.ripple-host.is-pressed').forEach(el => el.classList.remove('is-pressed'));
+
 
             // Disable CSS transitions ONCE at drag start (not on every touchmove frame)
             if (mode === 'dismiss') {
@@ -3825,23 +4249,28 @@
           }
         }
 
+
         // Prevent native overscroll / text selection once actively pulling
         if (ev && ev.cancelable) ev.preventDefault();
+
 
         if (mode === 'dismiss') {
           const rawPull = Math.max(0, deltaY - DEADZONE);
           pullDist = rawPull;
+
 
           // Smooth rubber-band damping for 1:1 tactile sheet feel (GPU transform-only)
           currentCardY = rawPull <= 110
             ? rawPull * 0.72
             : 110 * 0.72 + Math.pow(rawPull - 110, 0.78) * 0.42;
 
+
           const progress = Math.min(1, rawPull / DISMISS_THRESHOLD);
           const overPull = Math.max(0, rawPull - DISMISS_THRESHOLD);
           currentCardScale = Math.max(0.935, 1 - progress * 0.052 - overPull * 0.00018);
           currentHeaderY = Math.min(16, currentCardY * 0.16);
           currentWaveY = Math.min(26, currentCardY * 0.26);
+
 
           scheduleFrame({
             mode: 'dismiss',
@@ -3858,6 +4287,7 @@
           pullDist = Math.min(82, Math.max(0, deltaY - 14) * 0.42);
           const progress = Math.min(1, pullDist / 54);
 
+
           scheduleFrame({
             mode: 'ptr',
             innerY: (pullDist * 0.45).toFixed(1),
@@ -3869,8 +4299,10 @@
         }
       }
 
+
       function onGestureEnd() {
         cancelPendingFrame();
+
 
         if (!isPulling) {
           canPull = false;
@@ -3878,18 +4310,22 @@
           return;
         }
 
+
         const activeMode = mode;
         const shouldDismiss =
           activeMode === 'dismiss' &&
           (pullDist >= DISMISS_THRESHOLD || (velocity > FLICK_VELOCITY && lastDeltaY > FLICK_MIN_DY));
 
+
         canPull = false;
         isPulling = false;
         mode = null;
 
+
         // Prevent accidental click on release after mouse/touch drag
         suppressNextClick = true;
         setTimeout(() => { suppressNextClick = false; }, 120);
+
 
         if (activeMode === 'dismiss') {
           if (shouldDismiss) {
@@ -3911,6 +4347,7 @@
           return;
         }
 
+
         // Main Dashboard Pull-to-Refresh release
         innerContent.style.transition = 'transform 0.34s cubic-bezier(0.22, 1, 0.36, 1)';
         innerContent.style.transform = 'translate3d(0, 0, 0)';
@@ -3919,6 +4356,7 @@
           innerContent.style.transform = '';
         }, 360);
 
+
         if (pullDist >= 52) {
           isRefreshing = true;
           indicator.classList.add('is-refreshing');
@@ -3926,11 +4364,13 @@
           indicator.style.opacity = '1';
           indicator.style.transform = 'translate3d(0, 18px, 0) scale(1)';
 
-          setTimeout(() => {
+
+          const finishPtr = () => {
             isRefreshing = false;
             indicator.classList.remove('is-refreshing');
             indicator.style.opacity = '0';
             indicator.style.transform = 'translate3d(0, -56px, 0) scale(0.7)';
+
 
             const stage = document.getElementById('student-content-stage');
             if (stage) {
@@ -3939,7 +4379,13 @@
               stage.classList.add('ptr-refresh-pulse');
             }
             showNotice('Veriler güncellendi.');
-          }, 560);
+          };
+
+
+          Promise.all([
+            syncRemoteData(true),
+            new Promise((r) => setTimeout(r, 420))
+          ]).then(finishPtr, finishPtr);
         } else {
           indicator.style.transition = 'transform 0.26s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease';
           indicator.style.opacity = '0';
@@ -3948,19 +4394,23 @@
         pullDist = 0;
       }
 
+
       // 1. Android / Mobile Touch Listeners (100% Scroll-Safe)
       scrollEl.addEventListener('touchstart', (e) => {
         if (e.touches.length !== 1) return;
         onGestureStart(e.touches[0].clientX, e.touches[0].clientY, e.target);
       }, { passive: true });
 
+
       scrollEl.addEventListener('touchmove', (e) => {
         if (!canPull || e.touches.length !== 1) return;
         onGestureMove(e.touches[0].clientX, e.touches[0].clientY, e);
       }, { passive: false });
 
+
       scrollEl.addEventListener('touchend', onGestureEnd, { passive: true });
       scrollEl.addEventListener('touchcancel', onGestureEnd, { passive: true });
+
 
       // 2. Desktop Preview Mouse Drag Listeners (Unified Physics)
       scrollEl.addEventListener('mousedown', (e) => {
@@ -3971,16 +4421,19 @@
         }
       });
 
+
       window.addEventListener('mousemove', (e) => {
         if (!isMouseDragging) return;
         onGestureMove(e.clientX, e.clientY, e);
       });
+
 
       window.addEventListener('mouseup', () => {
         if (!isMouseDragging) return;
         isMouseDragging = false;
         onGestureEnd();
       });
+
 
       // Suppress accidental click firing right after a completed drag
       scrollEl.addEventListener('click', (e) => {
@@ -3991,12 +4444,14 @@
       }, true);
     }
 
+
     // =========================================================================
     // SNACKBARS, MODALS, FAB & PERSISTENT PHOTO/PROFILE MANAGER
     // =========================================================================
     function showRedSnackbar(message, withRetry) {
       const wrap = document.getElementById('red-snackbar-wrap');
       const inner = document.getElementById('red-snackbar-inner');
+
 
       if (withRetry) {
         inner.innerHTML = `
@@ -4014,8 +4469,10 @@
         inner.innerHTML = `<div class="text-[14.5px] font-normal py-0.5">${message}</div>`;
       }
 
+
       wrap.classList.add('visible');
     }
+
 
     function hideRedSnackbar() {
       if (snackbarDelayTimer) {
@@ -4024,6 +4481,7 @@
       }
       document.getElementById('red-snackbar-wrap').classList.remove('visible');
     }
+
 
     function openRandevuModal() {
       document.getElementById('randevu-modal-actions').classList.remove('hidden');
@@ -4035,6 +4493,7 @@
       }
     }
 
+
     function closeRandevuModal(fromPopState) {
       const modal = document.getElementById('randevu-modal');
       const wasOpen = modal && modal.classList.contains('open');
@@ -4044,9 +4503,11 @@
       }
     }
 
+
     function triggerRandevuVerify() {
       document.getElementById('randevu-modal-actions').classList.add('hidden');
       document.getElementById('randevu-verifying-state').classList.remove('hidden');
+
 
       setTimeout(() => {
         closeRandevuModal();
@@ -4054,17 +4515,21 @@
       }, 820);
     }
 
+
     function toggleFab(forceOpen, fromPopState) {
       const backdrop = document.getElementById('fab-backdrop');
       const dial = document.getElementById('fab-speed-dial');
       const trigger = document.getElementById('fab-trigger');
 
+
       const isCurrentlyOpen = dial.classList.contains('open');
       const shouldOpen = typeof forceOpen === 'boolean' ? forceOpen : !isCurrentlyOpen;
+
 
       backdrop.classList.toggle('open', shouldOpen);
       dial.classList.toggle('open', shouldOpen);
       trigger.classList.toggle('fab-trigger-open', shouldOpen);
+
 
       if (!fromPopState) {
         if (shouldOpen && !isCurrentlyOpen) {
@@ -4075,20 +4540,25 @@
       }
     }
 
+
     function handleShareApp() {
       toggleFab(false);
       showNotice('e-Okul Veli Bilgilendirme Sistemi');
     }
+
 
     function handleRemoteManagedAction(actionType) {
       toggleFab(false);
       if (actionType === 'add') {
         showNotice('e-Devlet doğrulama servisi şu an çevrimdışıdır.');
       } else if (actionType === 'reset') {
-        refreshAvatarDisplays();
-        showNotice('Veriler senkronize edildi.');
+        syncRemoteData(true).finally(() => {
+          refreshAvatarDisplays();
+          showNotice('Veriler senkronize edildi.');
+        });
       }
     }
+
 
     // Store initial default SVG avatar templates so remote updates can fall back cleanly
     const DEFAULT_AVATAR_SVGS = {};
@@ -4098,6 +4568,7 @@
         if (el) DEFAULT_AVATAR_SVGS[key] = el.outerHTML.replace(/\bhidden\b/g, '');
       });
     }
+
 
     function getFallbackAvatarSvg(studentKey) {
       if (DEFAULT_AVATAR_SVGS[studentKey]) return DEFAULT_AVATAR_SVGS[studentKey];
@@ -4109,6 +4580,7 @@
         </svg>
       `;
     }
+
 
     function refreshAvatarDisplays() {
       Object.keys(APP_DATA).forEach(key => {
@@ -4127,6 +4599,7 @@
         }
       });
 
+
       const activeStudent = APP_DATA[activeStudentKey];
       const activePhoto = activeStudent && activeStudent.photo ? activeStudent.photo : null;
       const heroImg = document.getElementById('hero-avatar-img');
@@ -4144,6 +4617,7 @@
       }
     }
 
+
     let toastTimer = null;
     function showNotice(text) {
       const toast = document.getElementById('notice-toast');
@@ -4154,6 +4628,7 @@
         toast.classList.remove('visible');
       }, 2100);
     }
+
 
     // =========================================================================
     // STUDENT ROW TAP BINDING (NO LOCAL DELETE / SWIPE-TO-DELETE DISABLED)
@@ -4167,10 +4642,12 @@
       });
     }
 
+
     function renderStudentListFromData() {
       const container = document.getElementById('student-list-rows');
       if (!container) return;
       const keys = Object.keys(APP_DATA);
+
 
       container.innerHTML = keys.map((key, idx) => {
         const st = APP_DATA[key];
@@ -4205,8 +4682,10 @@
         `;
       }).join('');
 
+
       keys.forEach(bindStudentRowTap);
     }
+
 
     // =========================================================================
     // ANDROID BACK BUTTON / EDGE-SWIPE NAVIGATION ENGINE (popstate)
@@ -4214,13 +4693,16 @@
     function initHistoryNavigation() {
       safeReplaceNavState({ level: 0 });
 
+
       window.addEventListener('popstate', (e) => {
         if (ignorePopCount > 0) {
           ignorePopCount -= 1;
           return;
         }
 
+
         const st = e.state || { level: 0 };
+
 
         // 1. Close Randevu modal if open
         const randevuModal = document.getElementById('randevu-modal');
@@ -4229,6 +4711,7 @@
           return;
         }
 
+
         // 2. Close FAB menu if open
         const fabDial = document.getElementById('fab-speed-dial');
         if (fabDial && fabDial.classList.contains('open') && st.overlay !== 'fab') {
@@ -4236,11 +4719,13 @@
           return;
         }
 
+
         // 3. Return from Inner Sub-Page -> Student Home
         if (currentSubPage !== null && (typeof st.level !== 'number' || st.level < 2)) {
           returnToStudentHome({ fromPopState: true });
           return;
         }
+
 
         // 4. Return from Student Home -> Öğrenci Listesi
         const ws = document.getElementById('screen-student-workspace');
@@ -4250,6 +4735,7 @@
       });
     }
 
+
     // =========================================================================
     // REMOTE CONTROL READY BRIDGE (FOR FUTURE EXTERNAL DEVICE SYNC)
     // =========================================================================
@@ -4258,12 +4744,14 @@
       const ws = document.getElementById('screen-student-workspace');
       if (!student || !ws || ws.classList.contains('screen-hidden')) return;
 
+
       const header = document.getElementById('student-hero-header');
       document.getElementById('hero-student-name').textContent =
         header.classList.contains('header-compact') ? student.upperName : student.name;
       document.getElementById('hero-student-class').textContent = student.classInfo;
       refreshAvatarDisplays();
       renderSecondaryMenu(student);
+
 
       if (currentSubPage === 'not-bilgileri') renderNotBilgileri(0);
       else if (currentSubPage === 'devamsizlik') renderDevamsizlik();
@@ -4273,6 +4761,7 @@
       else if (currentSubPage === 'aldigi-belgeler') renderAldigiBelgeler();
       else if (currentSubPage === 'ders-devamsizliklari') renderCalendar(0);
     }
+
 
     window.EOKUL_REMOTE = {
       getData() {
@@ -4285,6 +4774,7 @@
       },
       applyState(remoteStudents) {
         if (!remoteStudents || typeof remoteStudents !== 'object') return;
+
 
         // Replace keys to support remote add / remove / update
         Object.keys(APP_DATA).forEach(k => {
@@ -4299,8 +4789,10 @@
           }
         });
 
+
         renderStudentListFromData();
         refreshAvatarDisplays();
+
 
         // If active student was removed remotely, return cleanly to list
         if (!APP_DATA[activeStudentKey]) {
@@ -4313,9 +4805,203 @@
           return;
         }
 
+
         rerenderActiveView();
       }
     };
+
+
+    // =========================================================================
+    // LIVE REMOTE SYNC ENGINE (GITHUB API INSTANT + PAGES FALLBACK + OFFLINE)
+    // =========================================================================
+    const REMOTE_SYNC_CFG = (function () {
+      let owner = 'SAFATUGRAHAN5858';
+      let repo = 'VBS';
+      try {
+        if (location.hostname && location.hostname.endsWith('.github.io')) {
+          const detectedOwner = location.hostname.split('.')[0];
+          const segs = location.pathname.split('/').filter(Boolean);
+          if (detectedOwner) owner = detectedOwner;
+          if (segs.length > 0 && !segs[0].includes('.')) repo = segs[0];
+        }
+      } catch (_) {}
+      return {
+        owner,
+        repo,
+        branch: 'main',
+        dataFile: 'data.json',
+        cacheKey: 'eokul_remote_data_v1',
+        reloadKey: 'eokul_remote_reload_at_v1'
+      };
+    })();
+
+
+    let lastAppliedPayloadHash = '';
+    let lastSyncAttemptAt = 0;
+    let isSyncInFlight = false;
+
+
+    function decodeBase64Utf8(b64) {
+      const clean = (b64 || '').replace(/\s/g, '');
+      const bin = atob(clean);
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      return new TextDecoder('utf-8').decode(bytes);
+    }
+
+
+    function applyRemotePayload(payload, fromNetwork) {
+      if (!payload || typeof payload !== 'object') return false;
+
+
+      // OTA Force Reload check (triggered from remote control panel after code updates)
+      const remoteReloadAt = payload.meta && Number(payload.meta.forceReloadAt) ? Number(payload.meta.forceReloadAt) : 0;
+      if (fromNetwork && remoteReloadAt > 0) {
+        let seenReloadAt = null;
+        try { seenReloadAt = localStorage.getItem(REMOTE_SYNC_CFG.reloadKey); } catch (_) {}
+        if (seenReloadAt === null) {
+          try { localStorage.setItem(REMOTE_SYNC_CFG.reloadKey, String(remoteReloadAt)); } catch (_) {}
+        } else if (remoteReloadAt > Number(seenReloadAt)) {
+          try { localStorage.setItem(REMOTE_SYNC_CFG.reloadKey, String(remoteReloadAt)); } catch (_) {}
+          if ('caches' in window) {
+            caches.keys()
+              .then((keys) => Promise.all(keys.map((k) => caches.delete(k))))
+              .finally(() => location.reload());
+          } else {
+            location.reload();
+          }
+          return true;
+        }
+      }
+
+
+      const students = payload.students || payload;
+      if (!students || typeof students !== 'object' || Object.keys(students).length === 0) return false;
+
+
+      const serialized = JSON.stringify(students);
+      if (serialized === lastAppliedPayloadHash) return false;
+      lastAppliedPayloadHash = serialized;
+
+
+      if (fromNetwork) {
+        try { localStorage.setItem(REMOTE_SYNC_CFG.cacheKey, JSON.stringify(payload)); } catch (_) {}
+      }
+
+
+      window.EOKUL_REMOTE.applyState(students);
+      return true;
+    }
+
+
+    function loadCachedRemoteData() {
+      try {
+        const raw = localStorage.getItem(REMOTE_SYNC_CFG.cacheKey);
+        if (!raw) return;
+        const parsed = JSON.parse(raw);
+        applyRemotePayload(parsed, false);
+      } catch (_) {}
+    }
+
+
+    async function fetchRemotePayload(preferApi) {
+      const ts = Date.now();
+      const apiUrl = `https://api.github.com/repos/${REMOTE_SYNC_CFG.owner}/${REMOTE_SYNC_CFG.repo}/contents/${REMOTE_SYNC_CFG.dataFile}?ref=${REMOTE_SYNC_CFG.branch}&t=${ts}`;
+      const rawUrl = `https://raw.githubusercontent.com/${REMOTE_SYNC_CFG.owner}/${REMOTE_SYNC_CFG.repo}/${REMOTE_SYNC_CFG.branch}/${REMOTE_SYNC_CFG.dataFile}?t=${ts}`;
+      const pagesUrl = `./${REMOTE_SYNC_CFG.dataFile}?t=${ts}`;
+
+
+      if (preferApi) {
+        try {
+          const res = await fetch(apiUrl, {
+            cache: 'no-store',
+            headers: { 'Accept': 'application/vnd.github+json' }
+          });
+          if (res.ok) {
+            const json = await res.json();
+            if (json && json.content) {
+              return JSON.parse(decodeBase64Utf8(json.content));
+            }
+            if (json && json.download_url) {
+              const dl = await fetch(json.download_url + '?t=' + ts, { cache: 'no-store' });
+              if (dl.ok) return await dl.json();
+            }
+          }
+        } catch (_) {}
+      }
+
+
+      try {
+        const resRaw = await fetch(rawUrl, { cache: 'no-store' });
+        if (resRaw.ok) {
+          return await resRaw.json();
+        }
+      } catch (_) {}
+
+
+      try {
+        const res2 = await fetch(pagesUrl, { cache: 'no-store' });
+        if (res2.ok) {
+          return await res2.json();
+        }
+      } catch (_) {}
+
+
+      return null;
+    }
+
+
+    async function manualSyncStudentData() {
+      showNotice('Veriler kontrol ediliyor...');
+      lastAppliedPayloadHash = '';
+      const updated = await syncRemoteData(true);
+      const stage = document.getElementById('student-content-stage');
+      if (stage) {
+        stage.classList.remove('ptr-refresh-pulse');
+        void stage.offsetWidth;
+        stage.classList.add('ptr-refresh-pulse');
+      }
+      showNotice(updated ? 'Veriler güncellendi.' : 'Tüm veriler güncel.');
+    }
+
+
+    async function manualCheckAppUpdate() {
+      showNotice('Güncelleme kontrol ediliyor...');
+      try {
+        if ('serviceWorker' in navigator) {
+          const regs = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(regs.map((r) => r.update().catch(() => {})));
+        }
+        if ('caches' in window) {
+          const keys = await caches.keys();
+          await Promise.all(keys.map((k) => caches.delete(k)));
+        }
+        lastAppliedPayloadHash = '';
+        await syncRemoteData(true);
+      } catch (_) {}
+      showNotice('Uygulama yenileniyor...');
+      setTimeout(() => location.reload(), 450);
+    }
+
+
+    async function syncRemoteData(forceApi) {
+      if (isSyncInFlight) return false;
+      const now = Date.now();
+      if (!forceApi && now - lastSyncAttemptAt < 12000) return false;
+      isSyncInFlight = true;
+      lastSyncAttemptAt = now;
+      try {
+        const payload = await fetchRemotePayload(Boolean(forceApi));
+        if (payload) {
+          return applyRemotePayload(payload, true);
+        }
+      } catch (_) {
+      } finally {
+        isSyncInFlight = false;
+      }
+      return false;
+    }
+
 
     window.addEventListener('resize', () => {
       if (currentSubPage === 'sinav-tarihleri') moveExamGlider(false);
@@ -4323,9 +5009,11 @@
       if (currentSubPage === 'yazili-ortalamalari') moveTwoTabGlider('sube-term-glider', 'sube-tab-' + activeSubeTerm, false);
     });
 
+
     window.addEventListener('DOMContentLoaded', () => {
       // Prevent browser long-press context menu everywhere (native app feel)
       document.addEventListener('contextmenu', (e) => e.preventDefault());
+
 
       cacheDefaultAvatarSvgs();
       refreshAvatarDisplays();
@@ -4334,6 +5022,27 @@
       initHistoryNavigation();
       bindStudentRowTap('elifnaz');
       bindStudentRowTap('safa');
+
+
+      // Load cached remote data immediately, then pull latest live state from GitHub
+      loadCachedRemoteData();
+      syncRemoteData(true);
+
+
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+          syncRemoteData(true);
+        }
+      });
+
+
+      // Gentle background check via Pages CDN (zero API rate-limit impact)
+      setInterval(() => {
+        if (!document.hidden) {
+          syncRemoteData(false);
+        }
+      }, 30000);
+
 
       // Register PWA Service Worker (enables native Android Chrome "Uygulamayı Yükle")
       if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
