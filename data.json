@@ -1,7 +1,7 @@
 {
   "meta": {
-    "version": 12,
-    "updatedAt": "2026-11-23T18:43:10.743Z",
+    "version": 13,
+    "updatedAt": "2026-11-23T18:48:26.868Z",
     "forceReloadAt": 1795459390742
   },
   "students": {
@@ -153,7 +153,7 @@
         "term2": []
       },
       "attendance": {
-        "excused": "3 Gün",
+        "excused": "4 Gün",
         "unexcused": "7 Gün",
         "records": [
           {
