@@ -1,10 +1,10 @@
 {
   "meta": {
-    "version": 20,
-    "updatedAt": "2026-11-24T13:41:00.123Z",
+    "version": 21,
+    "updatedAt": "2026-11-24T13:41:15.735Z",
     "forceReloadAt": 1795459390742,
     "display": {
-      "zoom": 126,
+      "zoom": 135,
       "width": 100,
       "sidePadding": 4
     }
