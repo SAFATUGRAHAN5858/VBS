@@ -1,8 +1,13 @@
 {
   "meta": {
-    "version": 15,
-    "updatedAt": "2026-11-23T18:49:54.419Z",
-    "forceReloadAt": 1795459390742
+    "version": 16,
+    "updatedAt": "2026-11-24T13:35:07.928Z",
+    "forceReloadAt": 1795459390742,
+    "display": {
+      "zoom": 120,
+      "width": 100,
+      "sidePadding": 6
+    }
   },
   "students": {
     "safa": {
