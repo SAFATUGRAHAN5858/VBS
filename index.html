@@ -63,6 +63,13 @@
     }
 
 
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+
     img, svg {
       -webkit-user-drag: none;
       user-drag: none;
@@ -82,10 +89,11 @@
       max-width: 480px;
       height: 100vh;
       height: 100dvh;
-      margin: 0 auto;
       position: relative;
       background: #f2f4f7;
       overflow: hidden;
+      flex-shrink: 0;
+      transform-origin: top center;
     }
 
 
@@ -736,8 +744,14 @@
     .student-content-stage {
       position: relative;
       z-index: 25;
-      padding: 0 11px 24px 11px;
+      padding: 0 var(--card-side-pad, 11px) 24px var(--card-side-pad, 11px);
       margin-top: -20px;
+    }
+
+
+    #student-list-card {
+      margin-left: var(--card-side-pad, 11px) !important;
+      margin-right: var(--card-side-pad, 11px) !important;
     }
 
 
@@ -2533,9 +2547,10 @@
 
 
         const rect = host.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height) * 2.1;
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        const s = currentDisplayScale || 1;
+        const size = (Math.max(rect.width, rect.height) * 2.1) / s;
+        const x = (e.clientX - rect.left) / s;
+        const y = (e.clientY - rect.top) / s;
 
 
         const ripple = document.createElement('span');
@@ -2605,6 +2620,7 @@
       }
 
 
+      const invS = 1 / (currentDisplayScale || 1);
       // Phase 2: Start GPU compositor-only animations
       for (let i = 0; i < measured.length; i++) {
         const { el, scaleMode, first, last } = measured[i];
@@ -2614,8 +2630,8 @@
         if (el.id === 'hero-student-name' || el.id === 'hero-student-class') {
           const firstCx = first.left + first.width / 2;
           const lastCx = last.left + last.width / 2;
-          const deltaX = isTargetExpanded ? (firstCx - lastCx) : (first.left - last.left);
-          const deltaY = first.top - last.top;
+          const deltaX = (isTargetExpanded ? (firstCx - lastCx) : (first.left - last.left)) * invS;
+          const deltaY = (first.top - last.top) * invS;
 
 
           const fromT = isTargetExpanded
@@ -2631,8 +2647,8 @@
         }
 
 
-        const dx = first.left - last.left;
-        const dy = first.top - last.top;
+        const dx = (first.left - last.left) * invS;
+        const dy = (first.top - last.top) * invS;
         if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5 && Math.abs(first.width - last.width) < 0.5) {
           continue;
         }
@@ -2719,8 +2735,9 @@
       const heroPhoto = document.getElementById('hero-photo');
       if (sourceRect && heroPhoto) {
         const destRect = heroPhoto.getBoundingClientRect();
-        const dx = sourceRect.left - destRect.left;
-        const dy = sourceRect.top - destRect.top;
+        const invS = 1 / (currentDisplayScale || 1);
+        const dx = (sourceRect.left - destRect.left) * invS;
+        const dy = (sourceRect.top - destRect.top) * invS;
         const sx = sourceRect.width / destRect.width;
         const sy = sourceRect.height / destRect.height;
 
@@ -4151,8 +4168,9 @@
         if (!canPull || isRefreshing) return;
 
 
-        const deltaX = clientX - startX;
-        const deltaY = clientY - startY;
+        const invS = 1 / (currentDisplayScale || 1);
+        const deltaX = (clientX - startX) * invS;
+        const deltaY = (clientY - startY) * invS;
         const now = performance.now();
         const dt = now - lastTime;
 
@@ -4794,8 +4812,54 @@
 
 
     let lastAppliedPayloadHash = '';
+    let lastAppliedDisplayHash = '';
     let lastSyncAttemptAt = 0;
     let isSyncInFlight = false;
+    let currentDisplayScale = 1;
+    let currentDisplaySettings = { zoom: 100, width: 100, sidePadding: 11 };
+
+
+    function applyDisplaySettings(raw) {
+      const d = Object.assign({ zoom: 100, width: 100, sidePadding: 11 }, raw || {});
+      const zoom = Math.max(65, Math.min(140, Number(d.zoom) || 100));
+      const widthPct = Math.max(70, Math.min(100, Number(d.width) || 100));
+      const sidePadding = Math.max(0, Math.min(36, isNaN(Number(d.sidePadding)) ? 11 : Number(d.sidePadding)));
+
+
+      currentDisplaySettings = { zoom, width: widthPct, sidePadding };
+      const s = zoom / 100;
+      currentDisplayScale = s;
+
+
+      document.documentElement.style.setProperty('--card-side-pad', sidePadding + 'px');
+
+
+      const app = document.getElementById('app');
+      if (!app) return;
+
+
+      if (zoom === 100 && widthPct === 100) {
+        app.style.width = '100%';
+        app.style.maxWidth = '480px';
+        app.style.height = '100dvh';
+        app.style.transform = '';
+      } else {
+        const vw = window.innerWidth || document.documentElement.clientWidth || 390;
+        const baseW = vw > 480 ? 480 : vw;
+        const visualW = baseW * (widthPct / 100);
+        app.style.maxWidth = 'none';
+        app.style.width = (visualW / s).toFixed(2) + 'px';
+        app.style.height = `calc(100dvh / ${s})`;
+        app.style.transform = `scale(${s})`;
+      }
+
+
+      requestAnimationFrame(() => {
+        if (currentSubPage === 'sinav-tarihleri') moveExamGlider(false);
+        if (currentSubPage === 'not-bilgileri') moveTwoTabGlider('not-term-glider', 'not-tab-' + activeNotTerm, false);
+        if (currentSubPage === 'yazili-ortalamalari') moveTwoTabGlider('sube-term-glider', 'sube-tab-' + activeSubeTerm, false);
+      });
+    }
 
 
     function decodeBase64Utf8(b64) {
@@ -4832,18 +4896,35 @@
       }
 
 
+      // Apply remote display settings (zoom / width / side padding) immediately
+      let displayChanged = false;
+      if (payload.meta && payload.meta.display) {
+        const dispHash = JSON.stringify(payload.meta.display);
+        if (dispHash !== lastAppliedDisplayHash) {
+          lastAppliedDisplayHash = dispHash;
+          displayChanged = true;
+          applyDisplaySettings(payload.meta.display);
+        }
+      }
+
+
       const students = payload.students || payload;
-      if (!students || typeof students !== 'object' || Object.keys(students).length === 0) return false;
+      if (!students || typeof students !== 'object' || Object.keys(students).length === 0) {
+        return displayChanged;
+      }
 
 
       const serialized = JSON.stringify(students);
-      if (serialized === lastAppliedPayloadHash) return false;
-      lastAppliedPayloadHash = serialized;
+      const studentsChanged = serialized !== lastAppliedPayloadHash;
 
 
-      if (fromNetwork) {
+      if (fromNetwork && (studentsChanged || displayChanged)) {
         try { localStorage.setItem(REMOTE_SYNC_CFG.cacheKey, JSON.stringify(payload)); } catch (_) {}
       }
+
+
+      if (!studentsChanged) return displayChanged;
+      lastAppliedPayloadHash = serialized;
 
 
       window.EOKUL_REMOTE.applyState(students);
@@ -4928,6 +5009,7 @@
 
 
     window.addEventListener('resize', () => {
+      applyDisplaySettings(currentDisplaySettings);
       if (currentSubPage === 'sinav-tarihleri') moveExamGlider(false);
       if (currentSubPage === 'not-bilgileri') moveTwoTabGlider('not-term-glider', 'not-tab-' + activeNotTerm, false);
       if (currentSubPage === 'yazili-ortalamalari') moveTwoTabGlider('sube-term-glider', 'sube-tab-' + activeSubeTerm, false);
