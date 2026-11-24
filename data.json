@@ -1,12 +1,12 @@
 {
   "meta": {
-    "version": 21,
-    "updatedAt": "2026-11-24T13:41:15.735Z",
+    "version": 22,
+    "updatedAt": "2026-11-24T13:41:27.737Z",
     "forceReloadAt": 1795459390742,
     "display": {
       "zoom": 135,
       "width": 100,
-      "sidePadding": 4
+      "sidePadding": 2
     }
   },
   "students": {
