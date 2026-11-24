@@ -1,13 +1,17 @@
 {
   "meta": {
-    "version": 22,
-    "updatedAt": "2026-11-24T13:41:27.737Z",
+    "version": 23,
+    "updatedAt": "2026-11-24T18:25:23.797Z",
     "forceReloadAt": 1795459390742,
     "display": {
       "zoom": 135,
       "width": 100,
-      "sidePadding": 2
-    }
+      "sidePadding": 2,
+      "fullBleed": true
+    },
+    "safaNov24Synced": true,
+    "safaSchedule1911Synced": true,
+    "syncV7Applied": true
   },
   "students": {
     "safa": {
@@ -49,7 +53,7 @@
         }
       ],
       "grades": {
-        "term1Average": "89.6630",
+        "term1Average": "83.3214",
         "term2Average": "0.0000",
         "term1": [
           {
@@ -71,10 +75,40 @@
             "score": "100"
           },
           {
+            "course": "Din Kültürü Ve Ahlâk Bilgisi (2 Saat)",
+            "rows": [
+              {
+                "label": "Sınav",
+                "s1": "100",
+                "s2": "",
+                "s3": ""
+              }
+            ],
+            "score": "100"
+          },
+          {
             "course": "Felsefe (2 Saat)",
             "rows": [
               {
                 "label": "Sınav",
+                "s1": "100",
+                "s2": "",
+                "s3": ""
+              }
+            ],
+            "score": "100"
+          },
+          {
+            "course": "Görsel Sanatlar/müzik (2 Saat)",
+            "rows": [
+              {
+                "label": "Sözlü",
+                "s1": "100",
+                "s2": "",
+                "s3": ""
+              },
+              {
+                "label": "Uygulama",
                 "s1": "100",
                 "s2": "",
                 "s3": ""
@@ -107,6 +141,30 @@
             "score": "86"
           },
           {
+            "course": "Seçmeli Fizik (4 Saat)",
+            "rows": [
+              {
+                "label": "Sınav",
+                "s1": "52",
+                "s2": "",
+                "s3": ""
+              }
+            ],
+            "score": "52"
+          },
+          {
+            "course": "Seçmeli Kimya (4 Saat)",
+            "rows": [
+              {
+                "label": "Sınav",
+                "s1": "79",
+                "s2": "",
+                "s3": ""
+              }
+            ],
+            "score": "79"
+          },
+          {
             "course": "Seçmeli Matematik (6 Saat)",
             "rows": [
               {
@@ -131,6 +189,18 @@
             "score": "100"
           },
           {
+            "course": "Tarih (2 Saat)",
+            "rows": [
+              {
+                "label": "Sınav",
+                "s1": "65",
+                "s2": "",
+                "s3": ""
+              }
+            ],
+            "score": "65"
+          },
+          {
             "course": "Türk Dili Ve Edebiyatı (5 Saat)",
             "rows": [
               {
@@ -141,18 +211,6 @@
               }
             ],
             "score": "68.45"
-          },
-          {
-            "course": "Kimya (2 Saat)",
-            "rows": [
-              {
-                "label": "Sınav",
-                "s1": "100",
-                "s2": "",
-                "s3": ""
-              }
-            ],
-            "score": "100"
           }
         ],
         "term2": []
@@ -422,7 +480,289 @@
           "label": "Teşekkür belgesi",
           "grade": "10. Sınıf"
         }
-      ]
+      ],
+      "notifications": [
+        {
+          "title": "Devamsızlık Bildirimi",
+          "body": "Öğrencimiz SAFA TUĞRA DALKÜREK, 24/11/2026 Tarihinde Tam Gün devamsızlık yapmıştır. Öğrencinizin toplam 3 Gün Özürlü, 8 Gün Özürsüz devamsızlığı mevcuttur. 24.11.2026"
+        },
+        {
+          "title": "Not Bildirimi",
+          "body": "Öğrenciniz SAFA TUĞRA DALKÜREK için GÖRSEL SANATLAR/MÜZİK dersinden yeni not girişi olmuştur. Detaylar için uygulamaya giriş yapınız. 24.11.2026"
+        },
+        {
+          "title": "Not Bildirimi",
+          "body": "Öğrenciniz SAFA TUĞRA DALKÜREK için TARİH dersinden yeni not girişi olmuştur. Detaylar için uygulamaya giriş yapınız. 23.11.2026"
+        },
+        {
+          "title": "Not Bildirimi",
+          "body": "Öğrenciniz SAFA TUĞRA DALKÜREK için SEÇMELİ KİMYA dersinden not girişi olmuştur. Detaylar için uygulamaya giriş yapınız. 21.11.2026"
+        },
+        {
+          "title": "Not Bildirimi",
+          "body": "Öğrenciniz SAFA TUĞRA DALKÜREK için SEÇMELİ FİZİK dersinden yeni not girişi olmuştur. Detaylar için uygulamaya giriş yapınız. 20.11.2026"
+        },
+        {
+          "title": "Not Bildirimi",
+          "body": "Öğrenciniz SAFA TUĞRA DALKÜREK için SEÇMELİ KİMYA dersinden yeni not girişi olmuştur. Detaylar için uygulamaya giriş yapınız. 20.11.2026"
+        },
+        {
+          "title": "Not Bildirimi",
+          "body": "Öğrenciniz SAFA TUĞRA DALKÜREK için DİN KÜLTÜRÜ VE AHLÂK BİLGİSİ dersinden yeni not girişi olmuştur. Detaylar için uygulamaya giriş yapınız. 19.11.2026"
+        }
+      ],
+      "schedule": {
+        "pazartesi": [
+          {
+            "start": "08:40",
+            "end": "09:20",
+            "course": "SEÇMELİ MATEMATİK",
+            "teacher": "ALİ TAKIR"
+          },
+          {
+            "start": "09:30",
+            "end": "10:10",
+            "course": "SEÇMELİ MATEMATİK",
+            "teacher": "ALİ TAKIR"
+          },
+          {
+            "start": "10:20",
+            "end": "11:00",
+            "course": "TÜRK DİLİ VE EDEBİYATI",
+            "teacher": "M.ÖZT"
+          },
+          {
+            "start": "11:10",
+            "end": "11:50",
+            "course": "TÜRK DİLİ VE EDEBİYATI",
+            "teacher": "M.ÖZT"
+          },
+          {
+            "start": "12:00",
+            "end": "12:40",
+            "course": "SEÇMELİ SPOR EĞİTİMİ",
+            "teacher": "N.ATL"
+          },
+          {
+            "start": "13:30",
+            "end": "14:10",
+            "course": "REHBERLİK VE YÖNLENDİRME",
+            "teacher": "ALİ TAKIR"
+          },
+          {
+            "start": "14:20",
+            "end": "15:00",
+            "course": "SEÇMELİ KİMYA",
+            "teacher": "N.ÜNL"
+          },
+          {
+            "start": "15:10",
+            "end": "15:50",
+            "course": "SEÇMELİ KİMYA",
+            "teacher": "N.ÜNL"
+          }
+        ],
+        "sali": [
+          {
+            "start": "08:40",
+            "end": "09:20",
+            "course": "SEÇMELİ BİYOLOJİ",
+            "teacher": "Z.YLM"
+          },
+          {
+            "start": "09:30",
+            "end": "10:10",
+            "course": "SEÇMELİ BİYOLOJİ",
+            "teacher": "Z.YLM"
+          },
+          {
+            "start": "10:20",
+            "end": "11:00",
+            "course": "TARİH",
+            "teacher": "FUNDA KÖSE"
+          },
+          {
+            "start": "11:10",
+            "end": "11:50",
+            "course": "TARİH",
+            "teacher": "FUNDA KÖSE"
+          },
+          {
+            "start": "12:00",
+            "end": "12:40",
+            "course": "SEÇMELİ MATEMATİK",
+            "teacher": "ALİ TAKIR"
+          },
+          {
+            "start": "13:30",
+            "end": "14:10",
+            "course": "SEÇMELİ MATEMATİK",
+            "teacher": "ALİ TAKIR"
+          },
+          {
+            "start": "14:20",
+            "end": "15:00",
+            "course": "FELSEFE",
+            "teacher": "L.GMŞ"
+          },
+          {
+            "start": "15:10",
+            "end": "15:50",
+            "course": "FELSEFE",
+            "teacher": "L.GMŞ"
+          }
+        ],
+        "carsamba": [
+          {
+            "start": "08:40",
+            "end": "09:20",
+            "course": "SEÇMELİ KİMYA",
+            "teacher": "N.ÜNL"
+          },
+          {
+            "start": "09:30",
+            "end": "10:10",
+            "course": "SEÇMELİ KİMYA",
+            "teacher": "N.ÜNL"
+          },
+          {
+            "start": "10:20",
+            "end": "11:00",
+            "course": "SEÇMELİ FİZİK",
+            "teacher": "Y.KRÇ"
+          },
+          {
+            "start": "11:10",
+            "end": "11:50",
+            "course": "SEÇMELİ FİZİK",
+            "teacher": "Y.KRÇ"
+          },
+          {
+            "start": "12:00",
+            "end": "12:40",
+            "course": "SEÇMELİ ASTRONOMİ VE UZAY BİLİMLERİ",
+            "teacher": "Y.KRÇ"
+          },
+          {
+            "start": "13:30",
+            "end": "14:10",
+            "course": "TÜRK DİLİ VE EDEBİYATI",
+            "teacher": "M.ÖZT"
+          },
+          {
+            "start": "14:20",
+            "end": "15:00",
+            "course": "SEÇMELİ MATEMATİK",
+            "teacher": "ALİ TAKIR"
+          },
+          {
+            "start": "15:10",
+            "end": "15:50",
+            "course": "SEÇMELİ MATEMATİK",
+            "teacher": "ALİ TAKIR"
+          }
+        ],
+        "persembe": [
+          {
+            "start": "08:40",
+            "end": "09:20",
+            "course": "BEDEN EĞİTİMİ VE SPOR",
+            "teacher": "D.PLT"
+          },
+          {
+            "start": "09:30",
+            "end": "10:10",
+            "course": "BEDEN EĞİTİMİ VE SPOR",
+            "teacher": "D.PLT"
+          },
+          {
+            "start": "10:20",
+            "end": "11:00",
+            "course": "DİN KÜLTÜRÜ VE AHLÂK BİLGİSİ",
+            "teacher": "MURAT KUNDUZ"
+          },
+          {
+            "start": "11:10",
+            "end": "11:50",
+            "course": "DİN KÜLTÜRÜ VE AHLÂK BİLGİSİ",
+            "teacher": "MURAT KUNDUZ"
+          },
+          {
+            "start": "12:00",
+            "end": "12:40",
+            "course": "TÜRK DİLİ VE EDEBİYATI",
+            "teacher": "M.ÖZT"
+          },
+          {
+            "start": "13:30",
+            "end": "14:10",
+            "course": "TÜRK DİLİ VE EDEBİYATI",
+            "teacher": "M.ÖZT"
+          },
+          {
+            "start": "14:20",
+            "end": "15:00",
+            "course": "YABANCI DİL",
+            "teacher": "M.KRH"
+          },
+          {
+            "start": "15:10",
+            "end": "15:50",
+            "course": "YABANCI DİL",
+            "teacher": "M.KRH"
+          }
+        ],
+        "cuma": [
+          {
+            "start": "08:40",
+            "end": "09:20",
+            "course": "SEÇMELİ FİZİK",
+            "teacher": "Y.KRÇ"
+          },
+          {
+            "start": "09:30",
+            "end": "10:10",
+            "course": "SEÇMELİ FİZİK",
+            "teacher": "Y.KRÇ"
+          },
+          {
+            "start": "10:20",
+            "end": "11:00",
+            "course": "YABANCI DİL",
+            "teacher": "M.KRH"
+          },
+          {
+            "start": "11:10",
+            "end": "11:50",
+            "course": "YABANCI DİL",
+            "teacher": "M.KRH"
+          },
+          {
+            "start": "12:00",
+            "end": "12:40",
+            "course": "GÖRSEL SANATLAR/MÜZİK",
+            "teacher": "G."
+          },
+          {
+            "start": "13:30",
+            "end": "14:10",
+            "course": "GÖRSEL SANATLAR/MÜZİK",
+            "teacher": "G."
+          },
+          {
+            "start": "14:20",
+            "end": "15:00",
+            "course": "SEÇMELİ BİYOLOJİ",
+            "teacher": "Z.YLM"
+          },
+          {
+            "start": "15:10",
+            "end": "15:50",
+            "course": "SEÇMELİ BİYOLOJİ",
+            "teacher": "Z.YLM"
+          }
+        ]
+      }
     },
     "elifnaz": {
       "id": "elifnaz",
@@ -469,11 +809,71 @@
         }
       ],
       "grades": {
-        "term1Average": "94.2500",
+        "term1Average": "82.4737",
         "term2Average": "0.0000",
         "term1": [
           {
-            "course": "Türkçe (5 Saat)",
+            "course": "Din Kültürü Ve Ahlak Bilgisi (2 Saat)",
+            "rows": [
+              {
+                "label": "Sınav",
+                "s1": "40",
+                "s2": "",
+                "s3": ""
+              }
+            ],
+            "score": "40"
+          },
+          {
+            "course": "Görsel Sanatlar (1 Saat)",
+            "rows": [
+              {
+                "label": "Sınav",
+                "s1": "100",
+                "s2": "",
+                "s3": ""
+              },
+              {
+                "label": "Ders İçi Etk.",
+                "s1": "100",
+                "s2": "",
+                "s3": ""
+              }
+            ],
+            "score": "100"
+          },
+          {
+            "course": "Matematik (5 Saat)",
+            "rows": [
+              {
+                "label": "Sınav",
+                "s1": "81",
+                "s2": "",
+                "s3": ""
+              }
+            ],
+            "score": "81"
+          },
+          {
+            "course": "Müzik (1 Saat)",
+            "rows": [
+              {
+                "label": "Sınav",
+                "s1": "100",
+                "s2": "",
+                "s3": ""
+              },
+              {
+                "label": "Ders İçi Etk.",
+                "s1": "100",
+                "s2": "",
+                "s3": ""
+              }
+            ],
+            "score": "100"
+          },
+          {
+            "course": "Seçmeli Görgü Kuralları Ve Nezaket (2 Saat)",
             "rows": [
               {
                 "label": "Sınav",
@@ -485,54 +885,54 @@
             "score": "95"
           },
           {
-            "course": "Matematik (5 Saat)",
+            "course": "Seçmeli Kültür Ve Medeniyetimize Yön Verenler (2 Saat)",
             "rows": [
               {
                 "label": "Sınav",
-                "s1": "92",
+                "s1": "95",
                 "s2": "",
                 "s3": ""
               }
             ],
-            "score": "92"
-          },
-          {
-            "course": "Fen Bilimleri (4 Saat)",
-            "rows": [
-              {
-                "label": "Sınav",
-                "s1": "96",
-                "s2": "",
-                "s3": ""
-              }
-            ],
-            "score": "96"
+            "score": "95"
           },
           {
             "course": "T.C. İnkılap Tarihi Ve Atatürkçülük (2 Saat)",
             "rows": [
               {
                 "label": "Sınav",
-                "s1": "94",
+                "s1": "85",
                 "s2": "",
                 "s3": ""
               }
             ],
-            "score": "94"
+            "score": "85"
+          },
+          {
+            "course": "Yabancı Dil (4 Saat)",
+            "rows": [
+              {
+                "label": "Sınav",
+                "s1": "83",
+                "s2": "",
+                "s3": ""
+              }
+            ],
+            "score": "83"
           }
         ],
         "term2": []
       },
       "attendance": {
-        "excused": "1 Gün",
+        "excused": "3 Gün",
         "unexcused": "0 Gün",
         "records": [
           {
-            "iso": "2026-11-05",
-            "date": "05 Kasım 2026 Perşembe",
+            "iso": "2026-10-19",
+            "date": "19 Ekim 2026 Pazartesi",
             "day": "",
             "wrapDay": false,
-            "status": "Raporlu"
+            "status": "Raporlu/Sevk"
           }
         ]
       },
@@ -541,47 +941,67 @@
         "byDate": [],
         "past": [
           {
-            "title": "TÜRKÇE",
-            "date": "11 Kasım 2026 Çarşamba"
-          },
-          {
-            "title": "MATEMATİK",
+            "title": "SEÇMELİ KÜLTÜR VE MEDENİYETİMİZE YÖN VERENLER",
             "date": "06 Kasım 2026 Cuma"
-          },
-          {
-            "title": "FEN BİLİMLERİ",
-            "date": "04 Kasım 2026 Çarşamba"
           }
         ]
       },
       "branchAverages": {
         "term1": [
           {
-            "course": "Türkçe",
+            "course": "Din Kültürü Ve Ahlak Bilgisi",
             "examNo": "1.",
-            "score": "95",
-            "avg": "84,20",
+            "score": "40",
+            "avg": "57,8",
+            "status": "down"
+          },
+          {
+            "course": "Görsel Sanatlar",
+            "examNo": "1.",
+            "score": "100",
+            "avg": "93,75",
             "status": "up"
           },
           {
             "course": "Matematik",
             "examNo": "1.",
-            "score": "92",
-            "avg": "76,50",
+            "score": "81",
+            "avg": "43",
             "status": "up"
           },
           {
-            "course": "Fen Bilimleri",
+            "course": "Müzik",
             "examNo": "1.",
-            "score": "96",
-            "avg": "81,40",
+            "score": "100",
+            "avg": "97,19",
+            "status": "up"
+          },
+          {
+            "course": "Seçmeli Görgü Kuralları Ve Nezaket",
+            "examNo": "1.",
+            "score": "95",
+            "avg": "87,33",
+            "status": "up"
+          },
+          {
+            "course": "Seçmeli Kültür Ve Medeniyetimize Yön Verenler",
+            "examNo": "1.",
+            "score": "95",
+            "avg": "86,88",
             "status": "up"
           },
           {
             "course": "T.C. İnkılap Tarihi Ve Atatürkçülük",
             "examNo": "1.",
-            "score": "94",
-            "avg": "88,10",
+            "score": "85",
+            "avg": "64,19",
+            "status": "up"
+          },
+          {
+            "course": "Yabancı Dil",
+            "examNo": "1.",
+            "score": "83",
+            "avg": "61,66",
             "status": "up"
           }
         ],
@@ -627,7 +1047,7 @@
         },
         {
           "period": "2023-2024 II. Dönem",
-          "label": "Takdirname belgesi",
+          "label": "Teşekkür belgesi",
           "grade": "5"
         },
         {
@@ -642,13 +1062,47 @@
         },
         {
           "period": "2025-2026 I. Dönem",
-          "label": "Takdirname belgesi",
+          "label": "Teşekkür belgesi",
           "grade": "7"
         },
         {
           "period": "2025-2026 II. Dönem",
-          "label": "Takdirname belgesi",
+          "label": "Teşekkür belgesi",
           "grade": "7"
+        }
+      ],
+      "notifications": [
+        {
+          "title": "Not Bildirimi",
+          "body": "Öğrenciniz ELİFNAZ DALKÜREK için DİN KÜLTÜRÜ VE AHLAK BİLGİSİ dersinden yeni not girişi olmuştur. 23.11.2026"
+        },
+        {
+          "title": "Not Bildirimi",
+          "body": "Öğrenciniz ELİFNAZ DALKÜREK için YABANCI DİL dersinden yeni not girişi olmuştur. 22.11.2026"
+        },
+        {
+          "title": "Not Bildirimi",
+          "body": "Öğrenciniz ELİFNAZ DALKÜREK için SEÇMELİ GÖRGÜ KURALLARI VE NEZAKET dersinden yeni not girişi olmuştur. 18.11.2026"
+        },
+        {
+          "title": "Not Bildirimi",
+          "body": "Öğrenciniz ELİFNAZ DALKÜREK için MATEMATİK dersinden yeni not girişi olmuştur. 17.11.2026"
+        },
+        {
+          "title": "Not Bildirimi",
+          "body": "Öğrenciniz ELİFNAZ DALKÜREK için MÜZİK dersinden yeni not girişi olmuştur. 17.11.2026"
+        },
+        {
+          "title": "Not Bildirimi",
+          "body": "Öğrenciniz ELİFNAZ DALKÜREK için GÖRSEL SANATLAR dersinden yeni not girişi olmuştur. 16.11.2026"
+        },
+        {
+          "title": "Not Bildirimi",
+          "body": "Öğrenciniz ELİFNAZ DALKÜREK için SEÇMELİ KÜLTÜR VE MEDENİYETİMİZE YÖN VERENLER dersinden yeni not girişi olmuştur. 16.11.2026"
+        },
+        {
+          "title": "Sınav Tarihi Bildirimi",
+          "body": "Öğrencimiz ELİFNAZ DALKÜREK için SEÇMELİ KÜLTÜR VE MEDENİYETİMİZE YÖN VERENLER dersi 1. sınav tarihi 06/11/2026 olarak belirlenmiştir. 16.11.2026"
         }
       ]
     }
