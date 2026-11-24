@@ -1,7 +1,7 @@
 {
   "meta": {
-    "version": 24,
-    "updatedAt": "2026-11-24T18:25:52.261Z",
+    "version": 25,
+    "updatedAt": "2026-11-24T18:29:41.210Z",
     "forceReloadAt": 1795459390742,
     "display": {
       "zoom": 135,
@@ -482,10 +482,6 @@
         }
       ],
       "notifications": [
-        {
-          "title": "Devamsızlık Bildirimi",
-          "body": "Öğrencimiz SAFA TUĞRA DALKÜREK, 24/11/2026 Tarihinde Tam Gün devamsızlık yapmıştır. Öğrencinizin toplam 3 Gün Özürlü, 8 Gün Özürsüz devamsızlığı mevcuttur. 24.11.2026"
-        },
         {
           "title": "Not Bildirimi",
           "body": "Öğrenciniz SAFA TUĞRA DALKÜREK için GÖRSEL SANATLAR/MÜZİK dersinden yeni not girişi olmuştur. Detaylar için uygulamaya giriş yapınız. 24.11.2026"
