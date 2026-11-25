@@ -1,13 +1,13 @@
 {
   "meta": {
-    "version": 26,
-    "updatedAt": "2026-11-24T19:21:12.772Z",
+    "version": 27,
+    "updatedAt": "2026-11-25T06:05:30.480Z",
     "forceReloadAt": 1795548072771,
     "display": {
+      "fullBleed": true,
       "zoom": 135,
       "width": 100,
-      "sidePadding": 2,
-      "fullBleed": true
+      "sidePadding": 2
     },
     "safaNov24Synced": true,
     "safaSchedule1911Synced": true,
@@ -217,15 +217,8 @@
       },
       "attendance": {
         "excused": "3 Gün",
-        "unexcused": "7 Gün",
+        "unexcused": "6,5 Gün",
         "records": [
-          {
-            "iso": "2026-11-13",
-            "date": "13 Kasım 2026",
-            "day": "Cuma",
-            "wrapDay": true,
-            "status": "Öğleden Sonra Yarım Gün"
-          },
           {
             "iso": "2026-11-12",
             "date": "12 Kasım 2026 Perşembe",
