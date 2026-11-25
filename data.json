@@ -1,7 +1,7 @@
 {
   "meta": {
-    "version": 27,
-    "updatedAt": "2026-11-25T06:05:30.480Z",
+    "version": 28,
+    "updatedAt": "2026-11-25T06:08:01.868Z",
     "forceReloadAt": 1795548072771,
     "display": {
       "fullBleed": true,
@@ -217,7 +217,7 @@
       },
       "attendance": {
         "excused": "3 Gün",
-        "unexcused": "6,5 Gün",
+        "unexcused": "7 Gün",
         "records": [
           {
             "iso": "2026-11-12",
