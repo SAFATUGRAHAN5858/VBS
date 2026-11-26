@@ -1,7 +1,7 @@
 {
   "meta": {
-    "version": 9,
-    "updatedAt": "2026-11-26T06:41:45.215Z",
+    "version": 10,
+    "updatedAt": "2026-11-26T08:06:21.130Z",
     "forceReloadAt": 1795675123005,
     "display": {
       "fullBleed": true,
@@ -50,7 +50,7 @@
         }
       ],
       "grades": {
-        "term1Average": "83.3214",
+        "term1Average": "97.1429",
         "term2Average": "0.0000",
         "term1": [
           {
@@ -142,24 +142,24 @@
             "rows": [
               {
                 "label": "Sınav",
-                "s1": "52",
+                "s1": "100",
                 "s2": "",
                 "s3": ""
               }
             ],
-            "score": "52"
+            "score": "100"
           },
           {
             "course": "Seçmeli Kimya (4 Saat)",
             "rows": [
               {
                 "label": "Sınav",
-                "s1": "79",
+                "s1": "95",
                 "s2": "",
                 "s3": ""
               }
             ],
-            "score": "79"
+            "score": "95"
           },
           {
             "course": "Seçmeli Matematik (6 Saat)",
@@ -190,24 +190,24 @@
             "rows": [
               {
                 "label": "Sınav",
-                "s1": "65",
+                "s1": "100",
                 "s2": "",
                 "s3": ""
               }
             ],
-            "score": "65"
+            "score": "100"
           },
           {
             "course": "Türk Dili Ve Edebiyatı (5 Saat)",
             "rows": [
               {
                 "label": "Sınav",
-                "s1": "68,45",
+                "s1": "100",
                 "s2": "",
                 "s3": ""
               }
             ],
-            "score": "68.45"
+            "score": "100"
           }
         ],
         "term2": []
