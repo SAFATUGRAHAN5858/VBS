@@ -1,17 +1,14 @@
 {
   "meta": {
-    "version": 28,
-    "updatedAt": "2026-11-25T06:08:01.868Z",
-    "forceReloadAt": 1795548072771,
+    "version": 3,
+    "updatedAt": "2026-11-26T06:27:09.370Z",
+    "forceReloadAt": 0,
     "display": {
       "fullBleed": true,
-      "zoom": 135,
+      "zoom": 100,
       "width": 100,
-      "sidePadding": 2
-    },
-    "safaNov24Synced": true,
-    "safaSchedule1911Synced": true,
-    "syncV7Applied": true
+      "sidePadding": 11
+    }
   },
   "students": {
     "safa": {
@@ -217,8 +214,22 @@
       },
       "attendance": {
         "excused": "3 Gün",
-        "unexcused": "7 Gün",
+        "unexcused": "8 Gün",
         "records": [
+          {
+            "iso": "2026-11-24",
+            "date": "24 Kasım 2026 Salı",
+            "day": "",
+            "wrapDay": false,
+            "status": "Tam Gün"
+          },
+          {
+            "iso": "2026-11-13",
+            "date": "13 Kasım 2026",
+            "day": "Cuma",
+            "wrapDay": true,
+            "status": "Öğleden Sonra Yarım Gün"
+          },
           {
             "iso": "2026-11-12",
             "date": "12 Kasım 2026 Perşembe",
@@ -474,32 +485,6 @@
           "grade": "10. Sınıf"
         }
       ],
-      "notifications": [
-        {
-          "title": "Not Bildirimi",
-          "body": "Öğrenciniz SAFA TUĞRA DALKÜREK için GÖRSEL SANATLAR/MÜZİK dersinden yeni not girişi olmuştur. Detaylar için uygulamaya giriş yapınız. 24.11.2026"
-        },
-        {
-          "title": "Not Bildirimi",
-          "body": "Öğrenciniz SAFA TUĞRA DALKÜREK için TARİH dersinden yeni not girişi olmuştur. Detaylar için uygulamaya giriş yapınız. 23.11.2026"
-        },
-        {
-          "title": "Not Bildirimi",
-          "body": "Öğrenciniz SAFA TUĞRA DALKÜREK için SEÇMELİ KİMYA dersinden not girişi olmuştur. Detaylar için uygulamaya giriş yapınız. 21.11.2026"
-        },
-        {
-          "title": "Not Bildirimi",
-          "body": "Öğrenciniz SAFA TUĞRA DALKÜREK için SEÇMELİ FİZİK dersinden yeni not girişi olmuştur. Detaylar için uygulamaya giriş yapınız. 20.11.2026"
-        },
-        {
-          "title": "Not Bildirimi",
-          "body": "Öğrenciniz SAFA TUĞRA DALKÜREK için SEÇMELİ KİMYA dersinden yeni not girişi olmuştur. Detaylar için uygulamaya giriş yapınız. 20.11.2026"
-        },
-        {
-          "title": "Not Bildirimi",
-          "body": "Öğrenciniz SAFA TUĞRA DALKÜREK için DİN KÜLTÜRÜ VE AHLÂK BİLGİSİ dersinden yeni not girişi olmuştur. Detaylar için uygulamaya giriş yapınız. 19.11.2026"
-        }
-      ],
       "schedule": {
         "pazartesi": [
           {
@@ -751,7 +736,37 @@
             "teacher": "Z.YLM"
           }
         ]
-      }
+      },
+      "notifications": [
+        {
+          "title": "Devamsızlık Bildirimi",
+          "body": "Öğrencimiz SAFA TUĞRA DALKÜREK, 24/11/2026 Tarihinde Tam Gün devamsızlık yapmıştır. Öğrencinizin toplam 3 Gün Özürlü, 8 Gün Özürsüz devamsızlığı mevcuttur. 24.11.2026"
+        },
+        {
+          "title": "Not Bildirimi",
+          "body": "Öğrenciniz SAFA TUĞRA DALKÜREK için GÖRSEL SANATLAR/MÜZİK dersinden yeni not girişi olmuştur. Detaylar için uygulamaya giriş yapınız. 24.11.2026"
+        },
+        {
+          "title": "Not Bildirimi",
+          "body": "Öğrenciniz SAFA TUĞRA DALKÜREK için TARİH dersinden yeni not girişi olmuştur. Detaylar için uygulamaya giriş yapınız. 23.11.2026"
+        },
+        {
+          "title": "Not Bildirimi",
+          "body": "Öğrenciniz SAFA TUĞRA DALKÜREK için SEÇMELİ KİMYA dersinden not girişi olmuştur. Detaylar için uygulamaya giriş yapınız. 21.11.2026"
+        },
+        {
+          "title": "Not Bildirimi",
+          "body": "Öğrenciniz SAFA TUĞRA DALKÜREK için SEÇMELİ FİZİK dersinden yeni not girişi olmuştur. Detaylar için uygulamaya giriş yapınız. 20.11.2026"
+        },
+        {
+          "title": "Not Bildirimi",
+          "body": "Öğrenciniz SAFA TUĞRA DALKÜREK için SEÇMELİ KİMYA dersinden yeni not girişi olmuştur. Detaylar için uygulamaya giriş yapınız. 20.11.2026"
+        },
+        {
+          "title": "Not Bildirimi",
+          "body": "Öğrenciniz SAFA TUĞRA DALKÜREK için DİN KÜLTÜRÜ VE AHLÂK BİLGİSİ dersinden yeni not girişi olmuştur. Detaylar için uygulamaya giriş yapınız. 19.11.2026"
+        }
+      ]
     },
     "elifnaz": {
       "id": "elifnaz",
@@ -1060,6 +1075,13 @@
           "grade": "7"
         }
       ],
+      "schedule": {
+        "pazartesi": [],
+        "sali": [],
+        "carsamba": [],
+        "persembe": [],
+        "cuma": []
+      },
       "notifications": [
         {
           "title": "Not Bildirimi",
