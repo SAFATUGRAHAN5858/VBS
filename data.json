@@ -1,13 +1,13 @@
 {
   "meta": {
-    "version": 4,
-    "updatedAt": "2026-11-26T06:27:41.159Z",
+    "version": 5,
+    "updatedAt": "2026-11-26T06:28:30.749Z",
     "forceReloadAt": 0,
     "display": {
       "fullBleed": true,
-      "zoom": 100,
+      "zoom": 116,
       "width": 100,
-      "sidePadding": 11
+      "sidePadding": 8
     }
   },
   "students": {
