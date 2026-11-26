@@ -1,11 +1,11 @@
 {
   "meta": {
-    "version": 6,
-    "updatedAt": "2026-11-26T06:28:58.107Z",
+    "version": 7,
+    "updatedAt": "2026-11-26T06:29:45.066Z",
     "forceReloadAt": 0,
     "display": {
       "fullBleed": true,
-      "zoom": 129,
+      "zoom": 135,
       "width": 100,
       "sidePadding": 8
     }
