@@ -1,7 +1,7 @@
 {
   "meta": {
-    "version": 8,
-    "updatedAt": "2026-11-26T06:38:43.006Z",
+    "version": 9,
+    "updatedAt": "2026-11-26T06:41:45.215Z",
     "forceReloadAt": 1795675123005,
     "display": {
       "fullBleed": true,
@@ -214,15 +214,8 @@
       },
       "attendance": {
         "excused": "3 Gün",
-        "unexcused": "8 Gün",
+        "unexcused": "7 Gün",
         "records": [
-          {
-            "iso": "2026-11-24",
-            "date": "24 Kasım 2026 Salı",
-            "day": "",
-            "wrapDay": false,
-            "status": "Tam Gün"
-          },
           {
             "iso": "2026-11-13",
             "date": "13 Kasım 2026",
